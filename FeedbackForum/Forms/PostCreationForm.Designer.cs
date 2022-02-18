@@ -65,6 +65,7 @@ namespace FeedbackForum
             this.cmbCategory.Name = "cmbCategory";
             this.cmbCategory.Size = new System.Drawing.Size(228, 29);
             this.cmbCategory.TabIndex = 2;
+            this.cmbCategory.SelectedIndexChanged += new System.EventHandler(this.cmbCategory_SelectedIndexChanged);
             // 
             // lblDescription
             // 
@@ -94,6 +95,7 @@ namespace FeedbackForum
             this.btnPost.TabIndex = 5;
             this.btnPost.Text = "Post!";
             this.btnPost.UseVisualStyleBackColor = true;
+            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
             // 
             // textBox2
             // 

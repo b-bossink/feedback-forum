@@ -23,5 +23,13 @@ namespace FeedbackForum.Classes
             };
         }
 
+        public static List<Category> GetAll()
+        {
+            return new List<Category>()
+            {
+                new Category("", new Dictionary<string, string>()),
+            };
+        }
+
     }
 }
