@@ -1,7 +1,7 @@
 ﻿
 namespace FeedbackForum
 {
-    partial class Form1
+    partial class PostCreationForm
     {
         /// <summary>
         ///  Required designer variable.
