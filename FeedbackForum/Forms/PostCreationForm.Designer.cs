@@ -33,9 +33,9 @@ namespace FeedbackForum
             this.lblName = new System.Windows.Forms.Label();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.lblDescription = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbxDescription = new System.Windows.Forms.TextBox();
             this.btnPost = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbxMoreText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -77,14 +77,14 @@ namespace FeedbackForum
             this.lblDescription.TabIndex = 3;
             this.lblDescription.Text = "Onderschift";
             // 
-            // textBox1
+            // tbxDescription
             // 
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(132, 90);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(620, 57);
-            this.textBox1.TabIndex = 4;
+            this.tbxDescription.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbxDescription.Location = new System.Drawing.Point(132, 90);
+            this.tbxDescription.Multiline = true;
+            this.tbxDescription.Name = "tbxDescription";
+            this.tbxDescription.Size = new System.Drawing.Size(620, 57);
+            this.tbxDescription.TabIndex = 4;
             // 
             // btnPost
             // 
@@ -97,13 +97,13 @@ namespace FeedbackForum
             this.btnPost.UseVisualStyleBackColor = true;
             this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
             // 
-            // textBox2
+            // tbxMoreText
             // 
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox2.Location = new System.Drawing.Point(132, 176);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(620, 29);
-            this.textBox2.TabIndex = 6;
+            this.tbxMoreText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbxMoreText.Location = new System.Drawing.Point(132, 176);
+            this.tbxMoreText.Name = "tbxMoreText";
+            this.tbxMoreText.Size = new System.Drawing.Size(620, 29);
+            this.tbxMoreText.TabIndex = 6;
             // 
             // label1
             // 
@@ -121,9 +121,9 @@ namespace FeedbackForum
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tbxMoreText);
             this.Controls.Add(this.btnPost);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbxDescription);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.cmbCategory);
             this.Controls.Add(this.lblName);
@@ -141,9 +141,9 @@ namespace FeedbackForum
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ComboBox cmbCategory;
         private System.Windows.Forms.Label lblDescription;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbxDescription;
         private System.Windows.Forms.Button btnPost;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbxMoreText;
         private System.Windows.Forms.Label label1;
     }
 }

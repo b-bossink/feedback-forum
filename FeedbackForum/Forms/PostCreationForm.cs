@@ -26,7 +26,13 @@ namespace FeedbackForum
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            Post post = new Post(tbxName.Text, DateTime.Now, new List<Comment>(), new Category("", new Dictionary<string, string>()));
+            if (tbxName.TextLength <= 0 || tbxDescription.TextLength <= 0 || cmbCategory.SelectedIndex < 0 || tbxMoreText.TextLength <= 0)
+                return;
+
+            Post post = new Post(tbxName.Text, DateTime.Now, new List<Comment>(), selectedCategory);
+            post.SetAttributeValue("Description", tbxDescription.Text);
+            post.SetAttributeValue("More Text", tbxMoreText.Text);
+            MessageBox.Show("Created new Post! This post has: \nTitle: " + post.Name + "\nUpload Date: " + post.CreationDate + "\nCategory: " + post.Category.Name + "\nAttributes" + post.Category.Attributes.Keys);
         }
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)

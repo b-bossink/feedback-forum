@@ -9,27 +9,42 @@ namespace FeedbackForum.Classes
         public string Name { get; private set; }
         public Dictionary<string,string> Attributes { get; private set; }
 
-        public Category(string Name, Dictionary<string,string> Attributes)
+        public Category(string name, Dictionary<string,string> attributes)
         {
-            Name = "Test Categorie";
-            Attributes = new Dictionary<string, string>
-            {
-                {
-                    "Description", ""
-                },
-                {
-                    "More Text", ""
-                }
-            };
+            Name = name;
+            Attributes = attributes;
         }
 
         public static List<Category> GetAll()
         {
             return new List<Category>()
             {
-                new Category("", new Dictionary<string, string>()),
+                new Category(
+                    "Test Categorie",
+                    new Dictionary<string, string>
+                        {
+                            {
+                                "Description", ""
+                            },
+                            {
+                                "More Text", ""
+                            }
+                        }
+                    ),
+
+                new Category(
+                    "Nog een test categorie!",
+                    new Dictionary<string, string>
+                        {
+                            {
+                                "Description", ""
+                            },
+                            {
+                                "More Text", ""
+                            }
+                        }
+                    )
             };
         }
-
     }
 }
