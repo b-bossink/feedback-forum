@@ -6,5 +6,22 @@ namespace FeedbackForum.Classes
 {
     class Category
     {
+        public string Name { get; private set; }
+        public Dictionary<string,string> Attributes { get; private set; }
+
+        public Category(string Name, Dictionary<string,string> Attributes)
+        {
+            Name = "Test Categorie";
+            Attributes = new Dictionary<string, string>
+            {
+                {
+                    "Description", ""
+                },
+                {
+                    "More Text", ""
+                }
+            };
+        }
+
     }
 }
