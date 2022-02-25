@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FeedbackForum.Classes.Statics
+namespace FeedbackForum.Classes
 {
-    static class Database
+    class PostContainer
     {
     }
 }

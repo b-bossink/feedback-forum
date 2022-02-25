@@ -6,7 +6,9 @@ using System.Windows.Forms;
 namespace FeedbackForum.Classes
 {
     class Post
-    {   public string Name { get; private set; }
+    {   
+        public int ID { get; private set; }
+        public string Name { get; private set; }
         public DateTime CreationDate { get; private set; }
         public List<Comment> Comments { get; private set; }
         public Category Category { get; private set; }
