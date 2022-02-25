@@ -13,11 +13,11 @@ namespace FeedbackForum.Classes
         public List<Comment> Comments { get; private set; }
         public Category Category { get; private set; }
 
-        public Post(string name, DateTime creationDate, List<Comment> comments, Category category)
+        public Post(string name, Category category)
         {
             Name = name;
-            CreationDate = creationDate;
-            Comments = comments;
+            CreationDate = DateTime.Now;
+            Comments = new List<Comment>();
             Category = category;
         }
 

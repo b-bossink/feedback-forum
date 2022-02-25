@@ -6,6 +6,7 @@ namespace FeedbackForum.Classes
 {
     class Category
     {
+        public int ID { get; private set; }
         public string Name { get; private set; }
         public Dictionary<string,string> Attributes { get; private set; }
 
@@ -15,36 +16,5 @@ namespace FeedbackForum.Classes
             Attributes = attributes;
         }
 
-        public static List<Category> GetAll()
-        {
-            return new List<Category>()
-            {
-                new Category(
-                    "Test Categorie",
-                    new Dictionary<string, string>
-                        {
-                            {
-                                "Description", ""
-                            },
-                            {
-                                "More Text", ""
-                            }
-                        }
-                    ),
-
-                new Category(
-                    "Nog een test categorie!",
-                    new Dictionary<string, string>
-                        {
-                            {
-                                "Description", ""
-                            },
-                            {
-                                "More Text", ""
-                            }
-                        }
-                    )
-            };
-        }
     }
 }

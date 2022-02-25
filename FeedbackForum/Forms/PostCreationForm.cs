@@ -13,12 +13,16 @@ namespace FeedbackForum
 {
     public partial class PostCreationForm : Form
     {
+        private PostContainer postContainer;
+        private CategoryContainer categoryContainer;
         private Category selectedCategory;
         public PostCreationForm()
         {
             InitializeComponent();
+            postContainer = new PostContainer();
+            categoryContainer = new CategoryContainer();
 
-            foreach (Category category in Category.GetAll())
+            foreach (Category category in categoryContainer.Categories)
             {
                 cmbCategory.Items.Add(category.Name);
             }
@@ -29,7 +33,7 @@ namespace FeedbackForum
             if (tbxName.TextLength <= 0 || tbxDescription.TextLength <= 0 || cmbCategory.SelectedIndex < 0 || tbxMoreText.TextLength <= 0)
                 return;
 
-            Post post = new Post(tbxName.Text, DateTime.Now, new List<Comment>(), selectedCategory);
+            Post post = new Post(tbxName.Text, selectedCategory);
             post.SetAttributeValue("Description", tbxDescription.Text);
             post.SetAttributeValue("More Text", tbxMoreText.Text);
             MessageBox.Show("Created new Post! This post has: \nTitle: " + post.Name + "\nUpload Date: " + post.CreationDate + "\nCategory: " + post.Category.Name + "\nAttributes" + post.Category.Attributes.Keys);
@@ -37,7 +41,7 @@ namespace FeedbackForum
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (Category category in Category.GetAll())
+            foreach (Category category in categoryContainer.Categories)
             {
                 if (cmbCategory.SelectedItem.ToString() == category.Name)
                 {
