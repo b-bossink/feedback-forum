@@ -36,6 +36,8 @@ namespace FeedbackForum
             Post post = new Post(tbxName.Text, selectedCategory);
             post.SetAttributeValue("Description", tbxDescription.Text);
             post.SetAttributeValue("More Text", tbxMoreText.Text);
+
+            postContainer.Add(post);
             MessageBox.Show("Created new Post! This post has: \nTitle: " + post.Name + "\nUpload Date: " + post.CreationDate + "\nCategory: " + post.Category.Name + "\nAttributes" + post.Category.Attributes.Keys);
         }
 
