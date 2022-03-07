@@ -21,7 +21,7 @@ namespace FeedbackForum.Classes
 
         public void AddReply(Comment comment)
         {
-
+            Replies.Add(comment);
         }
     }
 }

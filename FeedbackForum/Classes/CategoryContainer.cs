@@ -27,14 +27,20 @@ namespace FeedbackForum.Classes
                     ),
 
                 new Category(
-                    "Nog een test categorie!",
+                    "Muziek",
                     new Dictionary<string, string>
                         {
                             {
-                                "Description", ""
+                                "URL naar muziek", ""
                             },
                             {
-                                "More Text", ""
+                                "Mijn bijdrage", ""
+                            },
+                            {
+                                "Lyrics", ""
+                            },
+                            {
+                                "Genre", ""
                             }
                         }
                     )
