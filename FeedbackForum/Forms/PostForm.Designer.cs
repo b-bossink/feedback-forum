@@ -33,6 +33,9 @@ namespace FeedbackForum.Forms
             this.lblHeader = new System.Windows.Forms.Label();
             this.lblText = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
+            this.tbxNewComment = new System.Windows.Forms.TextBox();
+            this.btnPostComment = new System.Windows.Forms.Button();
+            this.tbxComments = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblName
@@ -79,11 +82,43 @@ namespace FeedbackForum.Forms
             this.lblDate.Text = "01-01-2022";
             this.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // tbxNewComment
+            // 
+            this.tbxNewComment.Location = new System.Drawing.Point(67, 802);
+            this.tbxNewComment.Multiline = true;
+            this.tbxNewComment.Name = "tbxNewComment";
+            this.tbxNewComment.Size = new System.Drawing.Size(1320, 146);
+            this.tbxNewComment.TabIndex = 4;
+            // 
+            // btnPostComment
+            // 
+            this.btnPostComment.Location = new System.Drawing.Point(1237, 902);
+            this.btnPostComment.Name = "btnPostComment";
+            this.btnPostComment.Size = new System.Drawing.Size(150, 46);
+            this.btnPostComment.TabIndex = 5;
+            this.btnPostComment.Text = "Plaats";
+            this.btnPostComment.UseVisualStyleBackColor = true;
+            this.btnPostComment.Click += new System.EventHandler(this.btnPostComment_Click);
+            // 
+            // tbxComments
+            // 
+            this.tbxComments.Location = new System.Drawing.Point(2, 979);
+            this.tbxComments.MaxLength = 50000;
+            this.tbxComments.Multiline = true;
+            this.tbxComments.Name = "tbxComments";
+            this.tbxComments.ReadOnly = true;
+            this.tbxComments.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbxComments.Size = new System.Drawing.Size(1450, 306);
+            this.tbxComments.TabIndex = 6;
+            // 
             // PostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1454, 930);
+            this.ClientSize = new System.Drawing.Size(1454, 1288);
+            this.Controls.Add(this.tbxComments);
+            this.Controls.Add(this.btnPostComment);
+            this.Controls.Add(this.tbxNewComment);
             this.Controls.Add(this.lblDate);
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.lblHeader);
@@ -101,5 +136,8 @@ namespace FeedbackForum.Forms
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Label lblText;
         private System.Windows.Forms.Label lblDate;
+        private System.Windows.Forms.TextBox tbxNewComment;
+        private System.Windows.Forms.Button btnPostComment;
+        private System.Windows.Forms.TextBox tbxComments;
     }
 }

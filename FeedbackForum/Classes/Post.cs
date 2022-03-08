@@ -27,6 +27,11 @@ namespace FeedbackForum.Classes
             }
         }
 
+        public void Add(Comment comment)
+        {
+            Comments.Add(comment);
+        }
+
         public void SetAttributeValue(string attributeName, string value)
         {
             if (Attributes.ContainsKey(attributeName))

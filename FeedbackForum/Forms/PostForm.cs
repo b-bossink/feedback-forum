@@ -20,6 +20,7 @@ namespace FeedbackForum.Forms
             lblName.Text = post.Name;
             lblDate.Text = post.CreationDate.ToString();
             CreateFields();
+            ShowComments();
         }
 
         private void CreateFields()
@@ -58,6 +59,25 @@ namespace FeedbackForum.Forms
                     Controls.Add(attributeText);
                 }
                 i += 90;
+            }
+        }
+
+        private void ShowComments()
+        {
+            tbxComments.Text = "";
+            for (int i = 0; i < post.Comments.Count; i++)
+            {
+                tbxComments.Text += $"USERNAME: {post.Comments[i].CreationDate}\r\n" + post.Comments[i].Text + "\r\n\r\n";
+            }
+        }
+
+        private void btnPostComment_Click(object sender, EventArgs e)
+        {
+            if (tbxNewComment.Text.Length > 0)
+            {
+                post.Comments.Add(new Comment(tbxNewComment.Text));
+                tbxNewComment.Text = "";
+                ShowComments();
             }
         }
     }
