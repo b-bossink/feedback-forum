@@ -1,4 +1,5 @@
 ﻿using FeedbackForum.Classes;
+using FeedbackForum.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,16 +39,16 @@ namespace FeedbackForum
             Post post = new Post(tbxName.Text, selectedCategory);
             foreach (Control[] field in allFields)
             {
-                //if (field[1].Text.Length <= 0)
-                //    return;
-
-
+                if (field[1].Text.Length <= 0)
+                {
+                    MessageBox.Show($"Vul de gevraagde gegevens ({field[0].Text}) field in.");
+                    return;
+                }    
                 post.SetAttributeValue(field[0].Text, field[1].Text);
             }
-            lblName.Text = "lol";
-
             postContainer.Add(post);
-            MessageBox.Show("Created new Post! This post has: \nTitle: " + post.Name + "\nUpload Date: " + post.CreationDate + "\nCategory: " + post.Category.Name + "\nAttributes" + post.Category.Attributes.Keys);
+            PostForm postForm = new PostForm(post);
+            postForm.Show();
         }
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)

@@ -31,6 +31,9 @@ namespace FeedbackForum.Classes
                     new Dictionary<string, string>
                         {
                             {
+                                "Omschrijving", ""
+                            },
+                            {
                                 "URL naar muziek", ""
                             },
                             {

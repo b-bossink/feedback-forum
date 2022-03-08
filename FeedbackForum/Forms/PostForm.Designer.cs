@@ -32,6 +32,7 @@ namespace FeedbackForum.Forms
             this.lblName = new System.Windows.Forms.Label();
             this.lblHeader = new System.Windows.Forms.Label();
             this.lblText = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblName
@@ -67,11 +68,23 @@ namespace FeedbackForum.Forms
     "ext text text text text text text text text text text text text text text text t" +
     "ext text text text text text ";
             // 
+            // lblDate
+            // 
+            this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("Segoe UI", 10.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblDate.Location = new System.Drawing.Point(1190, 53);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(169, 40);
+            this.lblDate.TabIndex = 3;
+            this.lblDate.Text = "01-01-2022";
+            this.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // PostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1454, 930);
+            this.Controls.Add(this.lblDate);
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.lblName);
@@ -87,5 +100,6 @@ namespace FeedbackForum.Forms
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Label lblText;
+        private System.Windows.Forms.Label lblDate;
     }
 }
