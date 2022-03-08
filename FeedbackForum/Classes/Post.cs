@@ -11,6 +11,7 @@ namespace FeedbackForum.Classes
         public string Name { get; private set; }
         public DateTime CreationDate { get; private set; }
         public List<Comment> Comments { get; private set; }
+        public int Upvotes { get; private set; }
         public Category Category { get; private set; }
         public Dictionary<string,string> Attributes { get; private set; }
 
@@ -30,6 +31,11 @@ namespace FeedbackForum.Classes
         public void Add(Comment comment)
         {
             Comments.Add(comment);
+        }
+
+        public void Add(int upvote)
+        {
+            Upvotes += upvote;
         }
 
         public void SetAttributeValue(string attributeName, string value)

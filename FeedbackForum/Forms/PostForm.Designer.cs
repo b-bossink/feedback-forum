@@ -36,13 +36,15 @@ namespace FeedbackForum.Forms
             this.tbxNewComment = new System.Windows.Forms.TextBox();
             this.btnPostComment = new System.Windows.Forms.Button();
             this.tbxComments = new System.Windows.Forms.TextBox();
+            this.lblUpvotes = new System.Windows.Forms.Label();
+            this.btnUpvote = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblName.Location = new System.Drawing.Point(27, 30);
+            this.lblName.Location = new System.Drawing.Point(117, 30);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(406, 128);
             this.lblName.TabIndex = 0;
@@ -111,11 +113,33 @@ namespace FeedbackForum.Forms
             this.tbxComments.Size = new System.Drawing.Size(1450, 306);
             this.tbxComments.TabIndex = 6;
             // 
+            // lblUpvotes
+            // 
+            this.lblUpvotes.AutoSize = true;
+            this.lblUpvotes.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblUpvotes.Location = new System.Drawing.Point(73, 52);
+            this.lblUpvotes.Name = "lblUpvotes";
+            this.lblUpvotes.Size = new System.Drawing.Size(38, 45);
+            this.lblUpvotes.TabIndex = 7;
+            this.lblUpvotes.Text = "0";
+            // 
+            // btnUpvote
+            // 
+            this.btnUpvote.Location = new System.Drawing.Point(67, 96);
+            this.btnUpvote.Name = "btnUpvote";
+            this.btnUpvote.Size = new System.Drawing.Size(48, 46);
+            this.btnUpvote.TabIndex = 8;
+            this.btnUpvote.Text = "+";
+            this.btnUpvote.UseVisualStyleBackColor = true;
+            this.btnUpvote.Click += new System.EventHandler(this.btnUpvote_Click);
+            // 
             // PostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1454, 1288);
+            this.Controls.Add(this.btnUpvote);
+            this.Controls.Add(this.lblUpvotes);
             this.Controls.Add(this.tbxComments);
             this.Controls.Add(this.btnPostComment);
             this.Controls.Add(this.tbxNewComment);
@@ -139,5 +163,7 @@ namespace FeedbackForum.Forms
         private System.Windows.Forms.TextBox tbxNewComment;
         private System.Windows.Forms.Button btnPostComment;
         private System.Windows.Forms.TextBox tbxComments;
+        private System.Windows.Forms.Label lblUpvotes;
+        private System.Windows.Forms.Button btnUpvote;
     }
 }

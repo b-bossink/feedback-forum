@@ -12,6 +12,7 @@ namespace FeedbackForum.Forms
     public partial class PostForm : Form
     {
         private Post post;
+        private bool hasUpvote;
         public PostForm(Post _post)
         {
             post = _post;
@@ -19,6 +20,7 @@ namespace FeedbackForum.Forms
 
             lblName.Text = post.Name;
             lblDate.Text = post.CreationDate.ToString();
+            lblUpvotes.Text = post.Upvotes.ToString();
             CreateFields();
             ShowComments();
         }
@@ -79,6 +81,17 @@ namespace FeedbackForum.Forms
                 tbxNewComment.Text = "";
                 ShowComments();
             }
+        }
+
+        private void btnUpvote_Click(object sender, EventArgs e)
+        {
+            if (!hasUpvote)
+                post.Add(1);
+            else
+                post.Add(-1);
+
+            hasUpvote = !hasUpvote;
+            lblUpvotes.Text = post.Upvotes.ToString();
         }
     }
 }
