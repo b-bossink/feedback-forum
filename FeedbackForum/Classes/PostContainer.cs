@@ -9,6 +9,11 @@ namespace FeedbackForum.Classes
         public List<Post> Posts { get; private set; }
         private Database database;
 
+        public PostContainer()
+        {
+            Posts = new List<Post>();
+        }
+
         public void Add(Post post)
         {
             Posts.Add(post);

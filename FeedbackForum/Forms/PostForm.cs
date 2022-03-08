@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FeedbackForum.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,8 +11,10 @@ namespace FeedbackForum.Forms
 {
     public partial class PostForm : Form
     {
-        public PostForm()
+        private Post post;
+        public PostForm(Post _post)
         {
+            _post = post;
             InitializeComponent();
         }
     }

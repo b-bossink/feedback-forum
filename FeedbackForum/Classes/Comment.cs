@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FeedbackForum.Classes
 {
-    class Comment
+    public class Comment
     {
         public string Text { get; private set; }
         public DateTime CreationDate { get; private set; }

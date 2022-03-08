@@ -38,11 +38,13 @@ namespace FeedbackForum
             Post post = new Post(tbxName.Text, selectedCategory);
             foreach (Control[] field in allFields)
             {
-                if (field[1].Text.Length <= 0)
-                    return;
+                //if (field[1].Text.Length <= 0)
+                //    return;
+
 
                 post.SetAttributeValue(field[0].Text, field[1].Text);
             }
+            lblName.Text = "lol";
 
             postContainer.Add(post);
             MessageBox.Show("Created new Post! This post has: \nTitle: " + post.Name + "\nUpload Date: " + post.CreationDate + "\nCategory: " + post.Category.Name + "\nAttributes" + post.Category.Attributes.Keys);
@@ -68,6 +70,7 @@ namespace FeedbackForum
                 Controls.Remove(field[0]);
                 Controls.Remove(field[1]);
             }
+            allFields.Clear();
         }
         private void ShowFields()
         {

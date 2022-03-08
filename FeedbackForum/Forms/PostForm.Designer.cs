@@ -29,12 +29,63 @@ namespace FeedbackForum.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.lblName = new System.Windows.Forms.Label();
+            this.lblHeader = new System.Windows.Forms.Label();
+            this.lblText = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblName.Location = new System.Drawing.Point(27, 30);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(406, 128);
+            this.lblName.TabIndex = 0;
+            this.lblName.Text = "<TITEL>";
+            // 
+            // lblHeader
+            // 
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblHeader.Location = new System.Drawing.Point(55, 158);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(183, 45);
+            this.lblHeader.TabIndex = 1;
+            this.lblHeader.Text = "<koptitel>";
+            // 
+            // lblText
+            // 
+            this.lblText.AutoSize = true;
+            this.lblText.Font = new System.Drawing.Font("Segoe UI", 10.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblText.Location = new System.Drawing.Point(67, 203);
+            this.lblText.MaximumSize = new System.Drawing.Size(1325, 0);
+            this.lblText.Name = "lblText";
+            this.lblText.Size = new System.Drawing.Size(1305, 80);
+            this.lblText.TabIndex = 2;
+            this.lblText.Text = "text text text text text text text text text text text text text text text text t" +
+    "ext text text text text text text text text text text text text text text text t" +
+    "ext text text text text text ";
+            // 
+            // PostForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1454, 930);
+            this.Controls.Add(this.lblText);
+            this.Controls.Add(this.lblHeader);
+            this.Controls.Add(this.lblName);
+            this.Name = "PostForm";
             this.Text = "PostForm";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblHeader;
+        private System.Windows.Forms.Label lblText;
     }
 }

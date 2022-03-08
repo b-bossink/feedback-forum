@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace FeedbackForum.Classes
 {
-    class Post
+    public class Post
     {   
         public int ID { get; private set; }
         public string Name { get; private set; }
