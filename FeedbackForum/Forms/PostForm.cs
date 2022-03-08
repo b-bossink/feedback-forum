@@ -24,11 +24,11 @@ namespace FeedbackForum.Forms
 
         private void CreateFields()
         {
-            int i = 90;
+            int i = 0;
 
-            foreach (KeyValuePair<string,string> attribute in post.Category.Attributes)
+            foreach (KeyValuePair<string,string> attribute in post.Attributes)
             {
-                if (i == 90)
+                if (i == 0)
                 {
                     lblHeader.Text = attribute.Key;
                     lblText.Text = attribute.Value;

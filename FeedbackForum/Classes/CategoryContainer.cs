@@ -15,35 +15,35 @@ namespace FeedbackForum.Classes
             {
                 new Category(
                     "Test Categorie",
-                    new Dictionary<string, string>
+                    new List<string>
                         {
                             {
-                                "Description", ""
+                                "Description"
                             },
                             {
-                                "More Text", ""
+                                "More Text"
                             }
                         }
                     ),
 
                 new Category(
                     "Muziek",
-                    new Dictionary<string, string>
+                    new List<string>
                         {
                             {
-                                "Omschrijving", ""
+                                "Omschrijving"
                             },
                             {
-                                "URL naar muziek", ""
+                                "URL naar muziek"
                             },
                             {
-                                "Mijn bijdrage", ""
+                                "Mijn bijdrage"
                             },
                             {
-                                "Lyrics", ""
+                                "Lyrics"
                             },
                             {
-                                "Genre", ""
+                                "Genre"
                             }
                         }
                     )

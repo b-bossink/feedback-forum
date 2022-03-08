@@ -76,12 +76,12 @@ namespace FeedbackForum
         private void ShowFields()
         {
             int i = 90;
-            foreach (KeyValuePair<string,string> attribute in selectedCategory.Attributes)
+            foreach (string attribute in selectedCategory.AttributeNames)
             {
                 Label label = new Label()
                 {
                     AutoSize = true,
-                    Text = attribute.Key,
+                    Text = attribute,
                     Size = lblName.Size,
                     Font = lblName.Font,
                     Location = new Point(lblName.Location.X, lblName.Location.Y + i)

@@ -12,6 +12,7 @@ namespace FeedbackForum.Classes
         public DateTime CreationDate { get; private set; }
         public List<Comment> Comments { get; private set; }
         public Category Category { get; private set; }
+        public Dictionary<string,string> Attributes { get; private set; }
 
         public Post(string name, Category category)
         {
@@ -19,13 +20,18 @@ namespace FeedbackForum.Classes
             CreationDate = DateTime.Now;
             Comments = new List<Comment>();
             Category = category;
+            Attributes = new Dictionary<string, string>();
+            foreach (string attributeKey in category.AttributeNames)
+            {
+                Attributes.Add(attributeKey, "");
+            }
         }
 
         public void SetAttributeValue(string attributeName, string value)
         {
-            if (Category.Attributes.ContainsKey(attributeName))
+            if (Attributes.ContainsKey(attributeName))
             {
-                Category.Attributes[attributeName] = value;
+                Attributes[attributeName] = value;
             }
             else
             {

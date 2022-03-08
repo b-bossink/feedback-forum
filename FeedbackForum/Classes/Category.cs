@@ -8,12 +8,12 @@ namespace FeedbackForum.Classes
     {
         public int ID { get; private set; }
         public string Name { get; private set; }
-        public Dictionary<string,string> Attributes { get; private set; }
+        public List<string> AttributeNames { get; private set; }
 
-        public Category(string name, Dictionary<string,string> attributes)
+        public Category(string name, List<string> attributes)
         {
             Name = name;
-            Attributes = attributes;
+            AttributeNames = attributes;
         }
 
     }
