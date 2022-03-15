@@ -7,7 +7,7 @@ namespace FeedbackForum.Classes
     public class PostContainer
     {
         public List<Post> Posts { get; private set; }
-        private MSSQLConnection sqlConnection = new MSSQLConnection();
+        private PostDatabase postDatabase = new PostDatabase();
 
         public PostContainer()
         {
@@ -37,7 +37,7 @@ namespace FeedbackForum.Classes
 
         public void SetList()
         {
-            Posts = sqlConnection.LoadPosts();
+            Posts = postDatabase.LoadAll();
             foreach (Post post in Posts)
             {
                 Console.WriteLine($"\n\n\n\n\nThis post is named '{post.Name}'. Its category is {post.Category.Name}." +
