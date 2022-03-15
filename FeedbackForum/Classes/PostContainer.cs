@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FeedbackForum.Classes
 {
-    class PostContainer
+    public class PostContainer
     {
         public List<Post> Posts { get; private set; }
         private Database database;
@@ -32,13 +32,7 @@ namespace FeedbackForum.Classes
 
         public void Delete(Post post)
         {
-            foreach (Post _post in Posts)
-            {
-                if (post == _post)
-                {
-                    Posts.Remove(_post);
-                }
-            }
+            Posts.Remove(post);
         }
     }
 }

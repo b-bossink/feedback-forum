@@ -38,6 +38,16 @@ namespace FeedbackForum.Classes
             Upvotes += upvote;
         }
 
+        public void Delete(Comment comment)
+        {
+            Comments.Remove(comment);
+        }
+
+        public void Delete(int upvote)
+        {
+            Upvotes -= upvote;
+        }
+
         public void SetAttributeValue(string attributeName, string value)
         {
             if (Attributes.ContainsKey(attributeName))

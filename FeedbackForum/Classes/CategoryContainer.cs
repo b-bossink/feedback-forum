@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FeedbackForum.Classes
 {
-    class CategoryContainer
+    public class CategoryContainer
     {
         public List<Category> Categories { get; private set; }
         private Database database;
@@ -52,7 +52,7 @@ namespace FeedbackForum.Classes
 
         public void Add(Category category)
         {
-
+            Categories.Add(category);
         }
 
         public void Edit(Category category)
@@ -62,7 +62,7 @@ namespace FeedbackForum.Classes
 
         public void Delete(Category category)
         {
-
+            Categories.Remove(category);
         }
     }
 }
