@@ -7,7 +7,7 @@ namespace FeedbackForum.Classes
     public class PostContainer
     {
         public List<Post> Posts { get; private set; }
-        private Database database;
+        private Database database = new Database();
 
         public PostContainer()
         {
@@ -17,6 +17,7 @@ namespace FeedbackForum.Classes
         public void Add(Post post)
         {
             Posts.Add(post);
+            database.Update(post);
         }
 
         public void Edit(Post post)
