@@ -24,14 +24,19 @@ namespace FeedbackForum
             postContainer = new PostContainer();
             categoryContainer = new CategoryContainer();
 
-            foreach (Category category in categoryContainer.Categories)
+            if (categoryContainer.Categories.Count > 0)
             {
-                cmbCategory.Items.Add(category.Name);
+                foreach (Category category in categoryContainer.Categories)
+                {
+                    cmbCategory.Items.Add(category.Name);
+                }
             }
         }
 
         private void btnPost_Click(object sender, EventArgs e)
         {
+            postContainer.SetList();
+
             if (tbxName.TextLength <= 0 || cmbCategory.SelectedIndex < 0)
                 return;
 
@@ -44,7 +49,7 @@ namespace FeedbackForum
                     MessageBox.Show($"Vul de gevraagde gegevens ({field[0].Text}) field in.");
                     return;
                 }    
-                post.SetAttributeValue(field[0].Text, field[1].Text);
+                post.SetAttributeValue(new Classes.Attribute(field[0].Text), field[1].Text);
             }
             postContainer.Add(post);
             PostForm postForm = new PostForm(post);
@@ -76,12 +81,12 @@ namespace FeedbackForum
         private void ShowFields()
         {
             int i = 90;
-            foreach (string attribute in selectedCategory.AttributeNames)
+            foreach (Classes.Attribute attribute in selectedCategory.Attributes)
             {
                 Label label = new Label()
                 {
                     AutoSize = true,
-                    Text = attribute,
+                    Text = attribute.Name,
                     Size = lblName.Size,
                     Font = lblName.Font,
                     Location = new Point(lblName.Location.X, lblName.Location.Y + i)

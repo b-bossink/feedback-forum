@@ -13,18 +13,19 @@ namespace FeedbackForum.Classes
         public List<Comment> Comments { get; private set; }
         public int Upvotes { get; private set; }
         public Category Category { get; private set; }
-        public Dictionary<string,string> Attributes { get; private set; }
+        public Dictionary<Attribute,string> ValuesByAttributes { get; private set; }
 
-        public Post(string name, Category category)
+        public Post(string name, Category category, int id = -1)
         {
+            ID = id;
             Name = name;
             CreationDate = DateTime.Now;
             Comments = new List<Comment>();
             Category = category;
-            Attributes = new Dictionary<string, string>();
-            foreach (string attributeKey in category.AttributeNames)
+            ValuesByAttributes = new Dictionary<Attribute, string>();
+            foreach (Attribute attribute in category.Attributes)
             {
-                Attributes.Add(attributeKey, "");
+                ValuesByAttributes.Add(attribute, "");
             }
         }
 
@@ -48,15 +49,15 @@ namespace FeedbackForum.Classes
             Upvotes -= upvote;
         }
 
-        public void SetAttributeValue(string attributeName, string value)
+        public void SetAttributeValue(Attribute attribute, string value)
         {
-            if (Attributes.ContainsKey(attributeName))
+            if (ValuesByAttributes.ContainsKey(attribute))
             {
-                Attributes[attributeName] = value;
+                ValuesByAttributes[attribute] = value;
             }
             else
             {
-                MessageBox.Show("Couldn't find attribute with key " + "'" + attributeName + "'.");
+                MessageBox.Show("Couldn't find attribute with key " + "'" + attribute.Name + "'.");
             }
         }
     }

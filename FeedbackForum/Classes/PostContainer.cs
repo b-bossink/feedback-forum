@@ -7,7 +7,7 @@ namespace FeedbackForum.Classes
     public class PostContainer
     {
         public List<Post> Posts { get; private set; }
-        private Database database = new Database();
+        private MSSQLConnection sqlConnection = new MSSQLConnection();
 
         public PostContainer()
         {
@@ -17,7 +17,6 @@ namespace FeedbackForum.Classes
         public void Add(Post post)
         {
             Posts.Add(post);
-            database.Update(post);
         }
 
         public void Edit(Post post)
@@ -34,6 +33,21 @@ namespace FeedbackForum.Classes
         public void Delete(Post post)
         {
             Posts.Remove(post);
+        }
+
+        public void SetList()
+        {
+            Posts = sqlConnection.LoadPosts();
+            foreach (Post post in Posts)
+            {
+                Console.WriteLine($"\n\n\n\n\nThis post is named '{post.Name}'. Its category is {post.Category.Name}." +
+                      $"Its creation date is {post.CreationDate}.\nIts attributes:");
+                foreach (KeyValuePair<Attribute,string> kvp in post.ValuesByAttributes)
+                {
+                    Console.WriteLine($"- {kvp.Key.Name} | VALUE = {kvp.Value}");
+                }
+            }
+                
         }
     }
 }

@@ -29,11 +29,11 @@ namespace FeedbackForum.Forms
         {
             int i = 0;
 
-            foreach (KeyValuePair<string,string> attribute in post.Attributes)
+            foreach (KeyValuePair<Classes.Attribute,string> attribute in post.ValuesByAttributes)
             {
                 if (i == 0)
                 {
-                    lblHeader.Text = attribute.Key;
+                    lblHeader.Text = attribute.Key.Name;
                     lblText.Text = attribute.Value;
                 }
                 else
@@ -41,7 +41,7 @@ namespace FeedbackForum.Forms
                     Label attributeHeader = new Label()
                     {
                         AutoSize = true,
-                        Text = attribute.Key,
+                        Text = attribute.Key.Name,
                         Size = lblHeader.Size,
                         Font = lblHeader.Font,
                         Location = new Point(lblText.Location.X, lblText.Location.Y + i)

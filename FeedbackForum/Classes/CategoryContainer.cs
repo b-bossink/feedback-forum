@@ -7,47 +7,11 @@ namespace FeedbackForum.Classes
     public class CategoryContainer
     {
         public List<Category> Categories { get; private set; }
-        private Database database;
+        private MSSQLConnection database;
 
         public CategoryContainer()
         {
-            Categories = new List<Category>()
-            {
-                new Category(
-                    "Test Categorie",
-                    new List<string>
-                        {
-                            {
-                                "Description"
-                            },
-                            {
-                                "More Text"
-                            }
-                        }
-                    ),
-
-                new Category(
-                    "Muziek",
-                    new List<string>
-                        {
-                            {
-                                "Omschrijving"
-                            },
-                            {
-                                "URL naar muziek"
-                            },
-                            {
-                                "Mijn bijdrage"
-                            },
-                            {
-                                "Lyrics"
-                            },
-                            {
-                                "Genre"
-                            }
-                        }
-                    )
-            };
+            Categories = new List<Category>();
         }
 
         public void Add(Category category)
