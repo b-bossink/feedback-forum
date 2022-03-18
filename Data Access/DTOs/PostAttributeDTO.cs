@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Data_Access
 {
-    public struct AttributeDTO
+    public struct PostAttributeDTO
     {
         public string Value;
         public int PostID;

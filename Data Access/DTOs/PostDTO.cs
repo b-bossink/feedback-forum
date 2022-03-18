@@ -9,9 +9,7 @@ namespace Data_Access
         public int ID;
         public string Name;
         public DateTime CreationDate;
-        public List<CommentDTO> Comments;
         public int Upvotes;
-        public CategoryDTO Category;
-        public Dictionary<AttributeDTO, string> ValuesByAttributes;
+        public int CategoryID;
     }
 }

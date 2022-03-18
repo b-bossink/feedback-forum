@@ -82,7 +82,7 @@ namespace Data_Access
             };
 
             result.Add(post);
-            
+            Console.WriteLine(post.Name);
             CloseConnection();
             return result;
         }
