@@ -1,0 +1,37 @@
+﻿using Data_Access;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Logic
+{
+    public class Category
+    {
+        public int ID { get; private set; }
+        public string Name { get; private set; }
+        public List<Attribute> Attributes { get; private set; }
+
+        public Category(string name, List<Attribute> attributes)
+        {
+            Name = name;
+            Attributes = attributes;
+        }
+
+        public CategoryDTO ToDTO()
+        {
+            List<AttributeDTO> attributes = new List<AttributeDTO>();
+            foreach(Attribute attribute in Attributes)
+            {
+                attributes.Add(attribute.ToDTO());
+            }
+
+            return new CategoryDTO
+            {
+                ID = this.ID,
+                Name = this.Name,
+                Attributes = attributes
+            };
+        }
+
+    }
+}

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Data_Access;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 
-namespace FeedbackForum.Classes
+namespace Logic
 {
     public class Post
     {   
@@ -15,7 +15,8 @@ namespace FeedbackForum.Classes
         public Category Category { get; private set; }
         public Dictionary<Attribute,string> ValuesByAttributes { get; private set; }
 
-        public Post(string name, Category category, int id = -1)
+        public Post(string name, DateTime creationDate, List<Comment> Comments, int upvotes,
+            Category category, Dictionary<Attribute,string> valuesByAttribute, int id = -1)
         {
             ID = id;
             Name = name;
@@ -27,6 +28,45 @@ namespace FeedbackForum.Classes
             {
                 ValuesByAttributes.Add(attribute, "");
             }
+        }
+
+
+        public void Upload()
+        {
+            new PostDAL().Upload(ToDTO());
+        }
+
+        public void Delete()
+        {
+
+        }
+
+        private PostDTO ToDTO()
+        {
+
+            List<CommentDTO> comments = new List<CommentDTO>();
+            foreach(Comment comment in Comments)
+            {
+                comments.Add(comment.ToDTO());
+            }
+
+            Dictionary<AttributeDTO, string> valueByAttribute = new Dictionary<AttributeDTO, string>();
+            foreach(KeyValuePair<Attribute, string> pair in ValuesByAttributes)
+            {
+                valueByAttribute.Add(pair.Key.ToDTO(), pair.Value);
+            }
+
+            return new PostDTO
+            {
+                ID = this.ID,
+                Name = this.Name,
+                CreationDate = this.CreationDate,
+                Comments = comments,
+                Upvotes = this.Upvotes,
+                Category = this.Category.ToDTO(),
+                ValuesByAttributes = valueByAttribute
+            };
+                
         }
 
         public void Add(Comment comment)
@@ -54,10 +94,6 @@ namespace FeedbackForum.Classes
             if (ValuesByAttributes.ContainsKey(attribute))
             {
                 ValuesByAttributes[attribute] = value;
-            }
-            else
-            {
-                MessageBox.Show("Couldn't find attribute with key " + "'" + attribute.Name + "'.");
             }
         }
     }

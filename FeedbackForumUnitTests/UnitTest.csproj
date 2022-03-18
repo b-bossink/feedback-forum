@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FeedbackForum\FeedbackForum.csproj" />
+    <ProjectReference Include="..\FeedbackForum\Presentation.csproj" />
   </ItemGroup>
 
 </Project>

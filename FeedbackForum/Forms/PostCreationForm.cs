@@ -1,5 +1,6 @@
-﻿using FeedbackForum.Classes;
-using FeedbackForum.Forms;
+﻿using FeedbackForum.Forms;
+using Logic;
+using Logic.Containers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,13 +36,14 @@ namespace FeedbackForum
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            postContainer.SetList();
+            postContainer.Refresh();
 
             if (tbxName.TextLength <= 0 || cmbCategory.SelectedIndex < 0)
                 return;
 
             
-            Post post = new Post(tbxName.Text, selectedCategory);
+            Post post = new Post(tbxName.Text, DateTime.Now, new List<Comment>(), 0,
+                selectedCategory, new Dictionary<Logic.Attribute, string>());
             foreach (Control[] field in allFields)
             {
                 if (field[1].Text.Length <= 0)
@@ -49,9 +51,9 @@ namespace FeedbackForum
                     MessageBox.Show($"Vul de gevraagde gegevens ({field[0].Text}) field in.");
                     return;
                 }    
-                post.SetAttributeValue(new Classes.Attribute(field[0].Text), field[1].Text);
+                post.SetAttributeValue(new Logic.Attribute(field[0].Text), field[1].Text);
             }
-            postContainer.Add(post);
+            post.Upload();
             PostForm postForm = new PostForm(post);
             postForm.Show();
         }
@@ -81,7 +83,7 @@ namespace FeedbackForum
         private void ShowFields()
         {
             int i = 90;
-            foreach (Classes.Attribute attribute in selectedCategory.Attributes)
+            foreach (Logic.Attribute attribute in selectedCategory.Attributes)
             {
                 Label label = new Label()
                 {

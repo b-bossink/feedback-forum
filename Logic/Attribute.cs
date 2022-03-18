@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Data_Access;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FeedbackForum.Classes
+namespace Logic
 {
     public class Attribute
     {
@@ -12,6 +13,15 @@ namespace FeedbackForum.Classes
         {
             ID = id;
             Name = name;
+        }
+
+        public AttributeDTO ToDTO()
+        {
+            return new AttributeDTO
+            {
+                ID = this.ID,
+                Name = this.Name
+            };
         }
     }
 }

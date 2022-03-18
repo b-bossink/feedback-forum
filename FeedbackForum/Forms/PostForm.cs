@@ -1,4 +1,5 @@
-﻿using FeedbackForum.Classes;
+﻿
+using Logic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +30,7 @@ namespace FeedbackForum.Forms
         {
             int i = 0;
 
-            foreach (KeyValuePair<Classes.Attribute,string> attribute in post.ValuesByAttributes)
+            foreach (KeyValuePair<Logic.Attribute,string> attribute in post.ValuesByAttributes)
             {
                 if (i == 0)
                 {
@@ -77,7 +78,7 @@ namespace FeedbackForum.Forms
         {
             if (tbxNewComment.Text.Length > 0)
             {
-                post.Comments.Add(new Comment(tbxNewComment.Text));
+                post.Comments.Add(new Comment(tbxNewComment.Text, DateTime.Now, 0, new List<Comment>()));
                 tbxNewComment.Text = "";
                 ShowComments();
             }

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FeedbackForum.Classes
+namespace Logic.Containers
 {
     public class CategoryContainer
     {
         public List<Category> Categories { get; private set; }
-        private MSSQLConnection database;
 
         public CategoryContainer()
         {
