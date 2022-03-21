@@ -32,17 +32,6 @@ namespace FeedbackForum
                     cmbCategory.Items.Add(category.Name);
                 }
             }
-
-            foreach(Post post in postContainer.Posts)
-            {
-                Console.WriteLine($"{post.Name}:");
-                Console.WriteLine($"Categorie: {post.Category.Name} | ID: {post.Category.ID} | Attribute count: {post.Category.Attributes.Count}");
-                Console.WriteLine($"Creation Date: {post.CreationDate}");
-                foreach (KeyValuePair<Logic.Attribute, string> attribute in post.ValuesByAttributes)
-                {
-                    Console.WriteLine($"- Attribute ({attribute.Key.ID}): {attribute.Key.Name} | Value: {attribute.Value}");
-                }
-            }
         }
 
         private void btnPost_Click(object sender, EventArgs e)
@@ -111,8 +100,6 @@ namespace FeedbackForum
                     Font = tbxName.Font,
                     Location = new Point(tbxName.Location.X, tbxName.Location.Y + i)
                 };
-
-                Console.WriteLine(label.Text);
 
                 this.Controls.Add(label);
                 this.Controls.Add(textbox);

@@ -16,6 +16,10 @@ namespace Logic
             Name = name;
             Attributes = attributes;
         }
+        public void Upload()
+        {
+            new CategoryDAL().Upload(ToDTO());
+        }
 
         public CategoryDTO ToDTO()
         {

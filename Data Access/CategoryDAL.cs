@@ -10,30 +10,45 @@ namespace Data_Access
     {
         public List<CategoryDTO> LoadAll()
         {
-            connection.Open();
+            OpenConnection();
 
             string query = "SELECT * FROM Category";
             SqlCommand cmd = new SqlCommand(query, connection);
-            Console.WriteLine("EXECUTING: " + query);
+            List<CategoryDTO> firstResult = new List<CategoryDTO>();
 
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    CategoryDTO category = new CategoryDTO {
-                        Name = reader["name"].ToString(),
-                        Attributes = LoadAttributes(Convert.ToInt32(reader["id"])) };
+                    firstResult.Add(new CategoryDTO {
+                        ID = (int)reader["id"],
+                        Name = (string)reader["name"]
+                    });
                 }
             }
-            return null;
+            CloseConnection();
+
+            List<CategoryDTO> finalResult = firstResult;
+            for (int i = 0; i < firstResult.Count; i++)
+            {
+                finalResult[i] = new CategoryDTO
+                {
+                    ID = firstResult[i].ID,
+                    Name = firstResult[i].Name,
+                    Attributes = LoadAttributes(Convert.ToInt32(firstResult[i].ID))
+                };
+            }
+
+            return finalResult;
         }
-        private List<AttributeDTO> LoadAttributes(int categoryID)
-        {
+        public void Upload(CategoryDTO category)
+        { }
+            private List<AttributeDTO> LoadAttributes(int categoryID)
+            {
             OpenConnection();
 
             string query = $"SELECT * FROM Attribute WHERE category_id = {categoryID}";
             SqlCommand cmd = new SqlCommand(query, connection);
-            Console.WriteLine("EXECUTING: " + query);
             List<AttributeDTO> result = new List<AttributeDTO>();
 
             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -57,7 +72,6 @@ namespace Data_Access
 
             string query = $"SELECT * FROM Category WHERE id = {id}";
             SqlCommand cmd = new SqlCommand(query, connection);
-            Console.WriteLine("EXECUTING: " + query);
             CategoryDTO firstResult = new CategoryDTO();
 
             string name = "";

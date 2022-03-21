@@ -24,9 +24,6 @@ namespace Data_Access
                 string query = "insert into Post (category_id, user_id, title, creation_date) values" +
                     $"(1, 1, '{post.Name}', '{post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)}');";
                 SqlCommand cmd = new SqlCommand(query, connection);
-                Console.WriteLine(query);
-
-
                 cmd.ExecuteNonQuery();
 
                 CloseConnection();
@@ -53,14 +50,14 @@ namespace Data_Access
                     string name = reader["title"].ToString();
                     DateTime creationDate = (DateTime)reader["creation_date"];
                     categoryID = Convert.ToInt32(reader["category_id"]);
-                    //int upvotes = Convert.ToInt32(reader["upvotes"]);
+                    int upvotes = Convert.ToInt32(reader["upvotes"]);
 
                     PostDTO post = new PostDTO
                     {
                         ID = id,
                         Name = name,
                         CreationDate = creationDate,
-                        Upvotes = 0 // TO-DO ADD UPVOTES IN DB!!!!
+                        Upvotes = upvotes
                     };
 
                     firstResult.Add(post);
@@ -107,7 +104,6 @@ namespace Data_Access
 
             string query = $"SELECT * FROM PostAttribute WHERE post_id = {postID} AND attribute_id = {attributeID}";
             SqlCommand cmd = new SqlCommand(query, connection);
-            Console.WriteLine("att. EXECUTING: " + query);
             string result = "";
 
             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -129,7 +125,6 @@ namespace Data_Access
 
             string query = $"SELECT * FROM Post WHERE id = {postID}";
             SqlCommand cmd = new SqlCommand(query, connection);
-            Console.WriteLine("EXECUTING: " + query);
 
             bool result = false;
             using (SqlDataReader reader = cmd.ExecuteReader())
