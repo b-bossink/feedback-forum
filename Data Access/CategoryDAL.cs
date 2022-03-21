@@ -27,10 +27,9 @@ namespace Data_Access
             }
             return null;
         }
-
-        private protected List<AttributeDTO> LoadAttributes(int categoryID)
+        private List<AttributeDTO> LoadAttributes(int categoryID)
         {
-            connection.Open();
+            OpenConnection();
 
             string query = $"SELECT * FROM Attribute WHERE category_id = {categoryID}";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -49,8 +48,41 @@ namespace Data_Access
                 }
             }
 
-            connection.Close();
+            CloseConnection();
             return result;
+        }
+        public CategoryDTO Load(int id)
+        {
+            OpenConnection();
+
+            string query = $"SELECT * FROM Category WHERE id = {id}";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            Console.WriteLine("EXECUTING: " + query);
+            CategoryDTO firstResult = new CategoryDTO();
+
+            string name = "";
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    name = reader["name"].ToString();
+                }
+
+                firstResult = new CategoryDTO
+                {
+                    ID = id,
+                    Name = name
+                };
+            }
+
+            CloseConnection();
+
+            return new CategoryDTO
+            {
+                ID = firstResult.ID,
+                Name = firstResult.Name,
+                Attributes = LoadAttributes(firstResult.ID)
+            };
         }
     }
 }

@@ -15,19 +15,16 @@ namespace Logic
         public Category Category { get; private set; }
         public Dictionary<Attribute,string> ValuesByAttributes { get; private set; }
 
-        public Post(string name, DateTime creationDate, List<Comment> Comments, int upvotes,
+        public Post(string name, DateTime creationDate, List<Comment> comments, int upvotes,
             Category category, Dictionary<Attribute,string> valuesByAttribute, int id = -1)
         {
             ID = id;
             Name = name;
-            CreationDate = DateTime.Now;
-            Comments = new List<Comment>();
+            Upvotes = upvotes;
+            CreationDate = creationDate;
+            Comments = comments;
             Category = category;
-            ValuesByAttributes = new Dictionary<Attribute, string>();
-            foreach (Attribute attribute in category.Attributes)
-            {
-                ValuesByAttributes.Add(attribute, "");
-            }
+            ValuesByAttributes = valuesByAttribute;
         }
 
 
