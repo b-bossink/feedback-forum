@@ -88,10 +88,17 @@ namespace Logic
 
         public void SetAttributeValue(Attribute attribute, string value)
         {
-            if (ValuesByAttributes.ContainsKey(attribute))
+            Attribute attributeToEdit = null;
+
+            foreach (KeyValuePair<Attribute,string> keyValuePair in ValuesByAttributes)
             {
-                ValuesByAttributes[attribute] = value;
+                if (keyValuePair.Key.Name == attribute.Name)
+                {
+                    attributeToEdit = keyValuePair.Key;
+                }
             }
+
+            ValuesByAttributes[attributeToEdit] = value;
         }
     }
 }

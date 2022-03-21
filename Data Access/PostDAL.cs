@@ -16,15 +16,31 @@ namespace Data_Access
         {
             if (Exists(post.ID))
             {
-                Update(post);
+                Update(post); // tomorrow:)
             } else
             {
                 OpenConnection();
 
-                string query = "insert into Post (category_id, user_id, title, creation_date) values" +
-                    $"(1, 1, '{post.Name}', '{post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)}');";
+                string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
+                    $"(1, 1, '{post.Name}', {post.Upvotes}, '{post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)}') SELECT SCOPE_IDENTITY();";
                 SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.ExecuteNonQuery();
+                
+                int thisPostID = -1;
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        thisPostID = Convert.ToInt32(reader.GetValue(0));
+                    }
+                }
+
+
+                foreach (KeyValuePair<AttributeDTO,string> valuesByAttribute in post.ValuesByAttributes)
+                {
+                    string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values ({thisPostID}, '{valuesByAttribute.Key.ID}', '{valuesByAttribute.Value}')";
+                    SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
+                    cmd2.ExecuteNonQuery();
+                }
 
                 CloseConnection();
             }

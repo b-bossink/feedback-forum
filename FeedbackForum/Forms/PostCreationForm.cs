@@ -41,18 +41,20 @@ namespace FeedbackForum
             if (tbxName.TextLength <= 0 || cmbCategory.SelectedIndex < 0)
                 return;
 
+            Dictionary<Logic.Attribute, string> newValues = new Dictionary<Logic.Attribute, string>();
             
-            Post post = new Post(tbxName.Text, DateTime.Now, new List<Comment>(), 0,
-                selectedCategory, new Dictionary<Logic.Attribute, string>());
+
             foreach (Control[] field in allFields)
             {
                 if (field[1].Text.Length <= 0)
                 {
                     MessageBox.Show($"Vul de gevraagde gegevens ({field[0].Text}) field in.");
                     return;
-                }    
-                post.SetAttributeValue(new Logic.Attribute(field[0].Text), field[1].Text);
+                }
+                newValues.Add(new Logic.Attribute(field[0].Text, (int)field[0].Tag), field[1].Text);
             }
+            Post post = new Post(tbxName.Text, DateTime.Now, new List<Comment>(), 0,
+                selectedCategory, newValues);
             post.Upload();
             PostForm postForm = new PostForm(post);
             postForm.Show();
@@ -91,7 +93,8 @@ namespace FeedbackForum
                     Text = attribute.Name,
                     Size = lblName.Size,
                     Font = lblName.Font,
-                    Location = new Point(lblName.Location.X, lblName.Location.Y + i)
+                    Location = new Point(lblName.Location.X, lblName.Location.Y + i),
+                    Tag = attribute.ID
                 };
 
                 TextBox textbox = new TextBox()
