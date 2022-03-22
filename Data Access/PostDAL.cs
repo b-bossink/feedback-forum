@@ -56,7 +56,7 @@ namespace Data_Access
 
             List<PostDTO> firstResult = new List<PostDTO>();
             int id = -1;
-            int categoryID = 0;
+            List<int> categoryIDs = new List<int>();
 
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
@@ -65,7 +65,7 @@ namespace Data_Access
                     id = Convert.ToInt32(reader["id"]);
                     string name = reader["title"].ToString();
                     DateTime creationDate = (DateTime)reader["creation_date"];
-                    categoryID = Convert.ToInt32(reader["category_id"]);
+                    categoryIDs.Add(Convert.ToInt32(reader["category_id"]));
                     int upvotes = Convert.ToInt32(reader["upvotes"]);
 
                     PostDTO post = new PostDTO
@@ -86,10 +86,9 @@ namespace Data_Access
             for (int i = 0; i < firstResult.Count; i++)
             {
                 
-                CategoryDTO category = categoryDAL.Load(categoryID);
+                CategoryDTO category = categoryDAL.Load(categoryIDs[i]);
 
                 Dictionary<AttributeDTO,string> valuesByAttributes = new Dictionary<AttributeDTO, string>();
-                
                 foreach (AttributeDTO attribute in category.Attributes)
                 {
                     valuesByAttributes.Add(attribute, GetAttributeValue(firstResult[i].ID, attribute.ID));
