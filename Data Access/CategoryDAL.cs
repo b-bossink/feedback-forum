@@ -43,7 +43,7 @@ namespace Data_Access
         }
         public void Upload(CategoryDTO category)
         { }
-            private List<AttributeDTO> LoadAttributes(int categoryID)
+        private List<AttributeDTO> LoadAttributes(int categoryID)
             {
             OpenConnection();
 

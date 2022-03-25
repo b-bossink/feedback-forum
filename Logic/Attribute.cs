@@ -14,6 +14,11 @@ namespace Logic
             ID = id;
             Name = name;
         }
+        public Attribute(AttributeDTO dto)
+        {
+            ID = dto.ID;
+            Name = dto.Name;
+        }
 
         public AttributeDTO ToDTO()
         {

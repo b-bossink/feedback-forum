@@ -20,7 +20,7 @@ namespace Data_Access
             } else
             {
                 OpenConnection();
-
+                
                 string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
                     $"(1, 1, '{post.Name}', {post.Upvotes}, '{post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)}') SELECT SCOPE_IDENTITY();";
                 SqlCommand cmd = new SqlCommand(query, connection);

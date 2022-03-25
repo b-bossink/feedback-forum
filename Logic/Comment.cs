@@ -22,6 +22,19 @@ namespace Logic
             Replies = replies;
         }
 
+        public Comment(CommentDTO dto)
+        {
+            ID = dto.ID;
+            Text = dto.Text;
+            CreationDate = dto.CreationDate;
+            Upvotes = dto.Upvotes;
+            Replies = new List<Comment>();
+            foreach (CommentDTO replyDTO in dto.Replies)
+            {
+                Replies.Add(new Comment(replyDTO));
+            }
+        }
+
         public void AddReply(Comment comment)
         {
             Replies.Add(comment);

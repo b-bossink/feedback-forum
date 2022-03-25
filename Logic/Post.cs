@@ -27,6 +27,24 @@ namespace Logic
             ValuesByAttributes = valuesByAttribute;
         }
 
+        public Post(PostDTO dto)
+        {
+            ID = dto.ID;
+            Name = dto.Name;
+            Upvotes = dto.Upvotes;
+            CreationDate = dto.CreationDate;
+            Comments = new List<Comment>();
+            foreach(CommentDTO commentDTO in dto.Comments)
+            {
+                Comments.Add(new Comment(commentDTO));
+            }
+            Category = new Category(dto.Category);
+            ValuesByAttributes = new Dictionary<Attribute, string>();
+            foreach (KeyValuePair<AttributeDTO,string> kvp in dto.ValuesByAttributes)
+            {
+                ValuesByAttributes.Add(new Attribute(kvp.Key), kvp.Value);
+            }
+        }
 
         public void Upload()
         {

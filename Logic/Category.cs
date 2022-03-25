@@ -16,6 +16,16 @@ namespace Logic
             Name = name;
             Attributes = attributes;
         }
+
+        public Category(CategoryDTO dto)
+        {
+            Name = dto.Name;
+            Attributes = new List<Attribute>();
+            foreach (AttributeDTO attributeDTO in dto.Attributes)
+            {
+                Attributes.Add(new Attribute(attributeDTO));
+            }
+        }
         public void Upload()
         {
             new CategoryDAL().Upload(ToDTO());
