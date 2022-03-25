@@ -12,11 +12,12 @@ namespace Data_Access
         private CategoryDAL categoryDAL = new CategoryDAL();
         private CommentDAL commentDAL = new CommentDAL();
 
-        public void Upload(PostDTO post)
+        public bool Upload(PostDTO post)
         {
+            bool saved = false;
             if (Exists(post.ID))
             {
-                Update(post); // tomorrow:)
+                Update(post);
             } else
             {
                 OpenConnection();
@@ -32,6 +33,7 @@ namespace Data_Access
                     {
                         thisPostID = Convert.ToInt32(reader.GetValue(0));
                     }
+                    saved = reader.HasRows;
                 }
 
 
@@ -44,6 +46,8 @@ namespace Data_Access
 
                 CloseConnection();
             }
+
+            return saved;
         }
 
         public List<PostDTO> LoadAll()
@@ -110,7 +114,17 @@ namespace Data_Access
 
         private void Update(PostDTO post)
         {
+            OpenConnection();
+            string query = $"UPDATE table_name SET " +
+                $"title = {post.Name}, " +
+                $"category_id = {post.Category.ID}, " +
+                $"user_id = 1" +
+                $"creation_date = {post.CreationDate}" +
+                $"upvotes = {post.Upvotes}" +
+                $"WHERE id = {post.ID}";
 
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.ExecuteNonQuery();
         }
 
         private string GetAttributeValue(int postID, int attributeID)
@@ -136,7 +150,7 @@ namespace Data_Access
         
         private bool Exists(int postID)
         {
-            connection.Open();
+            OpenConnection();
 
             string query = $"SELECT * FROM Post WHERE id = {postID}";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -146,10 +160,10 @@ namespace Data_Access
             {
                 while (reader.Read())
                 {
-                    //to-do : make this work
+                    result = reader.HasRows;
                 }
             }
-            connection.Close();
+            CloseConnection();
             return result;
         }
     }

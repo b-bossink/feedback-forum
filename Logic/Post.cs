@@ -46,9 +46,9 @@ namespace Logic
             }
         }
 
-        public void Upload()
+        public bool Upload()
         {
-            new PostDAL().Upload(ToDTO());
+            return new PostDAL().Upload(ToDTO());
         }
 
         public void Delete()
