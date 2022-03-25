@@ -11,6 +11,6 @@ namespace Data_Access
         public DateTime CreationDate;
         public int Upvotes;
         public int Post;
-        public int? ParentComment;
+        public List<CommentDTO> Replies;
     }
 }

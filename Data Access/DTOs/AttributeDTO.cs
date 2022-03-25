@@ -6,8 +6,7 @@ namespace Data_Access
 {
     public struct AttributeDTO
     {
-        public string Value;
-        public int PostID;
-        public int AttributeID;
+        public int ID;
+        public string Name;
     }
 }

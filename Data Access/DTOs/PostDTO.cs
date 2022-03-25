@@ -10,6 +10,8 @@ namespace Data_Access
         public string Name;
         public DateTime CreationDate;
         public int Upvotes;
-        public int CategoryID;
+        public CategoryDTO Category;
+        public List<CommentDTO> Comments;
+        public Dictionary<AttributeDTO, string> ValuesByAttributes;
     }
 }
