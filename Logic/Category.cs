@@ -11,8 +11,9 @@ namespace Logic
         public string Name { get; private set; }
         public List<Attribute> Attributes { get; private set; }
 
-        public Category(string name, List<Attribute> attributes)
+        public Category(string name, List<Attribute> attributes, int id = -1)
         {
+            ID = id;
             Name = name;
             Attributes = attributes;
         }

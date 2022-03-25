@@ -8,6 +8,5 @@ namespace Data_Access
     {
         public int ID;
         public string Name;
-        public List<AttributeDTO> Attributes;
     }
 }
