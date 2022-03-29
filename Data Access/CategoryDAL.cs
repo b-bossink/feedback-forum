@@ -41,8 +41,35 @@ namespace Data_Access
 
             return finalResult;
         }
-        public void Upload(CategoryDTO category)
-        { }
+        public bool Upload(CategoryDTO category)
+        {
+            OpenConnection();
+            bool saved;
+            string query = "insert into Category (name) values" +
+                $"('{category.Name}') SELECT SCOPE_IDENTITY();";
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            int thisCategoryID = -1;
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    thisCategoryID = Convert.ToInt32(reader.GetValue(0));
+                }
+                saved = reader.HasRows;
+            }
+
+
+            foreach (AttributeDTO attribute in category.Attributes)
+            {
+                string attributeQuery = $"INSERT INTO Attribute (category_id, name) values ({thisCategoryID}, '{attribute.Name}');";
+                SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
+                cmd2.ExecuteNonQuery();
+            }
+
+            CloseConnection();
+            return saved;
+        }
         private List<AttributeDTO> LoadAttributes(int categoryID)
             {
             OpenConnection();

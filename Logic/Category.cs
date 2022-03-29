@@ -27,9 +27,9 @@ namespace Logic
                 Attributes.Add(new Attribute(attributeDTO));
             }
         }
-        public void Upload()
+        public bool Upload()
         {
-            new CategoryDAL().Upload(ToDTO());
+            return new CategoryDAL().Upload(ToDTO());
         }
 
         public CategoryDTO ToDTO()

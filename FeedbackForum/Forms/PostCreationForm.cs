@@ -25,20 +25,13 @@ namespace FeedbackForum
             postContainer = new PostContainer();
             categoryContainer = new CategoryContainer();
 
-            if (postContainer.Posts.Count > 0)
-            {
-                foreach (Post post in postContainer.Posts)
-                {
-                }
-            }
-
-            /*if (categoryContainer.Categories.Count > 0)
+            if (categoryContainer.Categories.Count > 0)
             {
                 foreach (Category category in categoryContainer.Categories)
                 {
                     cmbCategory.Items.Add(category.Name);
                 }
-            }*/
+            }
         }
 
         private void btnPost_Click(object sender, EventArgs e)
