@@ -10,7 +10,6 @@ namespace Data_Access
         public string Text;
         public DateTime CreationDate;
         public int Upvotes;
-        public int Post;
         public List<CommentDTO> Replies;
     }
 }
