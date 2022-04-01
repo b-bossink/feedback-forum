@@ -23,9 +23,16 @@ namespace Data_Access
                 OpenConnection();
                 
                 string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
-                    $"(1, 1, '{post.Name}', {post.Upvotes}, '{post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)}') SELECT SCOPE_IDENTITY();";
+                    $"(@CategoryID, @UserID, '@Name', @Upvotes, '@Date') SELECT SCOPE_IDENTITY();";
                 SqlCommand cmd = new SqlCommand(query, connection);
-                
+
+                cmd.Parameters.Add(new SqlParameter("@Name", post.Name));
+                cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
+                cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+                cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
+                cmd.Parameters.Add(new SqlParameter("@Date",
+                    post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
+
                 int thisPostID = -1;
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -34,7 +41,6 @@ namespace Data_Access
                         thisPostID = Convert.ToInt32(reader.GetValue(0));
                     }
                 }
-
 
                 foreach (KeyValuePair<AttributeDTO,string> valuesByAttribute in post.ValuesByAttributes)
                 {
@@ -116,14 +122,16 @@ namespace Data_Access
         {
             OpenConnection();
 
-            string query = $"DELETE FROM PostAttribute WHERE post_id = {id}";
+            string query = $"DELETE FROM PostAttribute WHERE post_id = @ID";
             SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.Add(new SqlParameter("@ID", id));
             cmd.ExecuteNonQuery();
 
             query = $"DELETE FROM Post WHERE id = {id}";
-            cmd = new SqlCommand(query, connection);
+            SqlCommand cmd2 = new SqlCommand(query, connection);
+            cmd2.Parameters.Add(new SqlParameter("@ID", id));
+            int result = cmd2.ExecuteNonQuery();
 
-            int result = cmd.ExecuteNonQuery();
             CloseConnection();
             return result;
         }
@@ -132,14 +140,21 @@ namespace Data_Access
         {
             OpenConnection();
             string query = $"UPDATE table_name SET " +
-                $"title = {post.Name}, " +
-                $"category_id = {post.Category.ID}, " +
-                $"user_id = 1" +
-                $"creation_date = {post.CreationDate}" +
-                $"upvotes = {post.Upvotes}" +
-                $"WHERE id = {post.ID}";
+                $"title = @Name, " +
+                $"category_id = @CategoryID, " +
+                $"user_id = @UserID" +
+                $"creation_date = @Date" +
+                $"upvotes = @Upvotes" +
+                $"WHERE id = @ID";
 
             SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.Add(new SqlParameter("@ID", post.ID));
+            cmd.Parameters.Add(new SqlParameter("@Name", post.Name));
+            cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
+            cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+            cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
+            cmd.Parameters.Add(new SqlParameter("@Date",
+                post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
             int result = cmd.ExecuteNonQuery();
             return result;
         }
@@ -148,8 +163,11 @@ namespace Data_Access
         {
             OpenConnection();
 
-            string query = $"SELECT * FROM PostAttribute WHERE post_id = {postID} AND attribute_id = {attributeID}";
+            string query = $"SELECT * FROM PostAttribute WHERE post_id = @ID" +
+                "AND attribute_id = @AttributeID";
             SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.Add(new SqlParameter("@ID", postID));
+            cmd.Parameters.Add(new SqlParameter("@AttributeID", attributeID));
             string result = "";
 
             using (SqlDataReader reader = cmd.ExecuteReader())
