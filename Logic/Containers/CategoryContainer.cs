@@ -7,43 +7,32 @@ namespace Logic.Containers
 {
     public class CategoryContainer
     {
-        public List<Category> Categories { get; private set; }
         private CategoryDAL DAL = new CategoryDAL();
 
         public CategoryContainer()
         {
-            Categories = new List<Category>();
-            Refresh();
         }
 
-        private Category ToCategory(CategoryDTO dto)
+        public List<Category> GetAll()
         {
-            List<Attribute> attributes = new List<Attribute>();
-            foreach (AttributeDTO attributeDTO in dto.Attributes)
-            {
-                attributes.Add(ToAttribute(attributeDTO));
-            }
-            return new Category(
-                dto.Name,
-                attributes
-                );
-        }
-
-        private Attribute ToAttribute(AttributeDTO dto)
-        {
-            return new Attribute(
-                dto.Name,
-                dto.ID
-                );
-        }
-
-        public void Refresh()
-        {
-            Categories.Clear();
+            List<Category> result = new List<Category>();
             foreach (CategoryDTO dto in DAL.LoadAll())
             {
-                Categories.Add(ToCategory(dto));
+                result.Add(new Category(dto));
             }
+            return result;
+        }
+
+        public Category Get(int id)
+        {
+            foreach (CategoryDTO dto in DAL.LoadAll())
+            {
+                if (id == dto.ID)
+                {
+                    return new Category(dto);
+                }
+            }
+            return null;
         }
     }
 }

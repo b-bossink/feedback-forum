@@ -25,9 +25,9 @@ namespace FeedbackForum
             postContainer = new PostContainer();
             categoryContainer = new CategoryContainer();
 
-            if (categoryContainer.Categories.Count > 0)
+            if (categoryContainer.GetAll().Count > 0)
             {
-                foreach (Category category in categoryContainer.Categories)
+                foreach (Category category in categoryContainer.GetAll())
                 {
                     cmbCategory.Items.Add(category.Name);
                 }
@@ -60,9 +60,9 @@ namespace FeedbackForum
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (Category category in categoryContainer.Categories)
+            foreach (Category category in categoryContainer.GetAll())
             {
-                if (cmbCategory.SelectedItem.ToString() == category.Name)
+                if (cmbCategory.SelectedItem.ToString() == category.Name) // <- vraag docent
                 {
                     selectedCategory = category;
                     DeleteFields();

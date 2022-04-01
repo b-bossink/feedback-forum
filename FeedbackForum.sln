@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "FeedbackFor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "FeedbackForumUnitTests\UnitTest.csproj", "{8D46174F-F525-488B-84C1-7B0624E1FE76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Access", "Data Access\Data Access.csproj", "{3C5378B9-2922-475B-9A51-745D8562F8BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Access", "Data Access\Data Access.csproj", "{3C5378B9-2922-475B-9A51-745D8562F8BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{0D06CBCC-0C6C-4E88-AE09-4BD0502F4A9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{0D06CBCC-0C6C-4E88-AE09-4BD0502F4A9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation MVC", "Presentation MVC\Presentation MVC.csproj", "{F98AF182-9FC7-46CF-BF36-71597EA01D01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0D06CBCC-0C6C-4E88-AE09-4BD0502F4A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D06CBCC-0C6C-4E88-AE09-4BD0502F4A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D06CBCC-0C6C-4E88-AE09-4BD0502F4A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F98AF182-9FC7-46CF-BF36-71597EA01D01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F98AF182-9FC7-46CF-BF36-71597EA01D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F98AF182-9FC7-46CF-BF36-71597EA01D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F98AF182-9FC7-46CF-BF36-71597EA01D01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

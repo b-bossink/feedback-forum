@@ -20,6 +20,7 @@ namespace Logic
 
         public Category(CategoryDTO dto)
         {
+            ID = dto.ID;
             Name = dto.Name;
             Attributes = new List<Attribute>();
             foreach (AttributeDTO attributeDTO in dto.Attributes)

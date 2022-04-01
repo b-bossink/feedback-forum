@@ -23,7 +23,7 @@ namespace Data_Access
                 OpenConnection();
                 
                 string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
-                    $"(@CategoryID, @UserID, '@Name', @Upvotes, '@Date') SELECT SCOPE_IDENTITY();";
+                    $"(@CategoryID, @UserID, @Name, @Upvotes, @Date) SELECT SCOPE_IDENTITY();";
                 SqlCommand cmd = new SqlCommand(query, connection);
 
                 cmd.Parameters.Add(new SqlParameter("@Name", post.Name));
@@ -163,7 +163,7 @@ namespace Data_Access
         {
             OpenConnection();
 
-            string query = $"SELECT * FROM PostAttribute WHERE post_id = @ID" +
+            string query = $"SELECT * FROM PostAttribute WHERE post_id = @ID " +
                 "AND attribute_id = @AttributeID";
             SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.Add(new SqlParameter("@ID", postID));
