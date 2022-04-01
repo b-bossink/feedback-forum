@@ -15,10 +15,11 @@ namespace FeedbackForumUnitTests
             // Arrange
             Post post = new Post("Test Post", DateTime.Now, new List<Comment>(), 0,
                 new Category("", new List<Logic.Attribute>()), new Dictionary<Logic.Attribute, string>());
-            bool succesfullySaved;
+            int savedID;
 
             // Act
-            succesfullySaved = post.Upload();
+            savedID = post.Upload();
+            bool succesfullySaved = savedID > 0;
 
             // Assert
             Assert.IsTrue(succesfullySaved, "No rows have been saved.");
@@ -35,7 +36,40 @@ namespace FeedbackForumUnitTests
             PostContainer container = new PostContainer();
 
             // Assert
-            Assert.IsTrue(container.Posts.Count >= minimum, "No posts have been retrieved. Is the database empty?");
+            Assert.IsTrue(container.GetAll().Count >= minimum, "No posts have been retrieved. Is the database empty?");
         }
+
+        [TestMethod]
+        public void DeletePost()
+        {
+            // Arrange
+            PostContainer container = new PostContainer();
+            int idToDelete = 71;
+            int rowsDeleted;
+
+            // Act
+            rowsDeleted = container.Delete(idToDelete);
+
+            // Assert
+            Assert.AreEqual(1, rowsDeleted, "No rows or more than one row have been deleted. Is ID present in Database?");
+        }
+
+        [TestMethod]
+        public void SaveCategory()
+        {
+            // Arrange
+            Category category = new Category("Test Categorie", new List<Logic.Attribute>() {
+                new Logic.Attribute("Test Attribute")
+            });
+            bool succesfullySaved;
+
+            // Act
+            succesfullySaved = category.Upload();
+
+            // Assert
+            Assert.IsTrue(succesfullySaved, "No rows have been saved.");
+
+        }
+
     }
 }

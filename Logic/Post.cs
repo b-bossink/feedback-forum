@@ -46,14 +46,9 @@ namespace Logic
             }
         }
 
-        public bool Upload()
+        public int Upload()
         {
             return new PostDAL().Upload(ToDTO());
-        }
-
-        public void Delete()
-        {
-
         }
 
         private PostDTO ToDTO()
@@ -94,12 +89,12 @@ namespace Logic
             Upvotes += upvote;
         }
 
-        public void Delete(Comment comment)
+        public void Remove(Comment comment)
         {
             Comments.Remove(comment);
         }
 
-        public void Delete(int upvote)
+        public void Remove(int upvote)
         {
             Upvotes -= upvote;
         }

@@ -1,5 +1,6 @@
 ﻿
 using Logic;
+using Logic.Containers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,6 +94,13 @@ namespace FeedbackForum.Forms
 
             hasUpvote = !hasUpvote;
             lblUpvotes.Text = post.Upvotes.ToString();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            PostContainer postContainer = new PostContainer();
+            postContainer.Delete(post.ID);
+            this.Close();
         }
     }
 }

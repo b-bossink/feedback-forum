@@ -38,6 +38,7 @@ namespace FeedbackForum.Forms
             this.tbxComments = new System.Windows.Forms.TextBox();
             this.lblUpvotes = new System.Windows.Forms.Label();
             this.btnUpvote = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblName
@@ -133,11 +134,22 @@ namespace FeedbackForum.Forms
             this.btnUpvote.UseVisualStyleBackColor = true;
             this.btnUpvote.Click += new System.EventHandler(this.btnUpvote_Click);
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(1034, 493);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(310, 50);
+            this.btnDelete.TabIndex = 9;
+            this.btnDelete.Text = "DELETE THIS POST";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // PostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1454, 1288);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpvote);
             this.Controls.Add(this.lblUpvotes);
             this.Controls.Add(this.tbxComments);
@@ -165,5 +177,6 @@ namespace FeedbackForum.Forms
         private System.Windows.Forms.TextBox tbxComments;
         private System.Windows.Forms.Label lblUpvotes;
         private System.Windows.Forms.Button btnUpvote;
+        private System.Windows.Forms.Button btnDelete;
     }
 }

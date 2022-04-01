@@ -53,8 +53,8 @@ namespace FeedbackForum
             }
             Post post = new Post(tbxName.Text, DateTime.Now, new List<Comment>(), 0,
                 selectedCategory, newValues);
-            post.Upload();
-            PostForm postForm = new PostForm(post);
+            
+            PostForm postForm = new PostForm(postContainer.Get(post.Upload()));
             postForm.Show();
         }
 

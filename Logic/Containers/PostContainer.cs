@@ -7,22 +7,38 @@ namespace Logic.Containers
 {
     public class PostContainer
     {
-        public List<Post> Posts { get; private set; }
         private PostDAL DAL = new PostDAL();
 
         public PostContainer()
         {
-            Posts = new List<Post>();
-            Refresh();
         }
 
-        public void Refresh()
+        public List<Post> GetAll()
         {
-            Posts.Clear();
+            List<Post> result = new List<Post>();
             foreach (PostDTO dto in DAL.LoadAll())
             {
-                Posts.Add(new Post(dto));
+                result.Add(new Post(dto));
             }
+            return result;
+        }
+
+        public Post Get(int id)
+        {
+            foreach (PostDTO dto in DAL.LoadAll())
+            {
+                Post post = new Post(dto);
+                if (post.ID == id)
+                {
+                    return post;
+                }
+            }
+            return null;
+        }
+
+        public int Delete(int id)
+        {
+            return DAL.Delete(id);
         }
     }
 }

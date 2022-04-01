@@ -12,12 +12,12 @@ namespace Data_Access
         private CategoryDAL categoryDAL = new CategoryDAL();
         private CommentDAL commentDAL = new CommentDAL();
 
-        public bool Upload(PostDTO post)
+        public int Upload(PostDTO post)
         {
-            bool saved = false;
+            int updated = 0;
             if (Exists(post.ID))
             {
-                Update(post);
+                updated = Update(post);
             } else
             {
                 OpenConnection();
@@ -33,7 +33,6 @@ namespace Data_Access
                     {
                         thisPostID = Convert.ToInt32(reader.GetValue(0));
                     }
-                    saved = reader.HasRows;
                 }
 
 
@@ -43,11 +42,12 @@ namespace Data_Access
                     SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
                     cmd2.ExecuteNonQuery();
                 }
-
+                
                 CloseConnection();
+                return thisPostID;
             }
 
-            return saved;
+            return updated;
         }
 
         public List<PostDTO> LoadAll()
@@ -112,7 +112,23 @@ namespace Data_Access
             return finalResult;
         }
 
-        private void Update(PostDTO post)
+        public int Delete(int id)
+        {
+            OpenConnection();
+
+            string query = $"DELETE FROM PostAttribute WHERE post_id = {id}";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.ExecuteNonQuery();
+
+            query = $"DELETE FROM Post WHERE id = {id}";
+            cmd = new SqlCommand(query, connection);
+
+            int result = cmd.ExecuteNonQuery();
+            CloseConnection();
+            return result;
+        }
+
+        private int Update(PostDTO post)
         {
             OpenConnection();
             string query = $"UPDATE table_name SET " +
@@ -124,7 +140,8 @@ namespace Data_Access
                 $"WHERE id = {post.ID}";
 
             SqlCommand cmd = new SqlCommand(query, connection);
-            cmd.ExecuteNonQuery();
+            int result = cmd.ExecuteNonQuery();
+            return result;
         }
 
         private string GetAttributeValue(int postID, int attributeID)
