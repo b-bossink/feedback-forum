@@ -1,0 +1,157 @@
+﻿using Logic;
+using Presentation_MVC.Models;
+using System;
+using System.Collections.Generic;
+namespace Presentation_MVC.Converters
+{
+    public static class ModelConverter
+    {
+        public static PostViewModel ToViewModel(Post post)
+        {
+            List<CommentViewModel> commentModels = new List<CommentViewModel>();
+            List<PostAttributeViewModel> postAttributes = new List<PostAttributeViewModel>();
+
+            foreach (KeyValuePair<Logic.Attribute, string> kvp in post.ValuesByAttributes)
+            {
+                postAttributes.Add(new PostAttributeViewModel
+                {
+                    AttributeID = kvp.Key.ID,
+                    Name = kvp.Key.Name,
+                    Value = kvp.Value
+                });
+            }
+
+            foreach (Comment comment in post.Comments)
+            {
+                commentModels.Add(ToViewModel(comment));
+            }
+
+
+            return new PostViewModel
+            {
+                ID = post.ID,
+                Name = post.Name,
+                CreationDate = post.CreationDate,
+                Upvotes = post.Upvotes,
+                Category = ToViewModel(post.Category),
+                Comments = commentModels,
+                AttributesWithValue = postAttributes
+            };
+        }
+        private static CommentViewModel ToViewModel(Comment comment)
+        {
+            List<CommentViewModel> replies = new List<CommentViewModel>();
+            foreach (Comment reply in comment.Replies)
+            {
+                replies.Add(ToViewModel(reply));
+            }
+            return new CommentViewModel()
+            {
+                ID = comment.ID,
+                Text = comment.Text,
+                CreationDate = comment.CreationDate,
+                Upvotes = comment.Upvotes,
+                Replies = replies
+            };
+        }
+        public static CategoryViewModel ToViewModel(Category category)
+        {
+            List<AttributeViewModel> attributeModels = new List<AttributeViewModel>();
+            foreach (Logic.Attribute attribute in category.Attributes)
+            {
+                attributeModels.Add(ToViewModel(attribute));
+            }
+            return new CategoryViewModel()
+            {
+                ID = category.ID,
+                Name = category.Name,
+                Attributes = attributeModels
+            };
+        }
+        private static AttributeViewModel ToViewModel(Logic.Attribute attribute)
+        {
+            return new AttributeViewModel()
+            {
+                ID = attribute.ID,
+                Name = attribute.Name
+            };
+        }
+
+        public static Post ToPost(PostViewModel model)
+        {
+            Dictionary<Logic.Attribute, string> attributeWithValues = new Dictionary<Logic.Attribute, string>();
+
+            if (model.AttributesWithValue != null)
+            {
+                foreach (PostAttributeViewModel postAttribute in model.AttributesWithValue)
+                {
+                    attributeWithValues.Add(
+                        ToAttribute(postAttribute), postAttribute.Value);
+                }
+            } else
+            {
+                model.AttributesWithValue = new List<PostAttributeViewModel>();
+            }
+
+            List<Comment> comments = new List<Comment>();
+            foreach (CommentViewModel commentModel in model.Comments)
+            {
+                comments.Add(ToComment(commentModel));
+            }
+
+            return new Post(
+                model.Name,
+                model.CreationDate,
+                comments,
+                model.Upvotes,
+                ToCategory(model.Category),
+                attributeWithValues
+            );
+        }
+
+        private static Category ToCategory(CategoryViewModel model)
+        {
+            List<Logic.Attribute> attributes = new List<Logic.Attribute>();
+            if (model.Attributes != null)
+            {
+                foreach (AttributeViewModel attributeModel in model.Attributes)
+                {
+                    attributes.Add(ToAttribute(attributeModel));
+                }
+            } 
+            else
+            {
+                model.Attributes = new List<AttributeViewModel>();
+            }
+            return new Category(
+                model.Name,
+                attributes,
+                model.ID);
+        }
+
+        private static Comment ToComment(CommentViewModel model)
+        {
+            List<Comment> replies = new List<Comment>();
+            foreach (CommentViewModel commentModel in model.Replies)
+            {
+                replies.Add(ToComment(commentModel));
+            }
+            return new Comment(
+                model.Text,
+                model.CreationDate,
+                model.Upvotes,
+                replies,
+                model.ID
+                );
+        }
+
+        private static Logic.Attribute ToAttribute(AttributeViewModel model)
+        {
+            return new Logic.Attribute(model.Name, model.ID);
+        }
+        private static Logic.Attribute ToAttribute(PostAttributeViewModel model)
+        {
+            return new Logic.Attribute(model.Name, model.AttributeID);
+        }
+    }
+}

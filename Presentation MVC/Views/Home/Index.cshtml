@@ -4,9 +4,12 @@
 @model List<Presentation_MVC.Models.PostViewModel> 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    @foreach(PostViewModel post in Model)
+
+    <p>All post titles:</p>
+    @foreach (PostViewModel post in Model)
     {
-        @post.Name
+        <p>@post.Name</p>
     }
+    <a asp-controller="Post" asp-action="SelectCategory"><input value="Cick here to create your own post" type="button" /></a>
+
 </div>

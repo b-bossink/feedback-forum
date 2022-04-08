@@ -11,6 +11,7 @@ namespace Presentation_MVC.Models
         public int Upvotes { get; set; }
         public CategoryViewModel Category { get; set; }
         public List<CommentViewModel> Comments { get; set; }
-        public Dictionary<AttributeViewModel, string> ValuesByAttributes { get; set; }
+        //public Dictionary<AttributeViewModel, string> ValuesByAttributes { get; set; }
+        public List<PostAttributeViewModel> AttributesWithValue { get; set; }
     }
 }
