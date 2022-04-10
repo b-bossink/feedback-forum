@@ -1,0 +1,21 @@
+﻿
+@model Presentation_MVC.Models.PostViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+<div class="container">
+    <div class="postHead">
+        <div class="row">
+            <h1 class="col-6">@Model.Name</h1>
+            <h1 class="col-6" style="text-align: right;">@Model.Category.Name</h1>
+        </div>
+        <p>by <a>username</a></p>
+    </div>
+
+    @foreach (PostAttributeViewModel attribute in Model.AttributesWithValue)
+    { 
+        <h2>@(attribute.Name)</h2>
+        <p>@(attribute.Value)</p>
+    }
+</div>
+

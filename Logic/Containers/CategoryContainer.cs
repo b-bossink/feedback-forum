@@ -18,7 +18,7 @@ namespace Logic.Containers
             List<Category> result = new List<Category>();
             foreach (CategoryDTO dto in DAL.LoadAll())
             {
-                result.Add(new Category(dto));
+                result.Add(new Category(new CategoryDAL(), dto));
             }
             return result;
         }
@@ -29,7 +29,7 @@ namespace Logic.Containers
             {
                 if (id == dto.ID)
                 {
-                    return new Category(dto);
+                    return new Category(new CategoryDAL(), dto);
                 }
             }
             return null;

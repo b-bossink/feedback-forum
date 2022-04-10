@@ -89,3 +89,8 @@ body {
     border-color: #000000;
     padding: 10px;
 }
+
+.postHead {
+    background-color: lightgray;
+    border-color: black;
+}

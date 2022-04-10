@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Logic;
 using System;
 using Logic.Containers;
+using UnitTest.STUBs;
 
 namespace FeedbackForumUnitTests
 {
@@ -13,8 +14,8 @@ namespace FeedbackForumUnitTests
         public void SavePost()
         {
             // Arrange
-            Post post = new Post("Test Post", DateTime.Now, new List<Comment>(), 0,
-                new Category("", new List<Logic.Attribute>()), new Dictionary<Logic.Attribute, string>());
+            Post post = new Post(new PostSTUB(), "Test Post", DateTime.Now, new List<Comment>(), 0,
+                new Category(new CategorySTUB(), "", new List<Logic.Attribute>()), new Dictionary<Logic.Attribute, string>());
             int savedID;
 
             // Act
@@ -58,7 +59,7 @@ namespace FeedbackForumUnitTests
         public void SaveCategory()
         {
             // Arrange
-            Category category = new Category("Test Categorie", new List<Logic.Attribute>() {
+            Category category = new Category(new CategorySTUB(), "Test Categorie", new List<Logic.Attribute>() {
                 new Logic.Attribute("Test Attribute")
             });
             bool succesfullySaved;

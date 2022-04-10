@@ -1,4 +1,5 @@
 ﻿
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Data_Access
 {
-    public class PostDAL : MSSQLConnection
+    public class PostDAL : MSSQLConnection, IPostDAL
     {
         private CategoryDAL categoryDAL = new CategoryDAL();
         private CommentDAL commentDAL = new CommentDAL();
@@ -136,7 +137,7 @@ namespace Data_Access
             return result;
         }
 
-        private int Update(PostDTO post)
+        public int Update(PostDTO post)
         {
             OpenConnection();
             string query = $"UPDATE table_name SET " +

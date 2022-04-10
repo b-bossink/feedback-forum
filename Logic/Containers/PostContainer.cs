@@ -1,4 +1,5 @@
 ﻿using Data_Access;
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +8,11 @@ namespace Logic.Containers
 {
     public class PostContainer
     {
-        private PostDAL DAL = new PostDAL();
+        private IPostDAL DAL;
 
-        public PostContainer()
+        public PostContainer(IPostDAL dal)
         {
+            DAL = dal;
         }
 
         public List<Post> GetAll()
@@ -18,7 +20,7 @@ namespace Logic.Containers
             List<Post> result = new List<Post>();
             foreach (PostDTO dto in DAL.LoadAll())
             {
-                result.Add(new Post(dto));
+                result.Add(new Post(new PostDAL(), new CategoryDAL(), dto));
             }
             return result;
         }
@@ -27,7 +29,7 @@ namespace Logic.Containers
         {
             foreach (PostDTO dto in DAL.LoadAll())
             {
-                Post post = new Post(dto);
+                Post post = new Post(new PostDAL(), new CategoryDAL(), dto);
                 if (post.ID == id)
                 {
                     return post;

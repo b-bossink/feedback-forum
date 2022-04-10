@@ -5,10 +5,10 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
 
-    <p>All post titles:</p>
+    <p>All posts:</p>
     @foreach (PostViewModel post in Model)
     {
-        <p>@post.Name</p>
+        <a asp-controller="Post" asp-action="ViewPost" asp-route-postId="@post.ID"><p>@post.Name</p></a>
     }
     <a asp-controller="Post" asp-action="SelectCategory"><input value="Cick here to create your own post" type="button" /></a>
 

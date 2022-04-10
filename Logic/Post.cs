@@ -1,4 +1,5 @@
 ﻿using Data_Access;
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,10 +15,12 @@ namespace Logic
         public int Upvotes { get; private set; }
         public Category Category { get; private set; }
         public Dictionary<Attribute,string> ValuesByAttributes { get; private set; }
+        private IPostDAL DAL;
 
-        public Post(string name, DateTime creationDate, List<Comment> comments, int upvotes,
+        public Post(IPostDAL dal, string name, DateTime creationDate, List<Comment> comments, int upvotes,
             Category category, Dictionary<Attribute,string> valuesByAttribute, int id = -1)
         {
+            DAL = dal;
             ID = id;
             Name = name;
             Upvotes = upvotes;
@@ -27,8 +30,9 @@ namespace Logic
             ValuesByAttributes = valuesByAttribute;
         }
 
-        public Post(PostDTO dto)
+        public Post(IPostDAL dal, ICategoryDAL categoryDAL, PostDTO dto)
         {
+            DAL = dal;
             ID = dto.ID;
             Name = dto.Name;
             Upvotes = dto.Upvotes;
@@ -38,7 +42,7 @@ namespace Logic
             {
                 Comments.Add(new Comment(commentDTO));
             }
-            Category = new Category(dto.Category);
+            Category = new Category(categoryDAL, dto.Category);
             ValuesByAttributes = new Dictionary<Attribute, string>();
             foreach (KeyValuePair<AttributeDTO,string> kvp in dto.ValuesByAttributes)
             {
@@ -48,12 +52,11 @@ namespace Logic
 
         public int Upload()
         {
-            return new PostDAL().Upload(ToDTO());
+            return DAL.Upload(ToDTO());
         }
 
         private PostDTO ToDTO()
         {
-
             List<CommentDTO> comments = new List<CommentDTO>();
             foreach(Comment comment in Comments)
             {
@@ -75,43 +78,7 @@ namespace Logic
                 Upvotes = this.Upvotes,
                 Category = this.Category.ToDTO(),
                 ValuesByAttributes = valueByAttribute
-            };
-                
-        }
-
-        public void Add(Comment comment)
-        {
-            Comments.Add(comment);
-        }
-
-        public void Add(int upvote)
-        {
-            Upvotes += upvote;
-        }
-
-        public void Remove(Comment comment)
-        {
-            Comments.Remove(comment);
-        }
-
-        public void Remove(int upvote)
-        {
-            Upvotes -= upvote;
-        }
-
-        public void SetAttributeValue(Attribute attribute, string value)
-        {
-            Attribute attributeToEdit = null;
-
-            foreach (KeyValuePair<Attribute,string> keyValuePair in ValuesByAttributes)
-            {
-                if (keyValuePair.Key.Name == attribute.Name)
-                {
-                    attributeToEdit = keyValuePair.Key;
-                }
-            }
-
-            ValuesByAttributes[attributeToEdit] = value;
+            };  
         }
     }
 }

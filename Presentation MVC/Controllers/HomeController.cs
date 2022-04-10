@@ -1,5 +1,6 @@
 ﻿using Logic;
 using Logic.Containers;
+using Logic.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
@@ -23,7 +24,7 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult Index()
         {
-            PostContainer container = new PostContainer();
+            PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
             List<PostViewModel> postModels = new List<PostViewModel>();
             foreach (Post post in container.GetAll())
             {

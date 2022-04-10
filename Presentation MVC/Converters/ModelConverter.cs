@@ -1,4 +1,5 @@
 ﻿using Logic;
+using Logic.Factories;
 using Presentation_MVC.Models;
 using System;
 using System.Collections.Generic;
@@ -99,7 +100,9 @@ namespace Presentation_MVC.Converters
                 comments.Add(ToComment(commentModel));
             }
 
+            DALFactory factory = new DALFactory();
             return new Post(
+                factory.GetPostDAL(),
                 model.Name,
                 model.CreationDate,
                 comments,
@@ -123,7 +126,10 @@ namespace Presentation_MVC.Converters
             {
                 model.Attributes = new List<AttributeViewModel>();
             }
+
+            DALFactory factory = new DALFactory();
             return new Category(
+                factory.GetCategoryDAL(),
                 model.Name,
                 attributes,
                 model.ID);

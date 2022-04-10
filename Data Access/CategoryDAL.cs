@@ -1,4 +1,5 @@
 ﻿
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Data_Access
 {
-    public class CategoryDAL : MSSQLConnection
+    public class CategoryDAL : MSSQLConnection, ICategoryDAL
     {
         public List<CategoryDTO> LoadAll()
         {

@@ -35,11 +35,6 @@ namespace Logic
             }
         }
 
-        public void AddReply(Comment comment)
-        {
-            Replies.Add(comment);
-        }
-
         public CommentDTO ToDTO()
         {
             List<CommentDTO> replies = new List<CommentDTO>();

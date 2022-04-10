@@ -10,7 +10,7 @@
     @foreach (CategoryViewModel category in Model)
     {
         <div class="category">
-            <a asp-controller="Post" asp-action="Create" asp-route-id="@category.ID">
+            <a asp-controller="Post" asp-action="Create" asp-route-categoryId="@category.ID">
                 <input type="button" value="@category.Name"/>
             </a>
         </div>

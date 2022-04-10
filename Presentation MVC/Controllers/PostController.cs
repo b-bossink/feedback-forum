@@ -1,5 +1,6 @@
 ﻿using Logic;
 using Logic.Containers;
+using Logic.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
@@ -20,12 +21,29 @@ namespace Presentation_MVC.Controllers
         {
             _logger = logger;
         }
-        public IActionResult Create(int id)
+
+        public IActionResult ViewPost(int postId)
+        {
+            PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
+            PostViewModel postModel;
+            foreach (Post post in container.GetAll())
+            {
+                if (post.ID == postId)
+                {
+                    postModel = ModelConverter.ToViewModel(post);
+                    return View(postModel);
+                }
+            }
+            ViewBag.ErrorMessage = "ERROR: Post not found.";
+            return RedirectToAction("Error", "Home");
+        }
+
+        public IActionResult Create(int categoryId)
         {
             CategoryContainer container = new CategoryContainer();
             foreach (Category category in container.GetAll())
             {
-                if (category.ID == id)
+                if (category.ID == categoryId)
                 {
                     List<PostAttributeViewModel> attributes = new List<PostAttributeViewModel>();
                     foreach (Logic.Attribute attribute in category.Attributes)

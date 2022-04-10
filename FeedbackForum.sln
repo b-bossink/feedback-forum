@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Access", "Data Access\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{0D06CBCC-0C6C-4E88-AE09-4BD0502F4A9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation MVC", "Presentation MVC\Presentation MVC.csproj", "{F98AF182-9FC7-46CF-BF36-71597EA01D01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation MVC", "Presentation MVC\Presentation MVC.csproj", "{F98AF182-9FC7-46CF-BF36-71597EA01D01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
