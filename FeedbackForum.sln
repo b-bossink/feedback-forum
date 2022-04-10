@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "FeedbackFor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "FeedbackForumUnitTests\UnitTest.csproj", "{8D46174F-F525-488B-84C1-7B0624E1FE76}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Access", "Data Access\Data Access.csproj", "{3C5378B9-2922-475B-9A51-745D8562F8BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Access", "Data Access\Data Access.csproj", "{3C5378B9-2922-475B-9A51-745D8562F8BE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{0D06CBCC-0C6C-4E88-AE09-4BD0502F4A9A}"
 EndProject

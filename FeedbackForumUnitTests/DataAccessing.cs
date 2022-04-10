@@ -16,14 +16,14 @@ namespace FeedbackForumUnitTests
             // Arrange
             Post post = new Post(new PostSTUB(), "Test Post", DateTime.Now, new List<Comment>(), 0,
                 new Category(new CategorySTUB(), "", new List<Logic.Attribute>()), new Dictionary<Logic.Attribute, string>());
-            int savedID;
+            int rowsSaved;
+            int expectedRowsSaved = 1;
 
             // Act
-            savedID = post.Upload();
-            bool succesfullySaved = savedID > 0;
+            rowsSaved = post.Upload();
 
             // Assert
-            Assert.IsTrue(succesfullySaved, "No rows have been saved.");
+            Assert.AreEqual(expectedRowsSaved, rowsSaved, "Either none or too many rows have been saved");
 
         }
 
@@ -34,25 +34,26 @@ namespace FeedbackForumUnitTests
             int minimum = 1;
 
             // Act
-            PostContainer container = new PostContainer();
+            PostContainer container = new PostContainer(new PostSTUB());
 
             // Assert
-            Assert.IsTrue(container.GetAll().Count >= minimum, "No posts have been retrieved. Is the database empty?");
+            Assert.IsTrue(container.GetAll().Count >= minimum, "No posts have been retrieved.");
         }
 
         [TestMethod]
         public void DeletePost()
         {
             // Arrange
-            PostContainer container = new PostContainer();
-            int idToDelete = 71;
+            Post post = new Post(new PostSTUB(), "Edited Test Post", DateTime.Now, new List<Comment>(), 0,
+                new Category(new CategorySTUB(), "", new List<Logic.Attribute>()), new Dictionary<Logic.Attribute, string>(), 1);
             int rowsDeleted;
+            int expectedRowsDeleted = 1;
 
             // Act
-            rowsDeleted = container.Delete(idToDelete);
+            //rowsDeleted = post.Delete();
 
             // Assert
-            Assert.AreEqual(1, rowsDeleted, "No rows or more than one row have been deleted. Is ID present in Database?");
+            Assert.AreEqual(expectedRowsDeleted, rowsDeleted, "Either none or too many rows have been deleted.");
         }
 
         [TestMethod]
