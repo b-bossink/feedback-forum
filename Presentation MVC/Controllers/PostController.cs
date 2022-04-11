@@ -24,6 +24,7 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult ViewPost(int postId)
         {
+            // test comment
             PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
             PostViewModel postModel;
             foreach (Post post in container.GetAll())
