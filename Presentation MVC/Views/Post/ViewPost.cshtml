@@ -27,11 +27,12 @@
         <input type="hidden" name="postId" value="@Model.ID" />
         <button type="submit">Send</button>
     </form>
-
+    
     <br />
     @foreach (CommentViewModel comment in Model.Comments)
     {
         <a>username</a>
+        <p>@comment.CreationDate.ToString()</p>
         <p>@comment.Text</p>
         <div class="row">
             <button class="col-6">Bewerken</button>
