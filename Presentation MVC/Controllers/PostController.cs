@@ -24,7 +24,6 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult ViewPost(int postId)
         {
-            Debug.WriteLine($"Clicked on post with ID {postId}");
             PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
             PostViewModel postModel;
             foreach (Post post in container.GetAll())
