@@ -24,19 +24,18 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult ViewPost(int postId)
         {
-            // test comment :)
             PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
             PostViewModel postModel;
-            foreach (Post post in container.GetAll())
+            try
             {
-                if (post.ID == postId)
-                {
-                    postModel = ModelConverter.ToViewModel(post);
-                    return View(postModel);
-                }
+                postModel = ModelConverter.ToViewModel(container.Get(postId));
+                return View(postModel);
             }
-            ViewBag.ErrorMessage = "ERROR: Post not found.";
-            return RedirectToAction("Error", "Home");
+            catch
+            {
+                ViewBag.ErrorMessage = "ERROR: Post not found.";
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         public IActionResult Create(int categoryId)
@@ -89,6 +88,19 @@ namespace Presentation_MVC.Controllers
             return View(categoryModels);
         }
 
-        
+        [HttpPost]
+        public IActionResult Comment(int postId, string text)
+        {
+            Comment comment = new Comment(
+                new DALFactory().GetCommentDAL(),
+                text,
+                DateTime.Now,
+                0,
+                new List<Comment>()
+                );
+
+            comment.Upload(postId);
+            return RedirectToAction("ViewPost", new { postId = postId });
+        }
     }
 }

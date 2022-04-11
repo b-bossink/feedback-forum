@@ -13,9 +13,30 @@
     </div>
 
     @foreach (PostAttributeViewModel attribute in Model.AttributesWithValue)
-    { 
+    {
         <h2>@(attribute.Name)</h2>
         <p>@(attribute.Value)</p>
+    }
+    <div class="row">
+        <button class="col-6">Bewerken</button>
+        <button class="col-6">Verwijderen</button>
+    </div>
+    <h2>Comments</h2>
+    <form method="post" asp-action="Comment" asp-controller="Post">
+        <textarea name="text"></textarea>
+        <input type="hidden" name="postId" value="@Model.ID" />
+        <button type="submit">Send</button>
+    </form>
+
+    <br />
+    @foreach (CommentViewModel comment in Model.Comments)
+    {
+        <a>username</a>
+        <p>@comment.Text</p>
+        <div class="row">
+            <button class="col-6">Bewerken</button>
+            <button class="col-6">Verwijderen</button>
+        </div>
     }
 </div>
 

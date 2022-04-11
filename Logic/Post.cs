@@ -30,7 +30,7 @@ namespace Logic
             ValuesByAttributes = valuesByAttribute;
         }
 
-        public Post(IPostDAL dal, ICategoryDAL categoryDAL, PostDTO dto)
+        public Post(IPostDAL dal, ICategoryDAL categoryDAL, ICommentDAL commentDAL, PostDTO dto)
         {
             DAL = dal;
             ID = dto.ID;
@@ -40,7 +40,7 @@ namespace Logic
             Comments = new List<Comment>();
             foreach(CommentDTO commentDTO in dto.Comments)
             {
-                Comments.Add(new Comment(commentDTO));
+                Comments.Add(new Comment(commentDAL, commentDTO));
             }
             Category = new Category(categoryDAL, dto.Category);
             ValuesByAttributes = new Dictionary<Attribute, string>();
@@ -55,6 +55,11 @@ namespace Logic
             return DAL.Upload(ToDTO());
         }
 
+        public int Update()
+        {
+            return DAL.Update(ToDTO());
+        }
+        
         private PostDTO ToDTO()
         {
             List<CommentDTO> comments = new List<CommentDTO>();

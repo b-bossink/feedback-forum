@@ -93,4 +93,6 @@ body {
 .postHead {
     background-color: lightgray;
     border-color: black;
+    border-style: solid;
+    border-width: 1.3px;
 }

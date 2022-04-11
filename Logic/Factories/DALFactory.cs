@@ -13,5 +13,10 @@ namespace Logic.Factories
         {
             return new CategoryDAL();
         }
+
+        public CommentDAL GetCommentDAL()
+        {
+            return new CommentDAL();
+        }
     }
 }

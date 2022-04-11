@@ -1,4 +1,5 @@
 ﻿using Data_Access;
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,9 +13,11 @@ namespace Logic
         public DateTime CreationDate { get; private set; }
         public int Upvotes { get; private set; }
         public List<Comment> Replies { get; private set; }
+        private ICommentDAL DAL;
 
-        public Comment(string text, DateTime creationDate, int upvotes, List<Comment> replies, int id = -1)
+        public Comment(ICommentDAL dal, string text, DateTime creationDate, int upvotes, List<Comment> replies, int id = -1)
         {
+            DAL = dal;
             ID = id;
             Text = text;
             CreationDate = creationDate;
@@ -22,8 +25,9 @@ namespace Logic
             Replies = replies;
         }
 
-        public Comment(CommentDTO dto)
+        public Comment(ICommentDAL dal, CommentDTO dto)
         {
+            DAL = dal;
             ID = dto.ID;
             Text = dto.Text;
             CreationDate = dto.CreationDate;
@@ -31,8 +35,13 @@ namespace Logic
             Replies = new List<Comment>();
             foreach (CommentDTO replyDTO in dto.Replies)
             {
-                Replies.Add(new Comment(replyDTO));
+                Replies.Add(new Comment(dal, replyDTO));
             }
+        }
+
+        public int Upload(int postID, int? parentCommentID = null)
+        {
+            return DAL.Upload(ToDTO(), postID, parentCommentID);
         }
 
         public CommentDTO ToDTO()

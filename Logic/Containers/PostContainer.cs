@@ -20,7 +20,7 @@ namespace Logic.Containers
             List<Post> result = new List<Post>();
             foreach (PostDTO dto in DAL.LoadAll())
             {
-                result.Add(new Post(new PostDAL(), new CategoryDAL(), dto));
+                result.Add(new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), dto));
             }
             return result;
         }
@@ -29,7 +29,7 @@ namespace Logic.Containers
         {
             foreach (PostDTO dto in DAL.LoadAll())
             {
-                Post post = new Post(new PostDAL(), new CategoryDAL(), dto);
+                Post post = new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), dto);
                 if (post.ID == id)
                 {
                     return post;
@@ -37,7 +37,7 @@ namespace Logic.Containers
             }
             return null;
         }
-
+        
         public int Delete(int id)
         {
             return DAL.Delete(id);

@@ -1,12 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Text;
+using Interfaces;
 
 namespace Data_Access
 {
-    class CommentDAL : MSSQLConnection
+    public class CommentDAL : MSSQLConnection, ICommentDAL
     {
+        public int Upload(CommentDTO comment, int parentPostID, int? parentCommentID = null)
+        {
+            object nullableParentCommentID = parentCommentID;
+            if (parentCommentID == null)
+            {
+                nullableParentCommentID = Convert.DBNull;
+            }
+
+            OpenConnection();
+            string query = "insert into Comment (post_id,user_id,text,upvotes,creation_date, parent_comment_id) values" +
+                 $"(@PostID, @UserID, @Text, @Upvotes, @CreationDate, @ParentCommentID)";
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            cmd.Parameters.Add(new SqlParameter("@PostID", parentPostID));
+            cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+            cmd.Parameters.Add(new SqlParameter("@Text", comment.Text));
+            cmd.Parameters.Add(new SqlParameter("@Upvotes", comment.Upvotes));
+            cmd.Parameters.Add(new SqlParameter("@CreationDate",
+                comment.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
+            cmd.Parameters.Add(new SqlParameter("@ParentCommentID", nullableParentCommentID));
+
+            int savedRows = cmd.ExecuteNonQuery();
+            return savedRows;
+        }
+
         public List<CommentDTO> GetFromPost(int postID)
         {
             string query = $"SELECT * FROM Comment WHERE post_id = {postID}";
@@ -107,5 +134,14 @@ namespace Data_Access
             return finalResult;
         }
 
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(CommentDTO comment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

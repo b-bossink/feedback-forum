@@ -142,7 +142,9 @@ namespace Presentation_MVC.Converters
             {
                 replies.Add(ToComment(commentModel));
             }
+            DALFactory factory = new DALFactory();
             return new Comment(
+                factory.GetCommentDAL(),
                 model.Text,
                 model.CreationDate,
                 model.Upvotes,

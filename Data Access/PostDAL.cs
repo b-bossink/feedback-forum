@@ -15,46 +15,41 @@ namespace Data_Access
 
         public int Upload(PostDTO post)
         {
-            int updated = 0;
-            if (Exists(post.ID))
+            
+            OpenConnection();
+            
+            string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
+                $"(@CategoryID, @UserID, @Name, @Upvotes, @Date) SELECT SCOPE_IDENTITY();";
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            cmd.Parameters.Add(new SqlParameter("@Name", post.Name));
+            cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
+            cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+            cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
+            cmd.Parameters.Add(new SqlParameter("@Date",
+                post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
+
+
+            int savedRows = 0;
+            int thisPostID = -1;
+            using (SqlDataReader reader = cmd.ExecuteReader())
             {
-                updated = Update(post);
-            } else
-            {
-                OpenConnection();
-                
-                string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
-                    $"(@CategoryID, @UserID, @Name, @Upvotes, @Date) SELECT SCOPE_IDENTITY();";
-                SqlCommand cmd = new SqlCommand(query, connection);
-
-                cmd.Parameters.Add(new SqlParameter("@Name", post.Name));
-                cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
-                cmd.Parameters.Add(new SqlParameter("@UserID", 1));
-                cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
-                cmd.Parameters.Add(new SqlParameter("@Date",
-                    post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
-
-                int thisPostID = -1;
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        thisPostID = Convert.ToInt32(reader.GetValue(0));
-                    }
+                    thisPostID = Convert.ToInt32(reader.GetValue(0));
+                    savedRows++;
                 }
-
-                foreach (KeyValuePair<AttributeDTO,string> valuesByAttribute in post.ValuesByAttributes)
-                {
-                    string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values ({thisPostID}, '{valuesByAttribute.Key.ID}', '{valuesByAttribute.Value}')";
-                    SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
-                    cmd2.ExecuteNonQuery();
-                }
-                
-                CloseConnection();
-                return thisPostID;
             }
 
-            return updated;
+            foreach (KeyValuePair<AttributeDTO,string> valuesByAttribute in post.ValuesByAttributes)
+            {
+                string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values ({thisPostID}, '{valuesByAttribute.Key.ID}', '{valuesByAttribute.Value}')";
+                SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
+                cmd2.ExecuteNonQuery();
+            }
+            
+            CloseConnection();
+            return savedRows;
         }
 
         public List<PostDTO> LoadAll()
@@ -140,12 +135,12 @@ namespace Data_Access
         public int Update(PostDTO post)
         {
             OpenConnection();
-            string query = $"UPDATE table_name SET " +
+            string query = $"UPDATE Post SET " +
                 $"title = @Name, " +
                 $"category_id = @CategoryID, " +
-                $"user_id = @UserID" +
-                $"creation_date = @Date" +
-                $"upvotes = @Upvotes" +
+                $"user_id = @UserID, " +
+                $"creation_date = @Date, " +
+                $"upvotes = @Upvotes " +
                 $"WHERE id = @ID";
 
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -157,6 +152,8 @@ namespace Data_Access
             cmd.Parameters.Add(new SqlParameter("@Date",
                 post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
             int result = cmd.ExecuteNonQuery();
+            CloseConnection();
+
             return result;
         }
 
