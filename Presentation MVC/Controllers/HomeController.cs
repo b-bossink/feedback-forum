@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
 using Presentation_MVC.Models;
+using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

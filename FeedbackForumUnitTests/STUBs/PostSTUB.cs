@@ -1,4 +1,5 @@
 ﻿using Data_Access;
+using Data_Access.DTOs;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,8 @@ namespace UnitTest.STUBs
             };
 
             Dictionary<AttributeDTO, string> attributeDict = new Dictionary<AttributeDTO, string>();
-            attributeDict.Add(attributes[1], "My first value!");
-            attributeDict.Add(attributes[2], "Another value!!");
+            attributeDict.Add(attributes[0], "My first value!");
+            attributeDict.Add(attributes[1], "Another value!!");
 
             List<PostDTO> result = new List<PostDTO>()
             {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data_Access
+namespace Data_Access.DTOs
 {
     public struct CommentDTO
     {
@@ -11,5 +11,6 @@ namespace Data_Access
         public DateTime CreationDate;
         public int Upvotes;
         public List<CommentDTO> Replies;
+        public MemberDTO Owner;
     }
 }

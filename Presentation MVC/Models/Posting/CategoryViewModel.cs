@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Presentation_MVC.Models
+namespace Presentation_MVC.Models.Posting
 {
     public class CategoryViewModel
     {

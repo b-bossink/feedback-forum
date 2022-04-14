@@ -1,6 +1,7 @@
 ﻿using Logic;
 using Logic.Factories;
 using Presentation_MVC.Models;
+using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
 namespace Presentation_MVC.Converters

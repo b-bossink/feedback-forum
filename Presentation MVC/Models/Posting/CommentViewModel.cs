@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Presentation_MVC.Models.Users;
 
-namespace Presentation_MVC.Models
+namespace Presentation_MVC.Models.Posting
 {
     public class CommentViewModel
     {
@@ -10,6 +11,7 @@ namespace Presentation_MVC.Models
         public DateTime CreationDate { get; set; }
         public int Upvotes { get; set; }
         public List<CommentViewModel> Replies { get; set; }
+        public MemberViewModel Owner { get; set; }
     }
 }
 

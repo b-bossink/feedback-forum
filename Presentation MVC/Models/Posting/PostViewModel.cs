@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Presentation_MVC.Models.Users;
 
-namespace Presentation_MVC.Models
+namespace Presentation_MVC.Models.Posting
 {
     public class PostViewModel
     {
@@ -13,5 +14,6 @@ namespace Presentation_MVC.Models
         public List<CommentViewModel> Comments { get; set; }
         //public Dictionary<AttributeViewModel, string> ValuesByAttributes { get; set; }
         public List<PostAttributeViewModel> AttributesWithValue { get; set; }
+        public MemberViewModel Owner { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Data_Access;
+using Data_Access.DTOs;
 using Interfaces;
+using Logic.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +15,7 @@ namespace Logic
         public DateTime CreationDate { get; private set; }
         public int Upvotes { get; private set; }
         public List<Comment> Replies { get; private set; }
+        public Member Owner { get; private set; }
         private ICommentDAL DAL;
 
         public Comment(ICommentDAL dal, string text, DateTime creationDate, int upvotes, List<Comment> replies, int id = -1)
@@ -39,7 +42,12 @@ namespace Logic
             }
         }
 
-        public int Upload(int postID, int? parentCommentID = null)
+        public int Upload(int postID)
+        {
+            return DAL.Upload(ToDTO(), postID);
+        }
+
+        public int Upload(int postID, int parentCommentID)
         {
             return DAL.Upload(ToDTO(), postID, parentCommentID);
         }

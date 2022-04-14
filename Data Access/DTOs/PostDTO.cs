@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data_Access
+namespace Data_Access.DTOs
 {
     public struct PostDTO
     {
@@ -13,5 +13,6 @@ namespace Data_Access
         public CategoryDTO Category;
         public List<CommentDTO> Comments;
         public Dictionary<AttributeDTO, string> ValuesByAttributes;
+        public MemberDTO Owner;
     }
 }

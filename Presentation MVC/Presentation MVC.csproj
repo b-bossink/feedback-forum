@@ -18,5 +18,13 @@
 
   <ItemGroup>
     <None Remove="Microsoft.NET.Test.Sdk" />
+    <None Remove="Views\Account\" />
+    <None Remove="Models\Users\" />
+    <None Remove="Models\Posts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
+    <Folder Include="Models\Users\" />
+    <Folder Include="Models\Posting\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿
+using Data_Access.DTOs;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Data_Access
     {
         private CategoryDAL categoryDAL = new CategoryDAL();
         private CommentDAL commentDAL = new CommentDAL();
+        private MemberDAL memberDAL = new MemberDAL();
 
         public int Upload(PostDTO post)
         {
@@ -26,8 +28,7 @@ namespace Data_Access
             cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
             cmd.Parameters.Add(new SqlParameter("@UserID", 1));
             cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
-            cmd.Parameters.Add(new SqlParameter("@Date",
-                post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
+            cmd.Parameters.Add(new SqlParameter("@Date", post.CreationDate.ToString("MM/dd/yyyy HH:mm:ss")));
 
 
             int savedRows = 0;
@@ -63,6 +64,7 @@ namespace Data_Access
             List<PostDTO> firstResult = new List<PostDTO>();
             int id = -1;
             List<int> categoryIDs = new List<int>();
+            int ownerId = -1;
 
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
@@ -73,6 +75,7 @@ namespace Data_Access
                     DateTime creationDate = (DateTime)reader["creation_date"];
                     categoryIDs.Add(Convert.ToInt32(reader["category_id"]));
                     int upvotes = Convert.ToInt32(reader["upvotes"]);
+                    ownerId = Convert.ToInt32(reader["user_id"]);
 
                     PostDTO post = new PostDTO
                     {
@@ -107,7 +110,8 @@ namespace Data_Access
                     CreationDate = firstResult[i].CreationDate,
                     Comments = commentDAL.GetFromPost(firstResult[i].ID),
                     Category = category,
-                    ValuesByAttributes = valuesByAttributes
+                    ValuesByAttributes = valuesByAttributes,
+                    Owner = memberDAL.Get(ownerId)
                 };
 
             }
@@ -147,7 +151,7 @@ namespace Data_Access
             cmd.Parameters.Add(new SqlParameter("@ID", post.ID));
             cmd.Parameters.Add(new SqlParameter("@Name", post.Name));
             cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
-            cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+            cmd.Parameters.Add(new SqlParameter("@UserID", post.Owner.ID));
             cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
             cmd.Parameters.Add(new SqlParameter("@Date",
                 post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
@@ -178,25 +182,6 @@ namespace Data_Access
 
             CloseConnection();
 
-            return result;
-        }
-        
-        private bool Exists(int postID)
-        {
-            OpenConnection();
-
-            string query = $"SELECT * FROM Post WHERE id = {postID}";
-            SqlCommand cmd = new SqlCommand(query, connection);
-
-            bool result = false;
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    result = reader.HasRows;
-                }
-            }
-            CloseConnection();
             return result;
         }
     }

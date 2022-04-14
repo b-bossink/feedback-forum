@@ -1,4 +1,6 @@
 ﻿using Data_Access;
+using Data_Access.DTOs;
+using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +9,11 @@ namespace Logic.Containers
 {
     public class CategoryContainer
     {
-        private CategoryDAL DAL = new CategoryDAL();
+        private ICategoryDAL DAL;
 
-        public CategoryContainer()
+        public CategoryContainer(ICategoryDAL dal)
         {
+            DAL = dal;
         }
 
         public List<Category> GetAll()

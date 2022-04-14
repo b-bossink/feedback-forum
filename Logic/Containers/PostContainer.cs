@@ -1,4 +1,5 @@
 ﻿using Data_Access;
+using Data_Access.DTOs;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Logic.Containers
             List<Post> result = new List<Post>();
             foreach (PostDTO dto in DAL.LoadAll())
             {
-                result.Add(new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), dto));
+                result.Add(new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto));
             }
             return result;
         }
@@ -29,7 +30,7 @@ namespace Logic.Containers
         {
             foreach (PostDTO dto in DAL.LoadAll())
             {
-                Post post = new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), dto);
+                Post post = new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto);
                 if (post.ID == id)
                 {
                     return post;

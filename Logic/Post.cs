@@ -1,5 +1,8 @@
 ﻿using Data_Access;
+using Data_Access.DTOs;
+using Data_Access.Interfaces;
 using Interfaces;
+using Logic.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +18,8 @@ namespace Logic
         public int Upvotes { get; private set; }
         public Category Category { get; private set; }
         public Dictionary<Attribute,string> ValuesByAttributes { get; private set; }
+        public Member Owner { get; private set; }
+
         private IPostDAL DAL;
 
         public Post(IPostDAL dal, string name, DateTime creationDate, List<Comment> comments, int upvotes,
@@ -28,9 +33,10 @@ namespace Logic
             Comments = comments;
             Category = category;
             ValuesByAttributes = valuesByAttribute;
+            Owner = new Member(new MemberDAL(), new MemberDTO());
         }
 
-        public Post(IPostDAL dal, ICategoryDAL categoryDAL, ICommentDAL commentDAL, PostDTO dto)
+        public Post(IPostDAL dal, ICategoryDAL categoryDAL, ICommentDAL commentDAL, IMemberDAL memberDAL, PostDTO dto)
         {
             DAL = dal;
             ID = dto.ID;
@@ -48,6 +54,7 @@ namespace Logic
             {
                 ValuesByAttributes.Add(new Attribute(kvp.Key), kvp.Value);
             }
+            Owner = new Member(memberDAL, dto.Owner);
         }
 
         public int Upload()
@@ -60,7 +67,7 @@ namespace Logic
             return DAL.Update(ToDTO());
         }
         
-        private PostDTO ToDTO()
+        public PostDTO ToDTO()
         {
             List<CommentDTO> comments = new List<CommentDTO>();
             foreach(Comment comment in Comments)

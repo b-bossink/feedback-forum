@@ -2,33 +2,44 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Text;
+using Data_Access.DTOs;
 using Interfaces;
 
 namespace Data_Access
 {
     public class CommentDAL : MSSQLConnection, ICommentDAL
     {
-        public int Upload(CommentDTO comment, int parentPostID, int? parentCommentID = null)
+        public int Upload(CommentDTO comment, int postID)
         {
-            object nullableParentCommentID = parentCommentID;
-            if (parentCommentID == null)
-            {
-                nullableParentCommentID = Convert.DBNull;
-            }
+            OpenConnection();
+            string query = "insert into Comment (post_id,user_id,text,upvotes,creation_date) values" +
+                 $"(@PostID, @UserID, @Text, @Upvotes, @CreationDate)";
+            SqlCommand cmd = new SqlCommand(query, connection);
 
+            cmd.Parameters.Add(new SqlParameter("@PostID", postID));
+            cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+            cmd.Parameters.Add(new SqlParameter("@Text", comment.Text));
+            cmd.Parameters.Add(new SqlParameter("@Upvotes", comment.Upvotes));
+            cmd.Parameters.Add(new SqlParameter("@CreationDate", comment.CreationDate.ToString("MM/dd/yyyy HH:mm:ss")));
+
+            int savedRows = cmd.ExecuteNonQuery();
+            return savedRows;
+        }
+
+
+        public int Upload(CommentDTO comment, int postID, int parentCommentID)
+        {
             OpenConnection();
             string query = "insert into Comment (post_id,user_id,text,upvotes,creation_date, parent_comment_id) values" +
                  $"(@PostID, @UserID, @Text, @Upvotes, @CreationDate, @ParentCommentID)";
             SqlCommand cmd = new SqlCommand(query, connection);
 
-            cmd.Parameters.Add(new SqlParameter("@PostID", parentPostID));
+            cmd.Parameters.Add(new SqlParameter("@PostID", postID));
             cmd.Parameters.Add(new SqlParameter("@UserID", 1));
             cmd.Parameters.Add(new SqlParameter("@Text", comment.Text));
             cmd.Parameters.Add(new SqlParameter("@Upvotes", comment.Upvotes));
-            cmd.Parameters.Add(new SqlParameter("@CreationDate",
-                comment.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
-            cmd.Parameters.Add(new SqlParameter("@ParentCommentID", nullableParentCommentID));
+            cmd.Parameters.Add(new SqlParameter("@CreationDate", comment.CreationDate.ToString("MM/dd/yyyy HH:mm:ss")));
+            cmd.Parameters.Add(new SqlParameter("@ParentCommentID", parentCommentID));
 
             int savedRows = cmd.ExecuteNonQuery();
             return savedRows;
@@ -78,7 +89,7 @@ namespace Data_Access
             return finalResult;
         }
 
-        private List<CommentDTO> GetFromComment(int parentCommentID)
+        public List<CommentDTO> GetFromComment(int parentCommentID)
         {
             string query = $"SELECT * FROM Comment WHERE parent_comment_id = {parentCommentID}";
             OpenConnection();

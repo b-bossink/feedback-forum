@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data_Access
+namespace Data_Access.DTOs
 {
     public struct AttributeDTO
     {

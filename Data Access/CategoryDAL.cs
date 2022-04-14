@@ -1,4 +1,5 @@
 ﻿
+using Data_Access.DTOs;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -71,29 +72,6 @@ namespace Data_Access
             CloseConnection();
             return saved;
         }
-        private List<AttributeDTO> LoadAttributes(int categoryID)
-            {
-            OpenConnection();
-
-            string query = $"SELECT * FROM Attribute WHERE category_id = {categoryID}";
-            SqlCommand cmd = new SqlCommand(query, connection);
-            List<AttributeDTO> result = new List<AttributeDTO>();
-
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    result.Add(new AttributeDTO
-                    {
-                        ID = Convert.ToInt32(reader["id"]),
-                        Name = reader["name"].ToString()
-                    });
-                }
-            }
-
-            CloseConnection();
-            return result;
-        }
         public CategoryDTO Load(int id)
         {
             OpenConnection();
@@ -125,6 +103,30 @@ namespace Data_Access
                 Name = firstResult.Name,
                 Attributes = LoadAttributes(firstResult.ID)
             };
+        }
+
+        private List<AttributeDTO> LoadAttributes(int categoryID)
+        {
+            OpenConnection();
+
+            string query = $"SELECT * FROM Attribute WHERE category_id = {categoryID}";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            List<AttributeDTO> result = new List<AttributeDTO>();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    result.Add(new AttributeDTO
+                    {
+                        ID = Convert.ToInt32(reader["id"]),
+                        Name = reader["name"].ToString()
+                    });
+                }
+            }
+
+            CloseConnection();
+            return result;
         }
     }
 }

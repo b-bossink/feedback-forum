@@ -1,4 +1,5 @@
 ﻿using Data_Access;
+using Data_Access.DTOs;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -31,10 +32,12 @@ namespace Logic
                 Attributes.Add(new Attribute(attributeDTO));
             }
         }
+
         public bool Upload()
         {
             return DAL.Upload(ToDTO());
         }
+
         public CategoryDTO ToDTO()
         {
             List<AttributeDTO> attributes = new List<AttributeDTO>();

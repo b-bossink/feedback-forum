@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Presentation_MVC.Models
+namespace Presentation_MVC.Models.Posting
 {
     public class PostAttributeViewModel
     {

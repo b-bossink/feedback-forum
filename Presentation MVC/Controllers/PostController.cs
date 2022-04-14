@@ -1,15 +1,15 @@
 ﻿using Logic;
 using Logic.Containers;
 using Logic.Factories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
-using Presentation_MVC.Models;
+using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace Presentation_MVC.Controllers
 {
@@ -40,7 +40,7 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult Create(int categoryId)
         {
-            CategoryContainer container = new CategoryContainer();
+            CategoryContainer container = new CategoryContainer(new DALFactory().GetCategoryDAL());
             foreach (Category category in container.GetAll())
             {
                 if (category.ID == categoryId)
@@ -79,7 +79,7 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult SelectCategory()
         {
-            CategoryContainer container = new CategoryContainer();
+            CategoryContainer container = new CategoryContainer(new DALFactory().GetCategoryDAL());
             List<CategoryViewModel> categoryModels = new List<CategoryViewModel>();
             foreach (Category category in container.GetAll())
             {
