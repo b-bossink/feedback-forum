@@ -17,9 +17,14 @@ namespace FeedbackForumUnitTests
             // Arrange
 
             Category category = new Category(new CategorySTUB(), "", new List<Logic.Attribute>());
+            Dictionary<Logic.Attribute, string> attributes = new Dictionary<Logic.Attribute, string>();
+            foreach (Logic.Attribute attribute in category.Attributes)
+            {
+                attributes.Add(attribute, "Testwaarde");
+            }
 
             Post post = new Post(new PostSTUB(), "Test Post", DateTime.Now, new List<Comment>(), 0,
-                category, new Dictionary<Logic.Attribute, string>());
+                category, attributes);
             int rowsSaved;
             int expectedRowsSaved = 1;
 
