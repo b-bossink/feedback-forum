@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
 using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
+using Presentation_MVC.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,6 +34,7 @@ namespace Presentation_MVC.Controllers
             }
             return View(postModels);
         }
+
         public IActionResult Privacy()
         {
             return View();

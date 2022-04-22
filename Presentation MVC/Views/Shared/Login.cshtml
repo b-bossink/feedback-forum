@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Select Category";
+}
+@model Presentation_MVC.Models.Users.MemberViewModel
+
+<div>
+    <form asp-controller="Account" asp-action="Login" method="post">
+        <p class="text-danger">@ViewBag.InvalidCredentialsMessage</p>
+        Username
+        <input type="text" asp-for="Username"/>
+        <br /> <br />
+        Password
+        <input type="password" asp-for="Password" />
+        <input type="submit" value="Login" />
+    </form>
+    <p>Don't have an account? <a asp-controller="Account" asp-action="Register">Sign up here!</a></p>
+</div>
+

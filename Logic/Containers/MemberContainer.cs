@@ -15,13 +15,25 @@ namespace Logic.Containers
         public Member Get(string username, string password)
         {
             Member member = new Member(DAL, DAL.Get(username, password));
-            if (member.ID > 0)
-            {
-                return null;
-            }
-
             return member;
+        }
 
+        public Member Get(int id)
+        {
+            return new Member(DAL, DAL.Get(id));
+        }
+
+        public bool ValidateCredentials(string username, string password)
+        {
+            try
+            {
+                Get(username, password);
+            }
+            catch (System.Security.Authentication.InvalidCredentialException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

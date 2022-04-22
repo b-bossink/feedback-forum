@@ -19,7 +19,38 @@ namespace Data_Access
 
         public MemberDTO Get(string username, string password)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM [User] WHERE Username = @Username AND Password = @Password";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.Add(new SqlParameter("@Username", username));
+            cmd.Parameters.Add(new SqlParameter("@Password", password));
+
+            MemberDTO member = new MemberDTO();
+
+            if (username != null && password != null)
+            {
+                OpenConnection();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        member = new MemberDTO
+                        {
+                            ID = (int)reader["id"],
+                            Username = (string)reader["username"],
+                            Emailaddress = (string)reader["email"],
+                            Password = (string)reader["password"]
+                        };
+                    }
+                }
+                CloseConnection();
+            }
+
+            if (member.ID == 0)
+            {
+                throw new System.Security.Authentication.InvalidCredentialException("Incorrect combination of username and password.");
+            }
+
+            return member;
         }
 
         public MemberDTO Get(int id)

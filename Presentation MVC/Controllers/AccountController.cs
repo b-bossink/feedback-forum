@@ -1,4 +1,5 @@
-﻿using Logic.Containers;
+﻿using System.Security.Authentication;
+using Logic.Containers;
 using Logic.Factories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,23 +13,21 @@ namespace Presentation_MVC.Controllers
     {
         public IActionResult Index()
         {
-            return View("Login");
+            return RedirectToAction("Login");
         }
 
-        public IActionResult Login(string nextView)
+        public IActionResult Login()
         {
             ISession session = HttpContext.Session;
             string username = SessionExtensions.GetString(session, "Username");
             string password = SessionExtensions.GetString(session, "Password");
             MemberContainer container = new MemberContainer(new DALFactory().GetMemberDAL());
 
-            bool valid = container.Get(username, password) != null;
 
-            if (!valid)
+            if (container.ValidateCredentials(username, password))
             {
-                return View(nextView);
+                return RedirectToAction("Index", "Home");
             }
-
             return View();
         }
 
@@ -36,15 +35,23 @@ namespace Presentation_MVC.Controllers
         public IActionResult Login(MemberViewModel model)
         {
             ISession session = HttpContext.Session;
-            SessionExtensions.SetString(session, "Username", model.Username);
-            SessionExtensions.SetString(session, "Password", model.Password);
-            
-            return View();
+            MemberContainer container = new MemberContainer(new DALFactory().GetMemberDAL());
+
+            if (container.ValidateCredentials(model.Username, model.Password))
+            {
+                SessionExtensions.SetString(session, "Username", model.Username);
+                SessionExtensions.SetString(session, "Password", model.Password);
+
+                return RedirectToAction("Index");
+            }
+            ViewBag.InvalidCredentialsMessage = "User not found. Please try again.";
+            return View(model);
         }
 
-        public IActionResult ViewAfterValidating(string view, string controller)
+        public IActionResult Register()
         {
-            return RedirectToAction(view, controller);
+            return RedirectToAction("Index");
         }
+
     }
 }
