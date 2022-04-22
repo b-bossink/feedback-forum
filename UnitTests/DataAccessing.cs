@@ -5,6 +5,8 @@ using System;
 using Logic.Containers;
 using UnitTest.STUBs;
 using Logic.Users;
+using Interfaces.DTOs;
+using System.Diagnostics;
 
 namespace FeedbackForumUnitTests
 {
@@ -15,7 +17,6 @@ namespace FeedbackForumUnitTests
         public void SavePost()
         {
             // Arrange
-
             Category category = new Category(new CategorySTUB(), "", new List<Logic.Attribute>());
             Dictionary<Logic.Attribute, string> attributes = new Dictionary<Logic.Attribute, string>();
             foreach (Logic.Attribute attribute in category.Attributes)
@@ -23,7 +24,8 @@ namespace FeedbackForumUnitTests
                 attributes.Add(attribute, "Testwaarde");
             }
 
-            Post post = new Post(new PostSTUB(), "Test Post", DateTime.Now, new List<Comment>(), 0,
+            PostSTUB stub = new PostSTUB();
+            Post post = new Post(stub, "Test Post", DateTime.Now, new List<Comment>(), 0,
                 category, attributes);
             int rowsSaved;
             int expectedRowsSaved = 1;
@@ -32,9 +34,8 @@ namespace FeedbackForumUnitTests
             rowsSaved = post.Upload();
 
             // Assert
-            Assert.AreEqual(expectedRowsSaved, rowsSaved, "Either none or too many rows have been saved");
-            // verstuurde data checken in stub
-
+            Assert.AreEqual(expectedRowsSaved, rowsSaved, "Either none or too many rows have been saved.");
+            Assert.IsTrue(stub.database.Contains(post.ToDTO()), "Inserted post could not be found in STUB.");
         }
 
         [TestMethod]

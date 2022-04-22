@@ -9,7 +9,7 @@ namespace UnitTest.STUBs
 {
     class PostSTUB : IPostDAL
     {
-        private List<PostDTO> database;
+        public List<PostDTO> database;
 
         public PostSTUB()
         {
