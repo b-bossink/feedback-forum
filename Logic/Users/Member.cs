@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Data_Access;
-using Data_Access.DTOs;
-using Data_Access.Interfaces;
+using Interfaces;
+using Interfaces.DTOs;
 
 namespace Logic.Users
 {

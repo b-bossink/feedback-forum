@@ -1,6 +1,5 @@
-﻿
-using Data_Access.DTOs;
-using Interfaces;
+﻿using Interfaces;
+using Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

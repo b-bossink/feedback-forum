@@ -1,7 +1,7 @@
 ﻿using System;
-using Data_Access.DTOs;
-using Data_Access.Interfaces;
 using System.Data.SqlClient;
+using Interfaces;
+using Interfaces.DTOs;
 
 namespace Data_Access
 {

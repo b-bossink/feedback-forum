@@ -1,5 +1,5 @@
 ﻿using System;
-using Data_Access.Interfaces;
+using Interfaces;
 using Logic.Users;
 
 namespace Logic.Containers

@@ -1,7 +1,6 @@
 ﻿using Data_Access;
-using Data_Access.DTOs;
-using Data_Access.Interfaces;
 using Interfaces;
+using Interfaces.DTOs;
 using Logic.Users;
 using System;
 using System.Collections.Generic;

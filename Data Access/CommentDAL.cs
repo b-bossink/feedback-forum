@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
-using Data_Access.DTOs;
 using Interfaces;
+using Interfaces.DTOs;
 
 namespace Data_Access
 {

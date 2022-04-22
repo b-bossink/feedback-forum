@@ -1,6 +1,6 @@
 ﻿using System;
-using Data_Access.DTOs;
-using Data_Access.Interfaces;
+using Interfaces;
+using Interfaces.DTOs;
 
 namespace UnitTest.STUBs
 {

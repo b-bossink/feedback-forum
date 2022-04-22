@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Data_Access.DTOs;
+using Interfaces.DTOs;
 
-namespace Data_Access.Interfaces
+namespace Interfaces
 {
     public interface IMemberDAL
     {
