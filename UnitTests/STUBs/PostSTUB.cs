@@ -13,11 +13,6 @@ namespace UnitTest.STUBs
 
         public PostSTUB()
         {
-            database = LoadAll();
-        }
-
-        public List<PostDTO> LoadAll()
-        {
             List<AttributeDTO> attributes = new List<AttributeDTO>()
             {
                 new AttributeDTO()
@@ -65,7 +60,12 @@ namespace UnitTest.STUBs
                 }
             };
 
-            return result;
+            database = result;
+        }
+
+        public List<PostDTO> LoadAll()
+        {
+            return database;
         }
 
         public int Upload(PostDTO postDTO)
