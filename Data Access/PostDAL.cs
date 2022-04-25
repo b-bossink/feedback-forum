@@ -62,61 +62,40 @@ namespace Data_Access
             SqlCommand cmd = new SqlCommand(query, connection);
 
 
-            List<PostDTO> firstResult = new List<PostDTO>();
-            int id = -1;
-            List<int> categoryIDs = new List<int>();
-            int ownerId = -1;
+            List<PostDTO> result = new List<PostDTO>();
+
 
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    id = Convert.ToInt32(reader["id"]);
-                    string name = reader["title"].ToString();
-                    DateTime creationDate = (DateTime)reader["creation_date"];
-                    categoryIDs.Add(Convert.ToInt32(reader["category_id"]));
-                    int upvotes = Convert.ToInt32(reader["upvotes"]);
-                    ownerId = Convert.ToInt32(reader["user_id"]);
+                    int id = (int)reader["id"];
+                    Dictionary<AttributeDTO, string> valuesByAttributes = new Dictionary<AttributeDTO, string>();
+
+                    CategoryDTO category = categoryDAL.Load((int)reader["category_id"]);
+                    foreach (AttributeDTO attribute in category.Attributes)
+                    {
+                        valuesByAttributes.Add(attribute, GetAttributeValue(id, attribute.ID));
+                    }
 
                     PostDTO post = new PostDTO
                     {
                         ID = id,
-                        Name = name,
-                        CreationDate = creationDate,
-                        Upvotes = upvotes
+                        Name = (string)reader["title"],
+                        CreationDate = (DateTime)reader["creation_date"],
+                        Upvotes = (int)reader["upvotes"],
+                        Category = category,
+                        Comments = commentDAL.GetFromPost(id),
+                        ValuesByAttributes = valuesByAttributes,
+                        Owner = memberDAL.Get((int)reader["user_id"])
                     };
 
-                    firstResult.Add(post);
+                    result.Add(post);
                 }
             }
 
             CloseConnection();
-
-            List<PostDTO> finalResult = firstResult;
-            for (int i = 0; i < firstResult.Count; i++)
-            {
-                
-                CategoryDTO category = categoryDAL.Load(categoryIDs[i]);
-
-                Dictionary<AttributeDTO,string> valuesByAttributes = new Dictionary<AttributeDTO, string>();
-                foreach (AttributeDTO attribute in category.Attributes)
-                {
-                    valuesByAttributes.Add(attribute, GetAttributeValue(firstResult[i].ID, attribute.ID));
-                }
-
-                finalResult[i] = new PostDTO {
-                    ID = firstResult[i].ID,
-                    Name = firstResult[i].Name,
-                    Upvotes = firstResult[i].Upvotes,
-                    CreationDate = firstResult[i].CreationDate,
-                    Comments = commentDAL.GetFromPost(firstResult[i].ID),
-                    Category = category,
-                    ValuesByAttributes = valuesByAttributes,
-                    Owner = memberDAL.Get(ownerId)
-                };
-
-            }
-            return finalResult;
+            return result;
         }
 
         public int Delete(int id)
@@ -181,7 +160,7 @@ namespace Data_Access
                 }
             }
 
-            CloseConnection();
+            //CloseConnection();
 
             return result;
         }

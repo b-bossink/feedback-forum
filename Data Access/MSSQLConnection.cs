@@ -9,7 +9,7 @@ namespace Data_Access
     public class MSSQLConnection
     {
         protected private SqlConnection connection =
-            new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi426602;User Id=dbi426602;Password=db80551Nk!;");
+            new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi426602;User Id=dbi426602;Password=db80551Nk!;MultipleActiveResultSets=True");
 
     
         protected private void OpenConnection()

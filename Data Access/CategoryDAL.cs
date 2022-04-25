@@ -94,7 +94,7 @@ namespace Data_Access
                 };
             }
 
-            CloseConnection();
+            //CloseConnection();
 
             return new CategoryDTO
             {
@@ -124,7 +124,7 @@ namespace Data_Access
                 }
             }
 
-            CloseConnection();
+            //CloseConnection();
             return result;
         }
     }

@@ -75,7 +75,7 @@ namespace Data_Access
                     };
                 }
             }
-            CloseConnection();
+            //CloseConnection();
             return member;
 
         }
