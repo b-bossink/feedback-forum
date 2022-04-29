@@ -28,11 +28,17 @@ namespace Presentation_MVC.Controllers
         {
             PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
             List<PostViewModel> postModels = new List<PostViewModel>();
-            foreach (Post post in container.GetAll())
+            List<Post> posts = container.GetAll();
+            if (posts != null)
             {
-                postModels.Add(ModelConverter.ToViewModel(post));
+                foreach (Post post in posts)
+                {
+                    postModels.Add(ModelConverter.ToViewModel(post));
+                }
+                return View(postModels);
             }
-            return View(postModels);
+            return View(new List<PostViewModel>());
+
         }
 
         public IActionResult Privacy()

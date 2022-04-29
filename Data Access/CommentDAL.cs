@@ -11,7 +11,9 @@ namespace Data_Access
     {
         public int Upload(CommentDTO comment, int postID)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return 0;
+
             string query = "insert into Comment (post_id,user_id,text,upvotes,creation_date) values" +
                  $"(@PostID, @UserID, @Text, @Upvotes, @CreationDate)";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -29,7 +31,9 @@ namespace Data_Access
 
         public int Upload(CommentDTO comment, int postID, int parentCommentID)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return 0;
+
             string query = "insert into Comment (post_id,user_id,text,upvotes,creation_date, parent_comment_id) values" +
                  $"(@PostID, @UserID, @Text, @Upvotes, @CreationDate, @ParentCommentID)";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -52,7 +56,9 @@ namespace Data_Access
 
             List<CommentDTO> firstResult = new List<CommentDTO>();
 
-            OpenConnection();
+            if (!OpenConnection())
+                return null;
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -92,7 +98,11 @@ namespace Data_Access
         public List<CommentDTO> GetFromComment(int parentCommentID)
         {
             string query = $"SELECT * FROM Comment WHERE parent_comment_id = {parentCommentID}";
-            OpenConnection();
+
+
+            if (!OpenConnection())
+                return null;
+
             SqlCommand cmd = new SqlCommand(query, connection);
 
             List<CommentDTO> firstResult = new List<CommentDTO>();

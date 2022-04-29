@@ -18,22 +18,31 @@ namespace Logic.Containers
 
         public List<Post> GetAll()
         {
-            List<Post> result = new List<Post>();
-            foreach (PostDTO dto in DAL.LoadAll())
+            List<PostDTO> dtos = DAL.LoadAll();
+            if (dtos != null)
             {
-                result.Add(new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto));
+                List<Post> result = new List<Post>();
+                foreach (PostDTO dto in dtos)
+                {
+                    result.Add(new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto));
+                }
+                return result;
             }
-            return result;
+            return null;
         }
 
         public Post Get(int id)
         {
-            foreach (PostDTO dto in DAL.LoadAll())
+            List<PostDTO> dtos = DAL.LoadAll();
+            if (dtos != null)
             {
-                Post post = new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto);
-                if (post.ID == id)
+                foreach (PostDTO dto in dtos)
                 {
-                    return post;
+                    Post post = new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto);
+                    if (post.ID == id)
+                    {
+                        return post;
+                    }
                 }
             }
             return null;

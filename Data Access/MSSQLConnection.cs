@@ -12,10 +12,19 @@ namespace Data_Access
             new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi426602;User Id=dbi426602;Password=db80551Nk!;MultipleActiveResultSets=True");
 
     
-        protected private void OpenConnection()
+        protected bool OpenConnection()
         {
-            if (connection.State == System.Data.ConnectionState.Closed)
-                connection.Open();
+            try
+            {
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                return true;
+            } catch (SqlException)
+            {
+                return false;
+            }
         }
 
         protected private void CloseConnection()

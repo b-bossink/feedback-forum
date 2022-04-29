@@ -18,9 +18,9 @@ namespace Data_Access
 
         public int Upload(PostDTO post)
         {
-            
-            OpenConnection();
-            
+            if (OpenConnection())
+                return 0;
+
             string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
                 $"(@CategoryID, @UserID, @Name, @Upvotes, @Date) SELECT SCOPE_IDENTITY();";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -56,7 +56,9 @@ namespace Data_Access
 
         public List<PostDTO> LoadAll()
         {
-            OpenConnection();
+
+            if (!OpenConnection())
+                return null;
 
             string query = "SELECT * FROM Post";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -100,7 +102,8 @@ namespace Data_Access
 
         public int Delete(int id)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return 0;
 
             string query = $"DELETE FROM PostAttribute WHERE post_id = @ID";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -118,7 +121,9 @@ namespace Data_Access
 
         public int Update(PostDTO post)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return 0;
+
             string query = $"UPDATE Post SET " +
                 $"title = @Name, " +
                 $"category_id = @CategoryID, " +
@@ -143,7 +148,8 @@ namespace Data_Access
 
         private string GetAttributeValue(int postID, int attributeID)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return null;
 
             string query = $"SELECT * FROM PostAttribute WHERE post_id = @ID " +
                 "AND attribute_id = @AttributeID";

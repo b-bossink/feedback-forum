@@ -28,29 +28,26 @@ namespace Data_Access
 
             if (username != null && password != null)
             {
-                OpenConnection();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                if (OpenConnection())
                 {
-                    while (reader.Read())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        member = new MemberDTO
+                        while (reader.Read())
                         {
-                            ID = (int)reader["id"],
-                            Username = (string)reader["username"],
-                            Emailaddress = (string)reader["email"],
-                            Password = (string)reader["password"]
-                        };
+                            member = new MemberDTO
+                            {
+                                ID = (int)reader["id"],
+                                Username = (string)reader["username"],
+                                Emailaddress = (string)reader["email"],
+                                Password = (string)reader["password"]
+                            };
+                        }
                     }
+                    CloseConnection();
                 }
-                CloseConnection();
             }
 
-            if (member.ID == 0)
-            {
-                throw new System.Security.Authentication.InvalidCredentialException("Incorrect combination of username and password.");
-            }
-
-            return member;
+            throw new System.Security.Authentication.InvalidCredentialException();
         }
 
         public MemberDTO Get(int id)
@@ -61,18 +58,20 @@ namespace Data_Access
 
             MemberDTO member = new MemberDTO();
 
-            OpenConnection();
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            if (OpenConnection())
             {
-                while (reader.Read())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    member = new MemberDTO
+                    while (reader.Read())
                     {
-                        ID = id,
-                        Username = (string)reader["username"],
-                        Emailaddress = (string)reader["email"],
-                        Password = (string)reader["password"]
-                    };
+                        member = new MemberDTO
+                        {
+                            ID = id,
+                            Username = (string)reader["username"],
+                            Emailaddress = (string)reader["email"],
+                            Password = (string)reader["password"]
+                        };
+                    }
                 }
             }
             //CloseConnection();

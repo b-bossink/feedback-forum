@@ -18,21 +18,31 @@ namespace Logic.Containers
 
         public List<Category> GetAll()
         {
-            List<Category> result = new List<Category>();
-            foreach (CategoryDTO dto in DAL.LoadAll())
+            List<CategoryDTO> dtos = DAL.LoadAll();
+            if (dtos != null)
             {
-                result.Add(new Category(new CategoryDAL(), dto));
+                List<Category> result = new List<Category>();
+                foreach (CategoryDTO dto in dtos)
+                {
+                    result.Add(new Category(new CategoryDAL(), dto));
+                }
+                return result;
             }
-            return result;
+            return null;
+
         }
 
         public Category Get(int id)
         {
-            foreach (CategoryDTO dto in DAL.LoadAll())
+            List<CategoryDTO> dtos = DAL.LoadAll();
+            if (dtos != null)
             {
-                if (id == dto.ID)
+                foreach (CategoryDTO dto in dtos)
                 {
-                    return new Category(new CategoryDAL(), dto);
+                    if (id == dto.ID)
+                    {
+                        return new Category(new CategoryDAL(), dto);
+                    }
                 }
             }
             return null;

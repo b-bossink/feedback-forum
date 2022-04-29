@@ -11,40 +11,35 @@ namespace Data_Access
     {
         public List<CategoryDTO> LoadAll()
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return null;
 
             string query = "SELECT * FROM Category";
             SqlCommand cmd = new SqlCommand(query, connection);
-            List<CategoryDTO> firstResult = new List<CategoryDTO>();
+            List<CategoryDTO> result = new List<CategoryDTO>();
 
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    firstResult.Add(new CategoryDTO {
-                        ID = (int)reader["id"],
-                        Name = (string)reader["name"]
+                    int id = (int)reader["id"];
+                    result.Add(new CategoryDTO
+                    {
+                        ID = id,
+                        Name = (string)reader["name"],
+                        Attributes = LoadAttributes(id)
                     });
                 }
             }
             CloseConnection();
-
-            List<CategoryDTO> finalResult = firstResult;
-            for (int i = 0; i < firstResult.Count; i++)
-            {
-                finalResult[i] = new CategoryDTO
-                {
-                    ID = firstResult[i].ID,
-                    Name = firstResult[i].Name,
-                    Attributes = LoadAttributes(Convert.ToInt32(firstResult[i].ID))
-                };
-            }
-
-            return finalResult;
+            return result; 
         }
+
         public bool Upload(CategoryDTO category)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return false;
+
             bool saved;
             string query = "insert into Category (name) values" +
                 $"('{category.Name}') SELECT SCOPE_IDENTITY();";
@@ -71,9 +66,11 @@ namespace Data_Access
             CloseConnection();
             return saved;
         }
+
         public CategoryDTO Load(int id)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return new CategoryDTO { ID = 0 };
 
             string query = $"SELECT * FROM Category WHERE id = {id}";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -106,7 +103,8 @@ namespace Data_Access
 
         private List<AttributeDTO> LoadAttributes(int categoryID)
         {
-            OpenConnection();
+            if (!OpenConnection())
+                return null;
 
             string query = $"SELECT * FROM Attribute WHERE category_id = {categoryID}";
             SqlCommand cmd = new SqlCommand(query, connection);

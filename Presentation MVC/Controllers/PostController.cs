@@ -80,12 +80,18 @@ namespace Presentation_MVC.Controllers
         public IActionResult SelectCategory()
         {
             CategoryContainer container = new CategoryContainer(new DALFactory().GetCategoryDAL());
-            List<CategoryViewModel> categoryModels = new List<CategoryViewModel>();
-            foreach (Category category in container.GetAll())
+            List<Category> categories = container.GetAll();
+
+            if (categories != null)
             {
-                categoryModels.Add(ModelConverter.ToViewModel(category));
+                List<CategoryViewModel> categoryModels = new List<CategoryViewModel>();
+                foreach (Category category in categories)
+                {
+                    categoryModels.Add(ModelConverter.ToViewModel(category));
+                }
+                return View(categoryModels);
             }
-            return View(categoryModels);
+            return View(new List<CategoryViewModel>());
         }
 
         [HttpPost]
