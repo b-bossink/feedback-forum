@@ -1,17 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Select Category";
+    ViewData["Title"] = "Login";
 }
 @model Presentation_MVC.Models.Users.MemberViewModel
 
 <div>
-    <form asp-controller="Account" asp-action="Login" method="post">
+    <form method="post" asp-controller="Account" asp-action="Login">
         <p class="text-danger">@ViewBag.InvalidCredentialsMessage</p>
         Username
         <input type="text" asp-for="Username"/>
+        <span class="text-danger" asp-validation-for="Username"></span>
         <br /> <br />
         Password
         <input type="password" asp-for="Password" />
         <input type="submit" value="Login" />
+        <span class="text-danger" asp-validation-for="Password"></span>
     </form>
     <p>Don't have an account? <a asp-controller="Account" asp-action="Register">Sign up here!</a></p>
 </div>

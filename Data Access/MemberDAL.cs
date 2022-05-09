@@ -47,6 +47,9 @@ namespace Data_Access
                 }
             }
 
+            if (member.ID > 0)
+                return member;
+
             throw new System.Security.Authentication.InvalidCredentialException();
         }
 

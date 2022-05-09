@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Presentation_MVC.Models.Users;
 
@@ -12,7 +12,6 @@ namespace Presentation_MVC.Models.Posting
         public int Upvotes { get; set; }
         public CategoryViewModel Category { get; set; }
         public List<CommentViewModel> Comments { get; set; }
-        //public Dictionary<AttributeViewModel, string> ValuesByAttributes { get; set; }
         public List<PostAttributeViewModel> AttributesWithValue { get; set; }
         public MemberViewModel Owner { get; set; }
     }
