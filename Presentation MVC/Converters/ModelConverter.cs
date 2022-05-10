@@ -1,7 +1,10 @@
 ﻿using Logic;
+using Logic.Containers;
 using Logic.Factories;
+using Logic.Users;
 using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
+using Presentation_MVC.Models.Users;
 using System;
 using System.Collections.Generic;
 namespace Presentation_MVC.Converters
@@ -37,7 +40,8 @@ namespace Presentation_MVC.Converters
                 Upvotes = post.Upvotes,
                 Category = ToViewModel(post.Category),
                 Comments = commentModels,
-                AttributesWithValue = postAttributes
+                AttributesWithValue = postAttributes,
+                Owner = ToViewModel(post.Owner)
             };
         }
         private static CommentViewModel ToViewModel(Comment comment)
@@ -47,13 +51,15 @@ namespace Presentation_MVC.Converters
             {
                 replies.Add(ToViewModel(reply));
             }
+
             return new CommentViewModel()
             {
                 ID = comment.ID,
                 Text = comment.Text,
                 CreationDate = comment.CreationDate,
                 Upvotes = comment.Upvotes,
-                Replies = replies
+                Replies = replies,
+                Owner = ToViewModel(comment.Owner)
             };
         }
         public static CategoryViewModel ToViewModel(Category category)
@@ -70,12 +76,23 @@ namespace Presentation_MVC.Converters
                 Attributes = attributeModels
             };
         }
+
         private static AttributeViewModel ToViewModel(Logic.Attribute attribute)
         {
             return new AttributeViewModel()
             {
                 ID = attribute.ID,
                 Name = attribute.Name
+            };
+        }
+
+        public static MemberViewModel ToViewModel(Member member) {
+            return new MemberViewModel
+            {
+                ID = member.ID,
+                Username = member.Username,
+                Emailaddress = member.Emailaddress,
+                Password = member.Password
             };
         }
 
@@ -109,7 +126,8 @@ namespace Presentation_MVC.Converters
                 comments,
                 model.Upvotes,
                 ToCategory(model.Category),
-                attributeWithValues
+                attributeWithValues,
+                ToMember(model.Owner)
             );
         }
 
@@ -136,6 +154,16 @@ namespace Presentation_MVC.Converters
                 model.ID);
         }
 
+        private static Member ToMember(MemberViewModel model) {
+            return new Member
+            (
+                model.ID,
+                model.Username,
+                model.Emailaddress,
+                model.Password
+            );
+        }
+
         private static Comment ToComment(CommentViewModel model)
         {
             List<Comment> replies = new List<Comment>();
@@ -150,6 +178,7 @@ namespace Presentation_MVC.Converters
                 model.CreationDate,
                 model.Upvotes,
                 replies,
+                ToMember(model.Owner),
                 model.ID
                 );
         }
@@ -158,9 +187,12 @@ namespace Presentation_MVC.Converters
         {
             return new Logic.Attribute(model.Name, model.ID);
         }
+
         private static Logic.Attribute ToAttribute(PostAttributeViewModel model)
         {
             return new Logic.Attribute(model.Name, model.AttributeID);
         }
+
+
     }
 }

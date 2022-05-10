@@ -18,7 +18,7 @@ namespace Data_Access
 
         public int Upload(PostDTO post)
         {
-            if (OpenConnection())
+            if (!OpenConnection())
                 return 0;
 
             string query = "insert into Post (category_id, user_id, title, upvotes, creation_date) values" +
@@ -27,7 +27,7 @@ namespace Data_Access
 
             cmd.Parameters.Add(new SqlParameter("@Name", post.Name));
             cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
-            cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+            cmd.Parameters.Add(new SqlParameter("@UserID", post.Owner.ID));
             cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
             cmd.Parameters.Add(new SqlParameter("@Date", post.CreationDate.ToString("MM/dd/yyyy HH:mm:ss")));
 

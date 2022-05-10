@@ -18,7 +18,7 @@ namespace Logic
         public Member Owner { get; private set; }
         private ICommentDAL DAL;
 
-        public Comment(ICommentDAL dal, string text, DateTime creationDate, int upvotes, List<Comment> replies, int id = -1)
+        public Comment(ICommentDAL dal, string text, DateTime creationDate, int upvotes, List<Comment> replies, Member owner, int id = -1)
         {
             DAL = dal;
             ID = id;
@@ -26,9 +26,10 @@ namespace Logic
             CreationDate = creationDate;
             Upvotes = upvotes;
             Replies = replies;
+            Owner = owner;
         }
 
-        public Comment(ICommentDAL dal, CommentDTO dto)
+        public Comment(ICommentDAL dal, IMemberDAL memberDAL, CommentDTO dto)
         {
             DAL = dal;
             ID = dto.ID;
@@ -38,8 +39,9 @@ namespace Logic
             Replies = new List<Comment>();
             foreach (CommentDTO replyDTO in dto.Replies)
             {
-                Replies.Add(new Comment(dal, replyDTO));
+                Replies.Add(new Comment(dal, memberDAL, replyDTO));
             }
+            Owner = new Member(memberDAL, dto.Owner);
         }
 
         public int Upload(int postID)
@@ -66,7 +68,8 @@ namespace Logic
                 Text = this.Text,
                 CreationDate = this.CreationDate,
                 Upvotes = this.Upvotes,
-                Replies = replies
+                Replies = replies,
+                Owner = this.Owner.ToDTO()
             };
         }
     }

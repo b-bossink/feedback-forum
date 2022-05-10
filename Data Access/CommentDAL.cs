@@ -9,6 +9,7 @@ namespace Data_Access
 {
     public class CommentDAL : MSSQLConnection, ICommentDAL
     {
+        private readonly MemberDAL memberDAL = new MemberDAL();
         public int Upload(CommentDTO comment, int postID)
         {
             if (!OpenConnection())
@@ -19,7 +20,7 @@ namespace Data_Access
             SqlCommand cmd = new SqlCommand(query, connection);
 
             cmd.Parameters.Add(new SqlParameter("@PostID", postID));
-            cmd.Parameters.Add(new SqlParameter("@UserID", 1));
+            cmd.Parameters.Add(new SqlParameter("@UserID", comment.Owner.ID));
             cmd.Parameters.Add(new SqlParameter("@Text", comment.Text));
             cmd.Parameters.Add(new SqlParameter("@Upvotes", comment.Upvotes));
             cmd.Parameters.Add(new SqlParameter("@CreationDate", comment.CreationDate.ToString("MM/dd/yyyy HH:mm:ss")));
@@ -54,7 +55,7 @@ namespace Data_Access
             string query = $"SELECT * FROM Comment WHERE post_id = {postID}";
             SqlCommand cmd = new SqlCommand(query, connection);
 
-            List<CommentDTO> firstResult = new List<CommentDTO>();
+            List<CommentDTO> result = new List<CommentDTO>();
 
             if (!OpenConnection())
                 return null;
@@ -63,36 +64,22 @@ namespace Data_Access
             {
                 while (reader.Read())
                 {
+                    List<CommentDTO> replies = new List<CommentDTO>();
                     int id = (int)reader["id"];
-                    string text = (string)reader["text"];
-                    DateTime creationDate = (DateTime)reader["creation_date"];
-                    int upvotes = (int)reader["upvotes"];
-
-                    firstResult.Add(new CommentDTO
+                    result.Add(new CommentDTO
                     {
                         ID = id,
-                        Text = text,
-                        CreationDate = creationDate,
-                        Upvotes = upvotes
+                        Text = (string)reader["text"],
+                        CreationDate = (DateTime)reader["creation_date"],
+                        Upvotes = (int)reader["upvotes"],
+                        Replies = replies /*GetFromComment(id)*/,
+                        Owner = memberDAL.Get((int)reader["user_id"])
                     });
                 }
             }
+
             CloseConnection();
-
-            List<CommentDTO> finalResult = firstResult;
-            for (int i = 0; i < firstResult.Count; i++)
-            {
-                finalResult[i] = new CommentDTO
-                {
-                    ID = firstResult[i].ID,
-                    Text = firstResult[i].Text,
-                    CreationDate = firstResult[i].CreationDate,
-                    Upvotes = firstResult[i].Upvotes,
-                    Replies = GetFromComment(firstResult[i].ID)
-                };
-            }
-
-            return finalResult;
+            return result;
         }
 
         public List<CommentDTO> GetFromComment(int parentCommentID)
@@ -105,54 +92,26 @@ namespace Data_Access
 
             SqlCommand cmd = new SqlCommand(query, connection);
 
-            List<CommentDTO> firstResult = new List<CommentDTO>();
-
-            int id = -1;
-            string text = "";
-            DateTime creationDate = new DateTime();
-            int upvotes = -1;
+            List<CommentDTO> result = new List<CommentDTO>();
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    id = (int)reader["id"];
-                    text = (string)reader["text"];
-                    creationDate = (DateTime)reader["creation_date"];
-                    upvotes = (int)reader["upvotes"];
-
-                    firstResult.Add(new CommentDTO
+                    int id = (int)reader["id"];
+                    result.Add(new CommentDTO
                     {
                         ID = id,
-                        Text = text,
-                        CreationDate = creationDate,
-                        Upvotes = upvotes
+                        Text = (string)reader["text"],
+                        CreationDate = (DateTime)reader["creation_date"],
+                        Upvotes = (int)reader["upvotes"],
+                        Replies = GetFromComment(id),
+                        Owner = memberDAL.Get((int)reader["user_id"])
                     });
                 }
             }
 
             CloseConnection();
-
-            List<CommentDTO> finalResult = new List<CommentDTO>();
-            for (int i = 0; i < firstResult.Count; i++)
-            {
-                List<CommentDTO> replies = new List<CommentDTO>();
-                if (id != -1)
-                {
-                    replies = GetFromComment(id);
-                }
-
-                finalResult[i] = new CommentDTO
-                {
-                    ID = firstResult[i].ID,
-                    Text = firstResult[i].Text,
-                    CreationDate = firstResult[i].CreationDate,
-                    Upvotes = firstResult[i].Upvotes,
-                    Replies = replies
-                };
-            }
-
-
-            return finalResult;
+            return result;
         }
 
         public int Delete(int id)

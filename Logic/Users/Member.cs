@@ -14,6 +14,14 @@ namespace Logic.Users
         public string Password { get; private set; }
         private IMemberDAL DAL;
 
+        public Member(int id, string username, string email, string password)
+        {
+            ID = id;
+            Username = username;
+            Emailaddress = email;
+            Password = password;
+        }
+
         public Member(IMemberDAL dal, MemberDTO dto)
         {
             DAL = dal;
@@ -28,7 +36,7 @@ namespace Logic.Users
             throw new NotImplementedException();
         }
 
-        private MemberDTO ToDTO()
+        public MemberDTO ToDTO()
         {
             return new MemberDTO
             {

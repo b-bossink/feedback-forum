@@ -22,7 +22,7 @@ namespace Logic
         private IPostDAL DAL;
 
         public Post(IPostDAL dal, string name, DateTime creationDate, List<Comment> comments, int upvotes,
-            Category category, Dictionary<Attribute,string> valuesByAttribute, int id = -1)
+            Category category, Dictionary<Attribute,string> valuesByAttribute, Member owner, int id = -1)
         {
             DAL = dal;
             ID = id;
@@ -32,7 +32,7 @@ namespace Logic
             Comments = comments;
             Category = category;
             ValuesByAttributes = valuesByAttribute;
-            Owner = new Member(new MemberDAL(), new MemberDTO());
+            Owner = owner;
         }
 
         public Post(IPostDAL dal, ICategoryDAL categoryDAL, ICommentDAL commentDAL, IMemberDAL memberDAL, PostDTO dto)
@@ -45,7 +45,7 @@ namespace Logic
             Comments = new List<Comment>();
             foreach(CommentDTO commentDTO in dto.Comments)
             {
-                Comments.Add(new Comment(commentDAL, commentDTO));
+                Comments.Add(new Comment(commentDAL, memberDAL, commentDTO));
             }
             Category = new Category(categoryDAL, dto.Category);
             ValuesByAttributes = new Dictionary<Attribute, string>();
@@ -88,7 +88,8 @@ namespace Logic
                 Comments = comments,
                 Upvotes = this.Upvotes,
                 Category = this.Category.ToDTO(),
-                ValuesByAttributes = valueByAttribute
+                ValuesByAttributes = valueByAttribute,
+                Owner = this.Owner.ToDTO()
             };  
         }
     }

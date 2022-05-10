@@ -1,6 +1,8 @@
-﻿using Logic;
+﻿using Interfaces;
+using Logic;
 using Logic.Containers;
 using Logic.Factories;
+using Logic.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,15 +18,26 @@ namespace Presentation_MVC.Controllers
     public class PostController : Controller
     {
         private readonly ILogger<PostController> _logger;
+        private readonly IPostDAL _postDAL;
+        private readonly ICategoryDAL _categoryDAL;
+        private readonly IMemberDAL _memberDAL;
+        private readonly ICommentDAL _commentDAL;
+
 
         public PostController(ILogger<PostController> logger)
         {
             _logger = logger;
+
+            DALFactory factory = new DALFactory();
+            _postDAL = factory.GetPostDAL();
+            _categoryDAL = factory.GetCategoryDAL();
+            _memberDAL = factory.GetMemberDAL();
+            _commentDAL = factory.GetCommentDAL();
         }
 
         public IActionResult ViewPost(int postId)
         {
-            PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
+            PostContainer container = new PostContainer(_postDAL);
             PostViewModel postModel;
             try
             {
@@ -40,7 +53,10 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult Create(int categoryId)
         {
-            CategoryContainer container = new CategoryContainer(new DALFactory().GetCategoryDAL());
+            if (!AccountController.ValidateCurrentSession(HttpContext))
+                return RedirectToAction("Login", "Account");
+
+            CategoryContainer container = new CategoryContainer(_categoryDAL);
             foreach (Category category in container.GetAll())
             {
                 if (category.ID == categoryId)
@@ -73,13 +89,19 @@ namespace Presentation_MVC.Controllers
             post.Comments = new List<CommentViewModel>();
             post.Upvotes = 0;
             post.CreationDate = DateTime.Now;
+
+            MemberContainer memberContainer = new MemberContainer(_memberDAL);
+            post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
             ModelConverter.ToPost(post).Upload();
             return RedirectToAction("Index", "Home");
         }
 
         public IActionResult SelectCategory()
         {
-            CategoryContainer container = new CategoryContainer(new DALFactory().GetCategoryDAL());
+            if (!AccountController.ValidateCurrentSession(HttpContext))
+                return RedirectToAction("Login", "Account");
+
+            CategoryContainer container = new CategoryContainer(_categoryDAL);
             List<Category> categories = container.GetAll();
 
             if (categories != null)
@@ -97,16 +119,27 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Comment(int postId, string text)
         {
+            Member owner = new MemberContainer(_memberDAL).Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID"));
             Comment comment = new Comment(
-                new DALFactory().GetCommentDAL(),
+                _commentDAL,
                 text,
                 DateTime.Now,
                 0,
-                new List<Comment>()
+                new List<Comment>(),
+                owner
                 );
 
             comment.Upload(postId);
             return RedirectToAction("ViewPost", new { postId = postId });
+        }
+
+        public IActionResult Delete(int postId) {
+            if (AccountController.ValidateCurrentSession(HttpContext)) {
+                PostContainer container = new PostContainer(_postDAL);
+                container.Delete(postId);
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("ViewPost", new { postId = postId});
         }
     }
 }

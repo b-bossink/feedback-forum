@@ -1,7 +1,9 @@
-﻿@using Presentation_MVC.Models.Posting
+﻿@using Microsoft.AspNetCore.Http;
+@using Presentation_MVC.Models.Posting
 @model PostViewModel
 @{
     ViewData["Title"] = Model.Name;
+    var sessionI = SessionExtensions.GetInt32(Context.Session, "ID");
 }
 <div class="container">
     <div class="postHead">
@@ -9,7 +11,7 @@
             <h1 class="col-6">@Model.Name</h1>
             <h1 class="col-6" style="text-align: right;">@Model.Category.Name</h1>
         </div>
-        <p>by <a>username</a> @Model.CreationDate</p>
+        <p>by <a>@Model.Owner.Username</a> @Model.CreationDate</p>
     </div>
 
     @foreach (PostAttributeViewModel attribute in Model.AttributesWithValue)
@@ -17,21 +19,25 @@
         <h2>@(attribute.Name)</h2>
         <p>@(attribute.Value)</p>
     }
-    <div class="row">
-        <button class="col-6">Bewerken</button>
-        <button class="col-6">Verwijderen</button>
-    </div>
+    
+    @if (Model.Owner.ID == SessionExtensions.GetInt32(Context.Session, "ID"))
+    {
+        <div class="row">
+            <button class="col-6">Bewerken</button>
+            <button class="col-6"><a asp-action="Delete" asp-controller="Post" asp-route-postId="@Model.ID">Verwijderen</a></button>
+        </div>
+    }
     <h2>Comments</h2>
     <form method="post" asp-action="Comment" asp-controller="Post">
         <textarea name="text"></textarea>
         <input type="hidden" name="postId" value="@Model.ID" />
         <button type="submit">Send</button>
     </form>
-    
+
     <br />
     @foreach (CommentViewModel comment in Model.Comments)
     {
-        <a>username</a>
+        <a>@comment.Owner.Username</a>
         <p>@comment.CreationDate.ToString()</p>
         <p>@comment.Text</p>
         <div class="row">
