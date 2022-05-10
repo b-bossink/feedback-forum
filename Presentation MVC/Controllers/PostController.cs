@@ -119,7 +119,7 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Comment(int postId, string text)
         {
-            Member owner = new MemberContainer(_memberDAL).Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID"));
+            Member owner = new MemberContainer(_memberDAL).Get((int)HttpContext.Session.GetInt32("ID"));
             Comment comment = new Comment(
                 _commentDAL,
                 text,

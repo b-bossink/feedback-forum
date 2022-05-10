@@ -105,15 +105,21 @@ namespace Data_Access
             if (!OpenConnection())
                 return 0;
 
-            string query = $"DELETE FROM PostAttribute WHERE post_id = @ID";
-            SqlCommand cmd = new SqlCommand(query, connection);
-            cmd.Parameters.Add(new SqlParameter("@ID", id));
-            cmd.ExecuteNonQuery();
+            Dictionary<string, string> tableWithColumn = new Dictionary<string, string>()
+            {
+                { "Comment", "post_id"},
+                { "PostAttribute", "post_id"},
+                { "Post", "id"}
+            };
 
-            query = $"DELETE FROM Post WHERE id = {id}";
-            SqlCommand cmd2 = new SqlCommand(query, connection);
-            cmd2.Parameters.Add(new SqlParameter("@ID", id));
-            int result = cmd2.ExecuteNonQuery();
+            int result = 0;
+            foreach (KeyValuePair<string,string> kvp in tableWithColumn)
+            {
+                string query = $"DELETE FROM {kvp.Key} WHERE {kvp.Value} = @ID";
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.Add(new SqlParameter("@ID", id));
+                result = cmd.ExecuteNonQuery();
+            }
 
             CloseConnection();
             return result;
