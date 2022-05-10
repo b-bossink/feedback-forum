@@ -29,16 +29,15 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Login(MemberViewModel model)
         {
-            ISession session = HttpContext.Session;
             MemberContainer container = new MemberContainer(new DALFactory().GetMemberDAL());
 
             if (ModelState.IsValid) {
                 if (container.ValidateCredentials(model.Username, model.Password))
                 {
                     Member member = container.Get(model.Username, model.Password);
-                    SessionExtensions.SetInt32(session, "ID", member.ID);
-                    SessionExtensions.SetString(session, "Username", model.Username);
-                    SessionExtensions.SetString(session, "Password", model.Password);
+                    HttpContext.Session.SetInt32("ID", member.ID);
+                    HttpContext.Session.SetString("Username", model.Username);
+                    HttpContext.Session.SetString("Password", model.Password);
 
                     return RedirectToAction("Index");
                 }
@@ -54,22 +53,16 @@ namespace Presentation_MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        /*
-        public static MemberViewModel GetCurrentMember(HttpContext context)
-        {
-            ISession session = context.Session;
-            string username = SessionExtensions.GetString(session, "Username");
-            string password = SessionExtensions.GetString(session, "Password");
-            MemberContainer container = new MemberContainer(new DALFactory().GetMemberDAL());
-            if(container.ValidateCredentials(username, password))
-            {
-                return ModelConverter.ToViewModel(container.Get(username, password));
-            }
-            return null;
+        public IActionResult Logout() {
+            HttpContext.Session.Remove("ID");
+            HttpContext.Session.Remove("Username");
+            HttpContext.Session.Remove("Password");
+            return RedirectToAction("Index", "Home");
         }
-        */
+
         public static bool ValidateCurrentSession(HttpContext context) {
-            if (SessionExtensions.GetInt32(context.Session, "ID") == null) { 
+            
+            if (context.Session.GetInt32("ID") == null) { 
                 return false;
             }
 

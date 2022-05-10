@@ -20,7 +20,7 @@
         <p>@(attribute.Value)</p>
     }
     
-    @if (Model.Owner.ID == SessionExtensions.GetInt32(Context.Session, "ID"))
+    @if (Model.Owner.ID == Context.Session.GetInt32("ID"))
     {
         <div class="row">
             <button class="col-6">Bewerken</button>
