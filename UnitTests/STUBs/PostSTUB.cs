@@ -7,7 +7,7 @@ using System.Text;
 
 namespace UnitTest.STUBs
 {
-    class PostSTUB : IPostDAL
+    public class PostSTUB : IPostDAL
     {
         public List<PostDTO> database;
 
@@ -35,7 +35,7 @@ namespace UnitTest.STUBs
             {
                 new PostDTO
                 {
-                    ID = 1,
+                    ID = 123,
                     Name = "My Test Post",
                     Comments = new List<CommentDTO>()
                     {
@@ -101,7 +101,8 @@ namespace UnitTest.STUBs
                 }
             }
             int after = database.Count;
-            return before - after;
+            int result = before - after;
+            return result;
         }
     }
 }

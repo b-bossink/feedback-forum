@@ -8,6 +8,7 @@ namespace UnitTest.STUBs
 {
 	public class CommentSTUB : ICommentDAL
 	{
+        public PostSTUB postStub = new PostSTUB();
 
         public int Delete(int id)
         {
@@ -31,7 +32,7 @@ namespace UnitTest.STUBs
 
         public int Upload(CommentDTO comment, int postID)
         {
-            List<PostDTO> database = new PostSTUB().LoadAll();
+            List<PostDTO> database = postStub.LoadAll();
             foreach (PostDTO post in database)
             {
                 if (post.ID == postID)

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@using Presentation_MVC.Controllers;
 @using Presentation_MVC.Models.Posting
 @model PostViewModel
 @{
@@ -29,9 +30,18 @@
     }
     <h2>Comments</h2>
     <form method="post" asp-action="Comment" asp-controller="Post">
-        <textarea name="text"></textarea>
-        <input type="hidden" name="postId" value="@Model.ID" />
-        <button type="submit">Send</button>
+        @if (AccountController.ValidateCurrentSession(Context))
+        {
+            <textarea name="text"></textarea>
+            <input type="hidden" name="postId" value="@Model.ID" />
+            <button type="submit">Send</button>
+        }
+        else
+        {
+            <textarea name="text" disabled></textarea>
+            <input type="hidden" name="postId" value="@Model.ID" />
+            <a asp-action="Login" asp-controller="Account">Login</a> <label> to comment on this post...</label>
+        }
     </form>
 
     <br />
