@@ -45,7 +45,11 @@ namespace Data_Access
 
             foreach (KeyValuePair<AttributeDTO,string> valuesByAttribute in post.ValuesByAttributes)
             {
-                string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values ({thisPostID}, '{valuesByAttribute.Key.ID}', '{valuesByAttribute.Value}')";
+                string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values (@PostID, @AttributeID, @Value)";
+
+                cmd.Parameters.Add(new SqlParameter("@PostID", thisPostID));
+                cmd.Parameters.Add(new SqlParameter("@AttributeID", valuesByAttribute.Key.ID));
+                cmd.Parameters.Add(new SqlParameter("@Value", valuesByAttribute.Value));
                 SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
                 cmd2.ExecuteNonQuery();
             }
@@ -115,8 +119,10 @@ namespace Data_Access
             int result = 0;
             foreach (KeyValuePair<string,string> kvp in tableWithColumn)
             {
-                string query = $"DELETE FROM {kvp.Key} WHERE {kvp.Value} = @ID";
+                string query = $"DELETE FROM @Table WHERE @Column = @ID";
                 SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.Add(new SqlParameter("@Table", kvp.Key));
+                cmd.Parameters.Add(new SqlParameter("@Column", kvp.Value));
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
                 result = cmd.ExecuteNonQuery();
             }
@@ -144,9 +150,20 @@ namespace Data_Access
             cmd.Parameters.Add(new SqlParameter("@CategoryID", post.Category.ID));
             cmd.Parameters.Add(new SqlParameter("@UserID", post.Owner.ID));
             cmd.Parameters.Add(new SqlParameter("@Upvotes", post.Upvotes));
-            cmd.Parameters.Add(new SqlParameter("@Date",
-                post.CreationDate.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
+            cmd.Parameters.Add(new SqlParameter("@Date", post.CreationDate.ToString("MM/dd/yyyy HH:mm:ss")));
             int result = cmd.ExecuteNonQuery();
+
+            foreach (KeyValuePair<AttributeDTO, string> valuesByAttribute in post.ValuesByAttributes)
+            {
+                string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values (@PostID, @AttributeID, @Value)";
+
+                SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
+                cmd2.Parameters.Add(new SqlParameter("@PostID", post.ID));
+                cmd2.Parameters.Add(new SqlParameter("@AttributeID", valuesByAttribute.Key.ID));
+                cmd2.Parameters.Add(new SqlParameter("@Value", valuesByAttribute.Value));
+                cmd2.ExecuteNonQuery();
+            }
+
             CloseConnection();
 
             return result;

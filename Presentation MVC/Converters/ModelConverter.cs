@@ -127,7 +127,8 @@ namespace Presentation_MVC.Converters
                 model.Upvotes,
                 ToCategory(model.Category),
                 attributeWithValues,
-                ToMember(model.Owner)
+                ToMember(model.Owner),
+                model.ID
             );
         }
 

@@ -57,29 +57,23 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("Login", "Account");
 
             CategoryContainer container = new CategoryContainer(_categoryDAL);
-            foreach (Category category in container.GetAll())
+            Category category = container.Get(categoryId);
+            List<PostAttributeViewModel> attributes = new List<PostAttributeViewModel>();
+            foreach (Logic.Attribute attribute in category.Attributes)
             {
-                if (category.ID == categoryId)
+                attributes.Add(new PostAttributeViewModel()
                 {
-                    List<PostAttributeViewModel> attributes = new List<PostAttributeViewModel>();
-                    foreach (Logic.Attribute attribute in category.Attributes)
-                    {
-                        attributes.Add(new PostAttributeViewModel() { 
-                            AttributeID = attribute.ID,
-                            Value = "",
-                            Name = attribute.Name
-                        });
-                    }
-                    PostViewModel post = new PostViewModel()
-                    {
-                        Category = ModelConverter.ToViewModel(category),
-                        AttributesWithValue = attributes
-                    };
-                    return View(post);
-                }
+                    AttributeID = attribute.ID,
+                    Value = "",
+                    Name = attribute.Name
+                });
             }
-            ViewBag.Error = "Category couldn't be found.";
-            return View("SelectCategory");
+            PostViewModel post = new PostViewModel()
+            {
+                Category = ModelConverter.ToViewModel(category),
+                AttributesWithValue = attributes
+            };
+            return View(post);
 
         }
 
@@ -89,31 +83,10 @@ namespace Presentation_MVC.Controllers
             post.Comments = new List<CommentViewModel>();
             post.Upvotes = 0;
             post.CreationDate = DateTime.Now;
-
             MemberContainer memberContainer = new MemberContainer(_memberDAL);
             post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
             ModelConverter.ToPost(post).Upload();
             return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult SelectCategory()
-        {
-            if (!AccountController.ValidateCurrentSession(HttpContext))
-                return RedirectToAction("Login", "Account");
-
-            CategoryContainer container = new CategoryContainer(_categoryDAL);
-            List<Category> categories = container.GetAll();
-
-            if (categories != null)
-            {
-                List<CategoryViewModel> categoryModels = new List<CategoryViewModel>();
-                foreach (Category category in categories)
-                {
-                    categoryModels.Add(ModelConverter.ToViewModel(category));
-                }
-                return View(categoryModels);
-            }
-            return View(new List<CategoryViewModel>());
         }
 
         [HttpPost]
@@ -134,12 +107,40 @@ namespace Presentation_MVC.Controllers
         }
 
         public IActionResult Delete(int postId) {
-            if (AccountController.ValidateCurrentSession(HttpContext)) {
-                PostContainer container = new PostContainer(_postDAL);
-                container.Delete(postId);
-                return RedirectToAction("Index", "Home");
-            }
-            return RedirectToAction("ViewPost", new { postId = postId});
+            if (!AccountController.ValidateCurrentSession(HttpContext))
+                return RedirectToAction("ViewPost", new { postId = postId });
+
+            PostContainer container = new PostContainer(_postDAL);
+            container.Delete(postId);
+            return RedirectToAction("Index", "Home");
+            
+        }
+
+        public IActionResult Edit(int postId) {
+            if (!AccountController.ValidateCurrentSession(HttpContext))
+                return RedirectToAction("Login", "Account");
+
+            PostViewModel model = ModelConverter.ToViewModel(new PostContainer(_postDAL).Get(postId));
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(PostViewModel newModel) {
+            if (!AccountController.ValidateCurrentSession(HttpContext))
+                return RedirectToAction("Login", "Account");
+
+            Post oldPost = new PostContainer(_postDAL).Get(newModel.ID);
+            PostViewModel oldModel = ModelConverter.ToViewModel(oldPost);
+
+            newModel.Owner = oldModel.Owner;
+            newModel.Comments = oldModel.Comments;
+            newModel.Upvotes = oldModel.Upvotes;
+            newModel.CreationDate = oldModel.CreationDate;
+            newModel.Category = oldModel.Category;
+
+            Post newPost = ModelConverter.ToPost(newModel);
+            newPost.Update();
+            return RedirectToAction("ViewPost", new { postId = newModel.ID });
         }
     }
 }

@@ -21,11 +21,15 @@
         <p>@(attribute.Value)</p>
     }
     
-    @if (Model.Owner.ID == Context.Session.GetInt32("ID"))
+    @if (AccountController.ValidateCurrentSession(Context))
     {
         <div class="row">
-            <button class="col-6">Bewerken</button>
-            <button class="col-6"><a asp-action="Delete" asp-controller="Post" asp-route-postId="@Model.ID">Verwijderen</a></button>
+            <button class="col-6">
+            <a asp-action="Edit" asp-controller="Post" asp-route-postId="@Model.ID">Edit</a>
+            </button>
+            <button class="col-6">
+            <a asp-action="Delete" asp-controller="Post" asp-route-postId="@Model.ID">Delete</a>
+            </button>
         </div>
     }
     <h2>Comments</h2>

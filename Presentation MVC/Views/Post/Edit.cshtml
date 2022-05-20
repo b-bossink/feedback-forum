@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Edit Post";
+}
+@model Presentation_MVC.Models.Posting.PostViewModel
+<div>
+    <h1>Edit your post.</h1>
+    <p>Current category: <b>@Model.Category.Name</b></p> <br />
+    <form method="post" asp-controller="Post" asp-action="Edit">
+
+        <div class="form-group">
+            <label asp-for="Name">Title:</label>
+            <input class="form-control" asp-for="Name" type="text" value="@Model.Name"/>
+            <span asp-validation-for="Name"></span>
+        </div>
+
+        @for (int i = 0; i < Model.AttributesWithValue.Count; i++)
+        {
+            <div class="form-group">
+                <input type="hidden" asp-for="AttributesWithValue[i].AttributeID" />
+                <label asp-for="AttributesWithValue[i].Name">@(Model.AttributesWithValue[i].Name):</label>
+                <input class="form-control" asp-for="AttributesWithValue[i].Value" type="text" value="@Model.AttributesWithValue[i].Value"/>
+                <span asp-validation-for="AttributesWithValue[i].Value"></span>
+            </div>
+        }
+
+        <input type="hidden" asp-for="ID" />
+        @for (int i = 0; i < Model.Category.Attributes.Count; i++)
+        {
+            <input type="hidden" asp-for="Category.Attributes[i].ID"/>
+            <input type="hidden" asp-for="Category.Attributes[i].Name"/>
+        }
+        <button type="submit" class="btn btn-primary">Save</button>
+
+    </form>
+</div>

@@ -21,10 +21,12 @@
     <None Remove="Views\Account\" />
     <None Remove="Models\Users\" />
     <None Remove="Models\Posts\" />
+    <None Remove="Views\Category\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\" />
     <Folder Include="Models\Users\" />
     <Folder Include="Models\Posting\" />
+    <Folder Include="Views\Category\" />
   </ItemGroup>
 </Project>

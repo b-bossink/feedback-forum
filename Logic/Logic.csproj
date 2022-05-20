@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data Access\Data Access.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\Data Access\Data Access.csproj" />
   </ItemGroup>
 
   <ItemGroup>
