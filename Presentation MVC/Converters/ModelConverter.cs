@@ -156,12 +156,14 @@ namespace Presentation_MVC.Converters
         }
 
         private static Member ToMember(MemberViewModel model) {
+            DALFactory factory = new DALFactory();
             return new Member
             (
-                model.ID,
+                factory.GetMemberDAL(),
                 model.Username,
                 model.Emailaddress,
-                model.Password
+                model.Password,
+                model.ID
             );
         }
 

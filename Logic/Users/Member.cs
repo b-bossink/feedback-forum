@@ -11,19 +11,19 @@ namespace Logic.Users
         public string Username { get; private set; }
         public string Emailaddress { get; private set; }
         public string Password { get; private set; }
-        private IMemberDAL DAL;
+        private readonly IMemberDAL _DAL;
 
-        public Member(int id, string username, string email, string password)
+        public Member(IMemberDAL dal, string username, string email, string password, int id = -1)
         {
+            _DAL = dal;
             ID = id;
             Username = username;
             Emailaddress = email;
             Password = password;
         }
 
-        public Member(IMemberDAL dal, MemberDTO dto)
+        public Member(MemberDTO dto)
         {
-            DAL = dal;
             ID = dto.ID;
             Username = dto.Username;
             Emailaddress = dto.Emailaddress;

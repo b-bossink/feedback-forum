@@ -1,10 +1,8 @@
-﻿using Data_Access;
-using Interfaces;
+﻿using Interfaces;
 using Interfaces.DTOs;
 using Logic.Users;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Logic
 {
@@ -19,12 +17,12 @@ namespace Logic
         public Dictionary<Attribute,string> ValuesByAttributes { get; private set; }
         public Member Owner { get; private set; }
 
-        private IPostDAL DAL;
+        private readonly IPostDAL _DAL;
 
         public Post(IPostDAL dal, string name, DateTime creationDate, List<Comment> comments, int upvotes,
             Category category, Dictionary<Attribute,string> valuesByAttribute, Member owner, int id = -1)
         {
-            DAL = dal;
+            _DAL = dal;
             ID = id;
             Name = name;
             Upvotes = upvotes;
@@ -35,9 +33,8 @@ namespace Logic
             Owner = owner;
         }
 
-        public Post(IPostDAL dal, ICategoryDAL categoryDAL, ICommentDAL commentDAL, IMemberDAL memberDAL, PostDTO dto)
+        public Post(PostDTO dto)
         {
-            DAL = dal;
             ID = dto.ID;
             Name = dto.Name;
             Upvotes = dto.Upvotes;
@@ -45,25 +42,25 @@ namespace Logic
             Comments = new List<Comment>();
             foreach(CommentDTO commentDTO in dto.Comments)
             {
-                Comments.Add(new Comment(commentDAL, memberDAL, commentDTO));
+                Comments.Add(new Comment(commentDTO));
             }
-            Category = new Category(categoryDAL, dto.Category);
+            Category = new Category(dto.Category);
             ValuesByAttributes = new Dictionary<Attribute, string>();
             foreach (KeyValuePair<AttributeDTO,string> kvp in dto.ValuesByAttributes)
             {
                 ValuesByAttributes.Add(new Attribute(kvp.Key), kvp.Value);
             }
-            Owner = new Member(memberDAL, dto.Owner);
+            Owner = new Member(dto.Owner);
         }
 
         public int Upload()
         {
-            return DAL.Upload(ToDTO());
+            return _DAL.Upload(ToDTO());
         }
 
         public int Update()
         {
-            return DAL.Update(ToDTO());
+            return _DAL.Update(ToDTO());
         }
         
         public PostDTO ToDTO()

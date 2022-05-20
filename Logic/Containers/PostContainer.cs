@@ -1,31 +1,27 @@
-﻿
-using Data_Access;
-using Interfaces;
+﻿using Interfaces;
 using Interfaces.DTOs;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Logic.Containers
 {
     public class PostContainer
     {
-        private IPostDAL DAL;
+        private readonly IPostDAL _DAL;
 
         public PostContainer(IPostDAL dal)
         {
-            DAL = dal;
+            _DAL = dal;
         }
 
         public List<Post> GetAll()
         {
-            List<PostDTO> dtos = DAL.LoadAll();
+            List<PostDTO> dtos = _DAL.LoadAll();
             if (dtos != null)
             {
                 List<Post> result = new List<Post>();
                 foreach (PostDTO dto in dtos)
                 {
-                    result.Add(new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto));
+                    result.Add(new Post(dto));
                 }
                 return result;
             }
@@ -34,12 +30,12 @@ namespace Logic.Containers
 
         public Post Get(int id)
         {
-            List<PostDTO> dtos = DAL.LoadAll();
+            List<PostDTO> dtos = _DAL.LoadAll();
             if (dtos != null)
             {
                 foreach (PostDTO dto in dtos)
                 {
-                    Post post = new Post(new PostDAL(), new CategoryDAL(), new CommentDAL(), new MemberDAL(), dto);
+                    Post post = new Post(dto);
                     if (post.ID == id)
                     {
                         return post;
@@ -51,7 +47,7 @@ namespace Logic.Containers
         
         public int Delete(int id)
         {
-            return DAL.Delete(id);
+            return _DAL.Delete(id);
         }
     }
 }

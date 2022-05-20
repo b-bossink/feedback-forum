@@ -12,18 +12,18 @@ namespace Logic
         public int ID { get; private set; }
         public string Name { get; private set; }
         public List<Attribute> Attributes { get; private set; }
-        private ICategoryDAL DAL;
+        private readonly ICategoryDAL _DAL;
 
         public Category(ICategoryDAL dal, string name, List<Attribute> attributes, int id = -1)
         {
-            DAL = dal;
+            _DAL = dal;
             ID = id;
             Name = name;
             Attributes = attributes;
         }
-        public Category(ICategoryDAL dal, CategoryDTO dto)
+
+        public Category(CategoryDTO dto)
         {
-            DAL = dal;
             ID = dto.ID;
             Name = dto.Name;
             Attributes = new List<Attribute>();
@@ -35,7 +35,7 @@ namespace Logic
 
         public bool Upload()
         {
-            return DAL.Upload(ToDTO());
+            return _DAL.Upload(ToDTO());
         }
 
         public CategoryDTO ToDTO()

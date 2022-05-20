@@ -47,10 +47,10 @@ namespace Data_Access
             {
                 string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values (@PostID, @AttributeID, @Value)";
 
-                cmd.Parameters.Add(new SqlParameter("@PostID", thisPostID));
-                cmd.Parameters.Add(new SqlParameter("@AttributeID", valuesByAttribute.Key.ID));
-                cmd.Parameters.Add(new SqlParameter("@Value", valuesByAttribute.Value));
                 SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
+                cmd2.Parameters.Add(new SqlParameter("@PostID", thisPostID));
+                cmd2.Parameters.Add(new SqlParameter("@AttributeID", valuesByAttribute.Key.ID));
+                cmd2.Parameters.Add(new SqlParameter("@Value", valuesByAttribute.Value));
                 cmd2.ExecuteNonQuery();
             }
             
@@ -119,10 +119,8 @@ namespace Data_Access
             int result = 0;
             foreach (KeyValuePair<string,string> kvp in tableWithColumn)
             {
-                string query = $"DELETE FROM @Table WHERE @Column = @ID";
+                string query = String.Format("DELETE FROM {0} WHERE {1} = @ID", kvp.Key, kvp.Value);
                 SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.Parameters.Add(new SqlParameter("@Table", kvp.Key));
-                cmd.Parameters.Add(new SqlParameter("@Column", kvp.Value));
                 cmd.Parameters.Add(new SqlParameter("@ID", id));
                 result = cmd.ExecuteNonQuery();
             }

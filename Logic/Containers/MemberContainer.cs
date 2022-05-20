@@ -6,21 +6,21 @@ namespace Logic.Containers
 {
     public class MemberContainer
     {
-        private IMemberDAL DAL;
+        private readonly IMemberDAL _DAL;
         public MemberContainer(IMemberDAL dal)
         {
-            DAL = dal;
+            _DAL = dal;
         }
 
         public Member Get(string username, string password)
         {
-            Member member = new Member(DAL, DAL.Get(username, password));
+            Member member = new Member(_DAL.Get(username, password));
             return member;
         }
 
         public Member Get(int id)
         {
-            return new Member(DAL, DAL.Get(id));
+            return new Member(_DAL.Get(id));
         }
 
         public bool ValidateCredentials(string username, string password)
