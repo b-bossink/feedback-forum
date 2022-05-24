@@ -23,7 +23,8 @@
         <p>@(attribute.Value)</p>
     }
 
-    @if (AccountController.ValidateCurrentSession(Context))
+    @if (AccountController.ValidateCurrentSession(Context) &&
+            Context.Session.GetString("Username").Equals(Model.Owner.Username))
     {
         <div class="row">
             <button class="col-6">
@@ -38,31 +39,37 @@
     <form method="post" asp-action="Comment" asp-controller="Post">
         @if (AccountController.ValidateCurrentSession(Context))
         {
-            <textarea name="text"></textarea>
+            <textarea name="text" style="width: 100%; height: 120%"></textarea>
             <input type="hidden" name="postId" value="@Model.ID" />
             <button type="submit">Send</button>
         }
         else
         {
-            <textarea name="text" disabled></textarea>
-            <input type="hidden" name="postId" value="@Model.ID" />
+            <textarea name="text" style="width: 100%; height: 120%; background-color:lightgray;" disabled></textarea>
+            <input type="hidden" name="postId" value="@Model.ID" /> <br />
             <a asp-action="Login" asp-controller="Account">Login</a> <label> to comment on this post...</label>
         }
     </form>
 
     <br />
-    <div id="" style="overflow:scroll; height:400px;">
+    <div id="" style="overflow: scroll; height: 400px; box-shadow: inset 0px 12px 13px -9px rgba(0,0,0,0.86);">
 
         @foreach (CommentViewModel comment in Model.Comments)
         {
-            <a>@comment.Owner.Username</a>
-            <p>@comment.CreationDate.ToString()</p>
-            <p>@comment.Text</p>
-            <div class="row">
-                <button class="col-6" style="width: 30%">Bewerken</button>
-                 
-                <button class="col-6" style="width: 30%">Verwijderen</button>
+            <div class="comment">
+                <a>@comment.Owner.Username</a>
+                <p>@comment.CreationDate.ToString()</p>
+                <p>@comment.Text</p>
             </div>
+                if (AccountController.ValidateCurrentSession(Context) &&
+                    Context.Session.GetString("Username").Equals(comment.Owner.Username))
+                {
+                <div class="row">
+                    <button class="col-6" style="width: 30%">Bewerken</button>
+
+                    <button class="col-6" style="width: 30%">Verwijderen</button>
+                </div>
+                }
             <br />
         }
     </div>

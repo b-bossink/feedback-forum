@@ -96,3 +96,9 @@ body {
     border-style: solid;
     border-width: 1.3px;
 }
+
+.comment {
+    border-color: #000000;
+    border: ridge;
+    border-style: solid;
+}

@@ -42,6 +42,7 @@ namespace Presentation_MVC.Controllers
             try
             {
                 postModel = ModelConverter.ToViewModel(container.Get(postId));
+                string user = HttpContext.Session.GetString("Username");
                 return View(postModel);
             }
             catch
