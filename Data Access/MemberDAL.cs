@@ -7,15 +7,6 @@ namespace Data_Access
 {
     public class MemberDAL : MSSQLConnection, IMemberDAL
     {
-        public void Add(MemberDTO member)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete()
-        {
-            throw new NotImplementedException();
-        }
 
         public MemberDTO Get(string username, string password)
         {
@@ -81,6 +72,47 @@ namespace Data_Access
             return member;
 
         }
+
+        public int RegisterNew(MemberDTO member)
+        {
+            if (!OpenConnection())
+                return 0;
+
+            string query = "insert into [User] (username, password, email) values " +
+                $"(@Username, @Password, @Email);";
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            cmd.Parameters.Add(new SqlParameter("@Username",member.Username));
+            cmd.Parameters.Add(new SqlParameter("@Password", member.Password));
+            cmd.Parameters.Add(new SqlParameter("@Email", member.Emailaddress));
+            int savedRows = cmd.ExecuteNonQuery();
+
+            return savedRows;
+        }
+
+        public bool UsernameExists(string username)
+        {
+            string query = "SELECT COUNT (*) FROM [User] WHERE username = @Username";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.Add(new SqlParameter("@Username", username));
+
+            OpenConnection();
+            int result = (int)cmd.ExecuteScalar();
+            CloseConnection();
+            return result > 0;
+        }
+
+        public bool EmailExists(string email) {
+            string query = "SELECT COUNT (*) FROM [User] WHERE email = @Email";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.Add(new SqlParameter("@Email", email));
+
+            OpenConnection();
+            int result = (int)cmd.ExecuteScalar();
+            CloseConnection();
+            return result > 0;
+        }
+
 
         public void Update(MemberDTO member)
         {

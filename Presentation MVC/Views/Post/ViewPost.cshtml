@@ -6,6 +6,7 @@
     ViewData["Title"] = Model.Name;
     var sessionI = SessionExtensions.GetInt32(Context.Session, "ID");
 }
+
 <div class="container">
     <div class="postHead">
         <div class="row">
@@ -15,20 +16,21 @@
         <p>by <a>@Model.Owner.Username</a> @Model.CreationDate</p>
     </div>
 
+
     @foreach (PostAttributeViewModel attribute in Model.AttributesWithValue)
     {
         <h2>@(attribute.Name)</h2>
         <p>@(attribute.Value)</p>
     }
-    
+
     @if (AccountController.ValidateCurrentSession(Context))
     {
         <div class="row">
             <button class="col-6">
-            <a asp-action="Edit" asp-controller="Post" asp-route-postId="@Model.ID">Edit</a>
+                <a asp-action="Edit" asp-controller="Post" asp-route-postId="@Model.ID">Edit</a>
             </button>
             <button class="col-6">
-            <a asp-action="Delete" asp-controller="Post" asp-route-postId="@Model.ID">Delete</a>
+                <a asp-action="Delete" asp-controller="Post" asp-route-postId="@Model.ID">Delete</a>
             </button>
         </div>
     }
@@ -49,15 +51,20 @@
     </form>
 
     <br />
-    @foreach (CommentViewModel comment in Model.Comments)
-    {
-        <a>@comment.Owner.Username</a>
-        <p>@comment.CreationDate.ToString()</p>
-        <p>@comment.Text</p>
-        <div class="row">
-            <button class="col-6">Bewerken</button>
-            <button class="col-6">Verwijderen</button>
-        </div>
-    }
+    <div id="" style="overflow:scroll; height:400px;">
+
+        @foreach (CommentViewModel comment in Model.Comments)
+        {
+            <a>@comment.Owner.Username</a>
+            <p>@comment.CreationDate.ToString()</p>
+            <p>@comment.Text</p>
+            <div class="row">
+                <button class="col-6" style="width: 30%">Bewerken</button>
+                 
+                <button class="col-6" style="width: 30%">Verwijderen</button>
+            </div>
+            <br />
+        }
+    </div>
 </div>
 

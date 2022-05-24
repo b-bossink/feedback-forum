@@ -16,7 +16,7 @@ namespace UnitTest
         {
             // Arrange
             CommentSTUB stub = new CommentSTUB();
-            Member user = new Member(12, "test_gebruiker", "gebruiker@email.nl", "wachtwoord123");
+            Member user = new Member(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
             Comment comment = new Comment(stub, "Ik ben een test-comment",
                 DateTime.Now, 56, new List<Comment>(), user);
             int postId = 123;

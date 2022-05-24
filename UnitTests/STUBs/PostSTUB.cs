@@ -78,15 +78,16 @@ namespace UnitTest.STUBs
 
         public int Update(PostDTO postDTO)
         {
+            int result = 0;
             for (int i = 0; i < database.Count; i++)
             {
                 if (database[i].ID == postDTO.ID)
                 {
                     database[i] = postDTO;
-                    return 1;
+                    result++;
                 }
             }
-            return 0;
+            return result;
         }
 
         public int Delete(int id)

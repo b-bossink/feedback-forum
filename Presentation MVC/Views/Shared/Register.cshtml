@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Create an Account";
+}
+@model Presentation_MVC.Models.Users.RegisterViewModel
+
+<div>
+    <form method="post" asp-controller="Account" asp-action="Register">
+        <p class="text-danger">@ViewBag.InvalidCredentialsMessage</p>
+        Username
+        <input type="text" asp-for="Username" />
+        <span class="text-danger" asp-validation-for="Username"></span>
+        <br /> <br />
+        Email Adress
+        <input type="email" asp-for="Emailaddress" />
+        <span class="text-danger" asp-validation-for="Emailaddress"></span>
+        <br /> <br />
+        Password
+        <input type="password" asp-for="Password" />
+        <span class="text-danger" asp-validation-for="Password"></span>
+        <br /> <br />
+        Confirm your password
+        <input type="password" asp-for="PasswordConfirmation" />
+        <span class="text-danger" asp-validation-for="PasswordConfirmation"></span>
+
+        <input type="submit" value="Register" />
+    </form>
+    <p>Already have an account? <a asp-controller="Account" asp-action="Login">Log in!</a></p>
+</div>
+

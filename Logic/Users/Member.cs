@@ -30,9 +30,9 @@ namespace Logic.Users
             Password = dto.Password;
         }
 
-        public int Save()
+        public int Register()
         {
-            throw new NotImplementedException();
+            return _DAL.RegisterNew(ToDTO());
         }
 
         public MemberDTO ToDTO()

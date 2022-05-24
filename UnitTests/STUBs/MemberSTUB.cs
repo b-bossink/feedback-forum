@@ -22,16 +22,6 @@ namespace UnitTest.STUBs
             };
         }
 
-        public void Add(MemberDTO member)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete()
-        {
-            throw new NotImplementedException();
-        }
-
         public MemberDTO Get(string username, string password)
         {
             foreach (MemberDTO member in database) {
@@ -55,7 +45,17 @@ namespace UnitTest.STUBs
             return new MemberDTO();
         }
 
+        public int RegisterNew(MemberDTO member)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(MemberDTO member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Exists(string username)
         {
             throw new NotImplementedException();
         }

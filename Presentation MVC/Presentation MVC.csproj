@@ -10,13 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Logic\Logic.csproj" />
-    <ProjectReference Include="..\Data Access\Data Access.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Microsoft.NET.Test.Sdk" />
     <None Remove="Views\Account\" />
     <None Remove="Models\Users\" />
@@ -28,5 +21,10 @@
     <Folder Include="Models\Users\" />
     <Folder Include="Models\Posting\" />
     <Folder Include="Views\Category\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

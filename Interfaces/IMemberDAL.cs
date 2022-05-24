@@ -7,8 +7,9 @@ namespace Interfaces
     {
         public MemberDTO Get(string username, string password);
         public MemberDTO Get(int id);
-        public void Add(MemberDTO member);
+        public int RegisterNew(MemberDTO member);
         public void Update(MemberDTO member);
-        public void Delete();
+        public bool UsernameExists(string username);
+        public bool EmailExists(string email);
     }
 }

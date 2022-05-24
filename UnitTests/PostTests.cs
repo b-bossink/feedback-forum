@@ -24,7 +24,7 @@ namespace FeedbackForumUnitTests
             {
                 attributes.Add(attribute, "Testwaarde");
             }
-            Member user = new Member(12, "test_gebruiker", "gebruiker@email.nl", "wachtwoord123");
+            Member user = new Member(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
             
             PostSTUB stub = new PostSTUB();
             Post post = new Post(stub, "Test Post", DateTime.Now, new List<Comment>(), 0,
@@ -93,21 +93,25 @@ namespace FeedbackForumUnitTests
 
         }
 
-        //[TestMethod]
-        //public void SaveCategory()
-        //{
-        //    // Arrange
-        //    Category category = new Category(new CategorySTUB(), "Test Categorie", new List<Logic.Attribute>() {
-        //        new Logic.Attribute("Test Attribute")
-        //    });
-        //    bool succesfullySaved;
+        [TestMethod]
+        public void EditPost()
+        {
 
-        //    // Act
-        //    succesfullySaved = category.Upload();
+            // Arrange
+            PostSTUB stub = new PostSTUB();
+            Post oldPost = new Post(stub.database[0]);
+            string expectedName = "succesfully edited";
+            int rowsEdited;
+            int expectedRowsEdited = 1;
+            Post newPost = new Post(stub, expectedName, oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, oldPost.ID);
 
-        //    // Assert
-        //    Assert.IsTrue(succesfullySaved, "No rows have been saved.");
-        //}
+            // Act
+            rowsEdited = newPost.Update();
+
+            // Assert
+            Assert.AreEqual(expectedRowsEdited, rowsEdited, "Either none or too many rows have been updated.");
+            Assert.AreEqual(expectedName, stub.database[0].Name, "Expected post's name does not match.");
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Security.Authentication;
+using Interfaces;
 using Logic.Containers;
 using Logic.Factories;
 using Logic.Users;
@@ -12,6 +13,12 @@ namespace Presentation_MVC.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IMemberDAL _memberDAL;
+        public AccountController()
+        {
+            _memberDAL = new DALFactory().GetMemberDAL();
+        }
+
         public IActionResult Index()
         {
             return RedirectToAction("Login");
@@ -29,7 +36,7 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Login(MemberViewModel model)
         {
-            MemberContainer container = new MemberContainer(new DALFactory().GetMemberDAL());
+            MemberContainer container = new MemberContainer(_memberDAL);
 
             if (ModelState.IsValid) {
                 if (container.ValidateCredentials(model.Username, model.Password))
@@ -50,7 +57,41 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult Register()
         {
-            return RedirectToAction("Index");
+            if (ValidateCurrentSession(HttpContext))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.Password == model.PasswordConfirmation)
+                {
+                    MemberContainer container = new MemberContainer(_memberDAL);
+                    if (container.UsernameExists(model.Username))
+                    {
+                        ViewBag.InvalidCredentialsMessage = "Username already taken. Please try another name.";
+                        return View(model);
+                    }
+
+                    if (container.EmailExists(model.Emailaddress))
+                    {
+                        ViewBag.InvalidCredentialsMessage = "Email address already taken. Please try another one.";
+                        return View(model);
+                    }
+
+                    Member newUser = new Member(_memberDAL, model.Username, model.Emailaddress, model.Password);
+                    newUser.Register();
+                    return RedirectToAction("Login");
+                }
+                ViewBag.InvalidCredentialsMessage = "Passwords did not match. Please try again.";
+                return View(model);
+            }
+            return View(model);
         }
 
         public IActionResult Logout() {

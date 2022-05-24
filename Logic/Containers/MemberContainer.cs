@@ -35,5 +35,15 @@ namespace Logic.Containers
             }
             return true;
         }
+
+        public bool UsernameExists(string username)
+        {
+            return _DAL.UsernameExists(username);
+        }
+
+        public bool EmailExists(string email)
+        {
+            return _DAL.EmailExists(email);
+        }
     }
 }

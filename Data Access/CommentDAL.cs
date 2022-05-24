@@ -9,7 +9,7 @@ namespace Data_Access
 {
     public class CommentDAL : MSSQLConnection, ICommentDAL
     {
-        private readonly MemberDAL memberDAL = new MemberDAL();
+        private readonly MemberDAL _memberDAL = new MemberDAL();
         public int Upload(CommentDTO comment, int postID)
         {
             if (!OpenConnection())
@@ -72,8 +72,8 @@ namespace Data_Access
                         Text = (string)reader["text"],
                         CreationDate = (DateTime)reader["creation_date"],
                         Upvotes = (int)reader["upvotes"],
-                        Replies = replies /*GetFromComment(id)*/,
-                        Owner = memberDAL.Get((int)reader["user_id"])
+                        Replies = replies,
+                        Owner = _memberDAL.Get((int)reader["user_id"])
                     });
                 }
             }
@@ -105,7 +105,7 @@ namespace Data_Access
                         CreationDate = (DateTime)reader["creation_date"],
                         Upvotes = (int)reader["upvotes"],
                         Replies = GetFromComment(id),
-                        Owner = memberDAL.Get((int)reader["user_id"])
+                        Owner = _memberDAL.Get((int)reader["user_id"])
                     });
                 }
             }

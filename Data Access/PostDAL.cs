@@ -12,9 +12,9 @@ namespace Data_Access
 {
     public class PostDAL : MSSQLConnection, IPostDAL
     {
-        private CategoryDAL categoryDAL = new CategoryDAL();
-        private CommentDAL commentDAL = new CommentDAL();
-        private MemberDAL memberDAL = new MemberDAL();
+        private readonly CategoryDAL _categoryDAL = new CategoryDAL();
+        private readonly CommentDAL _commentDAL = new CommentDAL();
+        private readonly MemberDAL _memberDAL = new MemberDAL();
 
         public int Upload(PostDTO post)
         {
@@ -43,17 +43,19 @@ namespace Data_Access
                 }
             }
 
-            foreach (KeyValuePair<AttributeDTO,string> valuesByAttribute in post.ValuesByAttributes)
-            {
-                string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values (@PostID, @AttributeID, @Value)";
+            if (savedRows > 0) {
+                foreach (KeyValuePair<AttributeDTO, string> valuesByAttribute in post.ValuesByAttributes)
+                {
+                    string attributeQuery = $"INSERT INTO PostAttribute (post_id, attribute_id, value) values (@PostID, @AttributeID, @Value)";
 
-                SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
-                cmd2.Parameters.Add(new SqlParameter("@PostID", thisPostID));
-                cmd2.Parameters.Add(new SqlParameter("@AttributeID", valuesByAttribute.Key.ID));
-                cmd2.Parameters.Add(new SqlParameter("@Value", valuesByAttribute.Value));
-                cmd2.ExecuteNonQuery();
+                    SqlCommand cmd2 = new SqlCommand(attributeQuery, connection);
+                    cmd2.Parameters.Add(new SqlParameter("@PostID", thisPostID));
+                    cmd2.Parameters.Add(new SqlParameter("@AttributeID", valuesByAttribute.Key.ID));
+                    cmd2.Parameters.Add(new SqlParameter("@Value", valuesByAttribute.Value));
+                    cmd2.ExecuteNonQuery();
+                }
             }
-            
+
             CloseConnection();
             return savedRows;
         }
@@ -66,8 +68,6 @@ namespace Data_Access
 
             string query = "SELECT * FROM Post";
             SqlCommand cmd = new SqlCommand(query, connection);
-
-
             List<PostDTO> result = new List<PostDTO>();
 
 
@@ -78,7 +78,7 @@ namespace Data_Access
                     int id = (int)reader["id"];
                     Dictionary<AttributeDTO, string> valuesByAttributes = new Dictionary<AttributeDTO, string>();
 
-                    CategoryDTO category = categoryDAL.Load((int)reader["category_id"]);
+                    CategoryDTO category = _categoryDAL.Load((int)reader["category_id"]);
                     foreach (AttributeDTO attribute in category.Attributes)
                     {
                         valuesByAttributes.Add(attribute, GetAttributeValue(id, attribute.ID));
@@ -91,9 +91,9 @@ namespace Data_Access
                         CreationDate = (DateTime)reader["creation_date"],
                         Upvotes = (int)reader["upvotes"],
                         Category = category,
-                        Comments = commentDAL.GetFromPost(id),
+                        Comments = _commentDAL.GetFromPost(id),
                         ValuesByAttributes = valuesByAttributes,
-                        Owner = memberDAL.Get((int)reader["user_id"])
+                        Owner = _memberDAL.Get((int)reader["user_id"])
                     };
 
                     result.Add(post);
