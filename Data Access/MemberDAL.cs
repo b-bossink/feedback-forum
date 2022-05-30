@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using Interfaces;
 using Interfaces.DTOs;
@@ -68,7 +69,7 @@ namespace Data_Access
                     }
                 }
             }
-            //CloseConnection();
+
             if (member.Username == null)
                 return null;
 
@@ -81,6 +82,11 @@ namespace Data_Access
             if (!OpenConnection())
                 return 0;
 
+            if (UsernameExists(member.Username) || EmailExists(member.Emailaddress))
+            {
+                throw new DuplicateNameException("Email or username already exists");
+            }
+ 
             string query = "insert into [User] (username, password, email) values " +
                 $"(@Username, @Password, @Email);";
             SqlCommand cmd = new SqlCommand(query, connection);
