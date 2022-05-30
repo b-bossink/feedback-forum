@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Interfaces.DTOs
+﻿namespace Interfaces.DTOs
 {
     public struct MemberDTO
     {

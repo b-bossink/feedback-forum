@@ -6,8 +6,6 @@ using Logic.Containers;
 using UnitTest.STUBs;
 using Logic.Users;
 using Interfaces.DTOs;
-using System.Diagnostics;
-using Interfaces;
 
 namespace FeedbackForumUnitTests
 {
@@ -40,7 +38,9 @@ namespace FeedbackForumUnitTests
             foreach (PostDTO dto in stub.database)
             {
                 if (post.ID == dto.ID && post.Name == dto.Name && post.CreationDate == dto.CreationDate)
+                {
                     return;
+                }
             }
             Assert.Fail("Inserted post's ID, Name and CreationDate could not be found in any post in STUB.");
         }
@@ -64,7 +64,9 @@ namespace FeedbackForumUnitTests
             foreach (PostDTO dto in stub.database)
             {
                 if (dto.ID == expectedPostID)
+                {
                     return;
+                }
             }
             Assert.Fail("Expected ID could not be found in any post in STUB.");
 
@@ -88,7 +90,9 @@ namespace FeedbackForumUnitTests
             foreach (PostDTO dto in stub.database)
             {
                 if (dto.ID == postId)
+                {
                     Assert.Fail("ID expected to be deleted was still found in STUB");
+                }
             }
 
         }

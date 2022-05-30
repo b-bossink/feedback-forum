@@ -10,9 +10,6 @@ using Presentation_MVC.Converters;
 using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 
 namespace Presentation_MVC.Controllers
 {
@@ -56,7 +53,9 @@ namespace Presentation_MVC.Controllers
         public IActionResult Create(int categoryId)
         {
             if (!AccountController.ValidateCurrentSession(HttpContext))
+            {
                 return RedirectToAction("Login", "Account");
+            }
 
             CategoryContainer container = new CategoryContainer(_categoryDAL);
             Category category = container.Get(categoryId);
@@ -87,7 +86,12 @@ namespace Presentation_MVC.Controllers
             post.CreationDate = DateTime.Now;
             MemberContainer memberContainer = new MemberContainer(_memberDAL);
             post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
-            ModelConverter.ToPost(post).Upload();
+            Post postToUpload = ModelConverter.ToPost(post);
+            if (postToUpload.Upload() == 0)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -105,12 +109,15 @@ namespace Presentation_MVC.Controllers
                 );
 
             comment.Upload(postId);
-            return RedirectToAction("ViewPost", new { postId = postId });
+            return RedirectToAction("ViewPost", new { postId });
         }
 
-        public IActionResult Delete(int postId) {
+        public IActionResult Delete(int postId)
+        {
             if (!AccountController.ValidateCurrentSession(HttpContext))
-                return RedirectToAction("ViewPost", new { postId = postId });
+            {
+                return RedirectToAction("ViewPost", new { postId });
+            }
 
             PostContainer container = new PostContainer(_postDAL);
             container.Delete(postId);
@@ -120,7 +127,9 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult Edit(int postId) {
             if (!AccountController.ValidateCurrentSession(HttpContext))
+            { 
                 return RedirectToAction("Login", "Account");
+            }
 
             PostViewModel model = ModelConverter.ToViewModel(new PostContainer(_postDAL).Get(postId));
             return View(model);
@@ -129,7 +138,9 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Edit(PostViewModel newModel) {
             if (!AccountController.ValidateCurrentSession(HttpContext))
+            { 
                 return RedirectToAction("Login", "Account");
+            }
 
             Post oldPost = new PostContainer(_postDAL).Get(newModel.ID);
             PostViewModel oldModel = ModelConverter.ToViewModel(oldPost);

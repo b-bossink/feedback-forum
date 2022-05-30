@@ -1,5 +1,4 @@
-﻿using System;
-using Interfaces.DTOs;
+﻿using Interfaces.DTOs;
 using Logic.Containers;
 using Logic.Users;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,7 +33,9 @@ namespace UnitTest
                     && member.Username == dto.Username
                     && member.Emailaddress == dto.Emailaddress
                     && member.Password == dto.Password)
+                {
                     return;
+                }
             }
             Assert.Fail("Inserted member's ID, Username, Password and Emailaddress combination could not be found with any member in STUB.");
         }

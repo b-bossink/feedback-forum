@@ -1,9 +1,7 @@
-﻿using Data_Access;
-using Interfaces;
+﻿using Interfaces;
 using Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace UnitTest.STUBs
 {
@@ -27,9 +25,11 @@ namespace UnitTest.STUBs
                 }
             };
 
-            Dictionary<AttributeDTO, string> attributeDict = new Dictionary<AttributeDTO, string>();
-            attributeDict.Add(attributes[0], "My first value!");
-            attributeDict.Add(attributes[1], "Another value!!");
+            Dictionary<AttributeDTO, string> attributeDict = new Dictionary<AttributeDTO, string>
+            {
+                { attributes[0], "My first value!" },
+                { attributes[1], "Another value!!" }
+            };
 
             List<PostDTO> result = new List<PostDTO>()
             {
@@ -98,7 +98,7 @@ namespace UnitTest.STUBs
             {
                 if (database[i].ID == id)
                 {
-                    database.Remove(database[i]);
+                    _ = database.Remove(database[i]);
                 }
             }
             int after = database.Count;

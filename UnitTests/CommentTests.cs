@@ -35,7 +35,9 @@ namespace UnitTest
                     foreach (CommentDTO commentDTO in postDTO.Comments)
                     {
                         if (commentDTO.ID == comment.ID && commentDTO.CreationDate == comment.CreationDate && commentDTO.Text == comment.Text)
+                        {
                             return;
+                        }
                     }
                 }
             }

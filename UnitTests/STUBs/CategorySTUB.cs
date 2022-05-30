@@ -1,13 +1,11 @@
-﻿using Data_Access;
-using Interfaces;
+﻿using Interfaces;
 using Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace UnitTest.STUBs
 {
-    class CategorySTUB : ICategoryDAL
+    public class CategorySTUB : ICategoryDAL
     {
         public CategoryDTO? Load(int id)
         {
