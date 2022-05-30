@@ -5,8 +5,10 @@ namespace Interfaces
 {
     public interface IMemberDAL
     {
-        public MemberDTO Get(string username, string password);
-        public MemberDTO Get(int id);
+        /// <returns>Null when credentials are invalid.</returns>
+        public MemberDTO? Get(string username, string password);
+        /// <returns>Null when id is not found.</returns>
+        public MemberDTO? Get(int id);
         public int RegisterNew(MemberDTO member);
         public void Update(MemberDTO member);
         public bool UsernameExists(string username);

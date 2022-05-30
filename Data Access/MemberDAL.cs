@@ -8,7 +8,7 @@ namespace Data_Access
     public class MemberDAL : MSSQLConnection, IMemberDAL
     {
 
-        public MemberDTO Get(string username, string password)
+        public MemberDTO? Get(string username, string password)
         {
             string query = "SELECT * FROM [User] WHERE Username = @Username AND Password = @Password";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -38,13 +38,13 @@ namespace Data_Access
                 }
             }
 
-            if (member.ID > 0)
-                return member;
+            if (member.ID < 1)
+                return null;
 
-            throw new System.Security.Authentication.InvalidCredentialException();
+            return member;
         }
 
-        public MemberDTO Get(int id)
+        public MemberDTO? Get(int id)
         {
             string query = "SELECT * FROM [User] WHERE ID = @ID";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -69,6 +69,9 @@ namespace Data_Access
                 }
             }
             //CloseConnection();
+            if (member.Username == null)
+                return null;
+
             return member;
 
         }
@@ -86,7 +89,7 @@ namespace Data_Access
             cmd.Parameters.Add(new SqlParameter("@Password", member.Password));
             cmd.Parameters.Add(new SqlParameter("@Email", member.Emailaddress));
             int savedRows = cmd.ExecuteNonQuery();
-
+            CloseConnection();
             return savedRows;
         }
 

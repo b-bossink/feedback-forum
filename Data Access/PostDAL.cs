@@ -78,7 +78,7 @@ namespace Data_Access
                     int id = (int)reader["id"];
                     Dictionary<AttributeDTO, string> valuesByAttributes = new Dictionary<AttributeDTO, string>();
 
-                    CategoryDTO category = _categoryDAL.Load((int)reader["category_id"]);
+                    CategoryDTO category = (CategoryDTO)_categoryDAL.Load((int)reader["category_id"]);
                     foreach (AttributeDTO attribute in category.Attributes)
                     {
                         valuesByAttributes.Add(attribute, GetAttributeValue(id, attribute.ID));
@@ -93,7 +93,7 @@ namespace Data_Access
                         Category = category,
                         Comments = _commentDAL.GetFromPost(id),
                         ValuesByAttributes = valuesByAttributes,
-                        Owner = _memberDAL.Get((int)reader["user_id"])
+                        Owner = (MemberDTO)_memberDAL.Get((int)reader["user_id"])
                     };
 
                     result.Add(post);

@@ -1,12 +1,9 @@
-﻿using System.Diagnostics;
-using System.Security.Authentication;
-using Interfaces;
+﻿using Interfaces;
 using Logic.Containers;
 using Logic.Factories;
 using Logic.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Presentation_MVC.Converters;
 using Presentation_MVC.Models.Users;
 
 namespace Presentation_MVC.Controllers
@@ -39,16 +36,15 @@ namespace Presentation_MVC.Controllers
             MemberContainer container = new MemberContainer(_memberDAL);
 
             if (ModelState.IsValid) {
-                if (container.ValidateCredentials(model.Username, model.Password))
+                Member member = container.Get(model.Username, model.Password);
+                if (member != null)
                 {
-                    Member member = container.Get(model.Username, model.Password);
                     HttpContext.Session.SetInt32("ID", member.ID);
                     HttpContext.Session.SetString("Username", model.Username);
                     HttpContext.Session.SetString("Password", model.Password);
-
                     return RedirectToAction("Index");
                 }
-                ViewBag.InvalidCredentialsMessage = "User not found. Please try again.";
+                ViewBag.InvalidCredentialsMessage = "Invalid username and password combination. Please try again.";
                 return View(model);
             }
             return RedirectToAction("Login");

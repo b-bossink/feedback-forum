@@ -11,6 +11,7 @@ using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace Presentation_MVC.Controllers
@@ -45,7 +46,7 @@ namespace Presentation_MVC.Controllers
                 string user = HttpContext.Session.GetString("Username");
                 return View(postModel);
             }
-            catch
+            catch (NullReferenceException)
             {
                 ViewBag.ErrorMessage = "ERROR: Post not found.";
                 return RedirectToAction("Error", "Home");

@@ -73,7 +73,7 @@ namespace Data_Access
                         CreationDate = (DateTime)reader["creation_date"],
                         Upvotes = (int)reader["upvotes"],
                         Replies = replies,
-                        Owner = _memberDAL.Get((int)reader["user_id"])
+                        Owner = (MemberDTO)_memberDAL.Get((int)reader["user_id"])
                     });
                 }
             }
@@ -105,7 +105,7 @@ namespace Data_Access
                         CreationDate = (DateTime)reader["creation_date"],
                         Upvotes = (int)reader["upvotes"],
                         Replies = GetFromComment(id),
-                        Owner = _memberDAL.Get((int)reader["user_id"])
+                        Owner = (MemberDTO)_memberDAL.Get((int)reader["user_id"])
                     });
                 }
             }

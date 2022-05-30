@@ -41,24 +41,6 @@ namespace UnitTest
             }
             Assert.Fail("Inserted comment's ID, Text and CreationDate could not be found in any comment in post in STUB.");
         }
-
-        //[TestMethod]
-        //public void CommentOnComment()
-        //{
-        //    // Arrange
-        //    Comment comment = new Comment(new CommentSTUB(), "Ik ben een test-comment onder een andere comment.",
-        //        DateTime.Now, 22, new List<Comment>());
-        //    int postId = 1;
-        //    int commentId = 1;
-        //    int expectedResult = 1;
-        //    int result;
-
-        //    // Act
-        //    result = comment.Upload(postId, commentId);
-
-        //    // Assert
-        //    Assert.AreEqual(expectedResult, result, "Either none or too many rows have been saved.");
-        //}
     }
 }
 

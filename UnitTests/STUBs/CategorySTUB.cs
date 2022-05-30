@@ -9,7 +9,7 @@ namespace UnitTest.STUBs
 {
     class CategorySTUB : ICategoryDAL
     {
-        public CategoryDTO Load(int id)
+        public CategoryDTO? Load(int id)
         {
             throw new NotImplementedException();
         }

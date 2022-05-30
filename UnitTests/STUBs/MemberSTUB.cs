@@ -22,7 +22,7 @@ namespace UnitTest.STUBs
             };
         }
 
-        public MemberDTO Get(string username, string password)
+        public MemberDTO? Get(string username, string password)
         {
             foreach (MemberDTO member in database) {
                 if (member.Username == username && member.Password == password)
@@ -30,10 +30,10 @@ namespace UnitTest.STUBs
                     return member;
                 }
             }
-            throw new System.Security.Authentication.InvalidCredentialException();
+            return null;
         }
 
-        public MemberDTO Get(int id)
+        public MemberDTO? Get(int id)
         {
             foreach (MemberDTO member in database)
             {
@@ -42,12 +42,15 @@ namespace UnitTest.STUBs
                     return member;
                 }
             }
-            return new MemberDTO();
+            return null;
         }
 
         public int RegisterNew(MemberDTO member)
         {
-            throw new NotImplementedException();
+            int before = database.Count;
+            database.Add(member);
+            int after = database.Count;
+            return after - before;
         }
 
         public void Update(MemberDTO member)
@@ -55,9 +58,28 @@ namespace UnitTest.STUBs
             throw new NotImplementedException();
         }
 
-        public bool Exists(string username)
+        public bool UsernameExists(string username)
         {
-            throw new NotImplementedException();
+            foreach (MemberDTO dto in database)
+            {
+                if (dto.Username.Equals(username))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool EmailExists(string email)
+        {
+            foreach (MemberDTO dto in database)
+            {
+                if (dto.Emailaddress.Equals(email))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

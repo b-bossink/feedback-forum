@@ -9,6 +9,7 @@ namespace Interfaces
     {
         public bool Upload(CategoryDTO category);
         public List<CategoryDTO> LoadAll();
-        public CategoryDTO Load(int id);
+        /// <returns>Null when id is not found.</returns>
+        public CategoryDTO? Load(int id);
     }
 }

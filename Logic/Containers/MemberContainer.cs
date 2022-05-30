@@ -1,5 +1,6 @@
 ﻿using System;
 using Interfaces;
+using Interfaces.DTOs;
 using Logic.Users;
 
 namespace Logic.Containers
@@ -12,28 +13,23 @@ namespace Logic.Containers
             _DAL = dal;
         }
 
+        /// <returns>The member based on the given credentials. Null when credentials are invalid.</returns>
         public Member Get(string username, string password)
         {
-            Member member = new Member(_DAL.Get(username, password));
-            return member;
+            MemberDTO? dto = _DAL.Get(username, password);
+            if (dto == null)
+                return null;
+
+            return new Member((MemberDTO)dto);
         }
 
         public Member Get(int id)
         {
-            return new Member(_DAL.Get(id));
-        }
+            MemberDTO? dto = _DAL.Get(id);
+            if (dto == null)
+                return null;
 
-        public bool ValidateCredentials(string username, string password)
-        {
-            try
-            {
-                Get(username, password);
-            }
-            catch (System.Security.Authentication.InvalidCredentialException)
-            {
-                return false;
-            }
-            return true;
+            return new Member((MemberDTO)dto);
         }
 
         public bool UsernameExists(string username)

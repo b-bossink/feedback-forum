@@ -67,14 +67,14 @@ namespace Data_Access
             return saved;
         }
 
-        public CategoryDTO Load(int id)
+        public CategoryDTO? Load(int id)
         {
             if (!OpenConnection())
                 return new CategoryDTO { ID = 0 };
 
             string query = $"SELECT * FROM Category WHERE id = {id}";
             SqlCommand cmd = new SqlCommand(query, connection);
-            CategoryDTO firstResult = new CategoryDTO();
+            CategoryDTO result = new CategoryDTO();
 
             string name = "";
             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -84,21 +84,18 @@ namespace Data_Access
                     name = reader["name"].ToString();
                 }
 
-                firstResult = new CategoryDTO
+                result = new CategoryDTO
                 {
                     ID = id,
-                    Name = name
+                    Name = name,
+                    Attributes = LoadAttributes(id)
                 };
             }
 
-            //CloseConnection();
+            if (result.Name == null)
+                return null;
 
-            return new CategoryDTO
-            {
-                ID = firstResult.ID,
-                Name = firstResult.Name,
-                Attributes = LoadAttributes(firstResult.ID)
-            };
+            return result;
         }
 
         private List<AttributeDTO> LoadAttributes(int categoryID)
