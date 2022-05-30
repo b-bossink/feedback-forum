@@ -1,12 +1,8 @@
-﻿
-
-using Interfaces;
+﻿using Interfaces;
 using Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Globalization;
-using System.Text;
 
 namespace Data_Access
 {
@@ -190,6 +186,18 @@ namespace Data_Access
             //CloseConnection();
 
             return result;
+        }
+
+        public bool Exists(int id)
+        {
+            string query = "SELECT COUNT (*) FROM Post WHERE id = @ID";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.Add(new SqlParameter("@ID", id));
+
+            OpenConnection();
+            int result = (int)cmd.ExecuteScalar();
+            CloseConnection();
+            return result > 0;
         }
     }
 }

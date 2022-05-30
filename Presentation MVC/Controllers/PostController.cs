@@ -87,7 +87,7 @@ namespace Presentation_MVC.Controllers
             MemberContainer memberContainer = new MemberContainer(_memberDAL);
             post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
             Post postToUpload = ModelConverter.ToPost(post);
-            if (postToUpload.Upload() == 0)
+            if (postToUpload.Upload() != Post.CommunicationResult.Succes)
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -152,8 +152,13 @@ namespace Presentation_MVC.Controllers
             newModel.Category = oldModel.Category;
 
             Post newPost = ModelConverter.ToPost(newModel);
-            newPost.Update();
-            return RedirectToAction("ViewPost", new { postId = newModel.ID });
+            Post.CommunicationResult result = newPost.Update();
+            if (result == Post.CommunicationResult.Succes)
+            {
+                return RedirectToAction("ViewPost", new { postId = newModel.ID });
+            }
+
+            return RedirectToAction("Error", "Home");
         }
     }
 }

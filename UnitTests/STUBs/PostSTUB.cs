@@ -105,5 +105,17 @@ namespace UnitTest.STUBs
             int result = before - after;
             return result;
         }
+
+        public bool Exists(int id)
+        {
+            foreach (PostDTO dto in database)
+            {
+                if (dto.ID == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Interfaces
         public int Delete(int id);
         public int Update(PostDTO postDTO);
         public List<PostDTO> LoadAll();
+        public bool Exists(int id);
     }
 }

@@ -30,9 +30,25 @@ namespace Logic.Users
             Password = dto.Password;
         }
 
-        public int Register()
+        public CommunicationResult Register()
         {
-            return _DAL.RegisterNew(ToDTO());
+            if (_DAL.UsernameExists(Username))
+            {
+                return CommunicationResult.DuplicateUsernameError;
+            }
+
+            if (_DAL.EmailExists(Emailaddress))
+            {
+                return CommunicationResult.DuplicateEmailError;
+            }
+
+            int rowsSaved = _DAL.RegisterNew(ToDTO());
+            if (rowsSaved != 1)
+            {
+                return CommunicationResult.UnexpectedError;
+            }
+
+            return CommunicationResult.Succes;
         }
 
         public MemberDTO ToDTO()
@@ -44,6 +60,14 @@ namespace Logic.Users
                 Emailaddress = this.Emailaddress,
                 Password = this.Password
             };
+        }
+
+        public enum CommunicationResult
+        {
+            Succes,
+            DuplicateUsernameError,
+            DuplicateEmailError,
+            UnexpectedError
         }
     }
 }

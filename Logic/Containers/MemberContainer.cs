@@ -31,15 +31,5 @@ namespace Logic.Containers
 
             return new Member((MemberDTO)dto);
         }
-
-        public bool UsernameExists(string username)
-        {
-            return _DAL.UsernameExists(username);
-        }
-
-        public bool EmailExists(string email)
-        {
-            return _DAL.EmailExists(email);
-        }
     }
 }

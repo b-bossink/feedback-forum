@@ -53,14 +53,34 @@ namespace Logic
             Owner = new Member(dto.Owner);
         }
 
-        public int Upload()
+        public CommunicationResult Upload()
         {
-            return _DAL.Upload(ToDTO());
+            int rowsSaved = _DAL.Upload(ToDTO());
+            if (rowsSaved == 1)
+            {
+               return CommunicationResult.Succes;
+            }
+            else {
+               return CommunicationResult.UnexpectedError;
+            }
         }
 
-        public int Update()
+        public CommunicationResult Update()
         {
-            return _DAL.Update(ToDTO());
+            if (!_DAL.Exists(ID))
+            {
+                return CommunicationResult.PostNotFoundError;
+            }
+
+            int rowsSaved = _DAL.Update(ToDTO());
+            if (rowsSaved == 1)
+            {
+                return CommunicationResult.Succes;
+            }
+            else
+            {
+                return CommunicationResult.UnexpectedError;
+            }
         }
         
         public PostDTO ToDTO()
@@ -88,6 +108,13 @@ namespace Logic
                 ValuesByAttributes = valueByAttribute,
                 Owner = this.Owner.ToDTO()
             };  
+        }
+
+        public enum CommunicationResult
+        {
+            Succes,
+            PostNotFoundError,
+            UnexpectedError
         }
     }
 }

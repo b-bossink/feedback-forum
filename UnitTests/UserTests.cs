@@ -1,4 +1,5 @@
 ﻿using Interfaces.DTOs;
+using Logic;
 using Logic.Containers;
 using Logic.Users;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,9 +10,8 @@ namespace UnitTest
     [TestClass]
 	public class UserTests
     {
-
         [TestMethod]
-        public void RegisterUser()
+        public void RegisterUserSuccesfully()
         {
             // Arrange
             MemberSTUB stub = new MemberSTUB();
@@ -19,14 +19,14 @@ namespace UnitTest
                 "nieuwe_gebruiker",
                 "user@email.com",
                 "mijn_wachtwoord");
-            int rowsSaved;
-            int expectedRowsSaved = 1;
+            Member.CommunicationResult expectedResult = Member.CommunicationResult.Succes;
+            Member.CommunicationResult result;
 
             // Act
-            rowsSaved = member.Register();
+            result = member.Register();
 
             // Assert
-            Assert.AreEqual(expectedRowsSaved, rowsSaved, "Either none or too many rows have been saved.");
+            Assert.AreEqual(expectedResult, result, "Either none or too many rows have been saved.");
             foreach (MemberDTO dto in stub.database)
             {
                 if (member.ID == dto.ID
@@ -40,6 +40,44 @@ namespace UnitTest
             Assert.Fail("Inserted member's ID, Username, Password and Emailaddress combination could not be found with any member in STUB.");
         }
 
+        [TestMethod]
+        public void RegisterUserWithExistingUsername()
+        {
+            // Arrange
+            MemberSTUB stub = new MemberSTUB();
+            Member member = new Member(stub,
+                "test_gebruiker",
+                "user@email.com",
+                "mijn_wachtwoord");
+            Member.CommunicationResult expectedResult = Member.CommunicationResult.DuplicateUsernameError;
+            Member.CommunicationResult result;
+
+            // Act
+            result = member.Register();
+
+            // Assert
+            Assert.AreEqual(expectedResult, result, "Expected result to be 'username taken' error, but test returned " + result.ToString());
+        }
+
+
+        [TestMethod]
+        public void RegisterUserWithExistingEmailaddress()
+        {
+            // Arrange
+            MemberSTUB stub = new MemberSTUB();
+            Member member = new Member(stub,
+                "nieuwe_gebruiker",
+                "gebruiker@email.nl",
+                "mijn_wachtwoord");
+            Member.CommunicationResult expectedResult = Member.CommunicationResult.DuplicateEmailError;
+            Member.CommunicationResult result;
+
+            // Act
+            result = member.Register();
+
+            // Assert
+            Assert.AreEqual(expectedResult, result, "Expected result to be 'email taken' error, but test returned " + result.ToString());
+        }
 
         [TestMethod]
         public void GetUserByCredentials()
@@ -94,70 +132,6 @@ namespace UnitTest
             Assert.AreEqual(member.Username, username, "Retrieved member's username did not match.");
             Assert.AreEqual(member.Emailaddress, email, "Retrieved member's emailadress did not match.");
             Assert.AreEqual(member.Password, password, "Retrieved member's password did not match.");
-        }
-
-        [TestMethod]
-        public void UsernameExists()
-        {
-            // Arrange
-            MemberContainer container = new MemberContainer(new MemberSTUB());
-            string username = "test_gebruiker";
-            bool expectedResult = true;
-            bool result;
-
-            // Act
-            result = container.UsernameExists(username);
-
-            // Assert
-            Assert.AreEqual(expectedResult, result, "Expected result to be true, but test didnt return true");
-        }
-
-        [TestMethod]
-        public void UsernameDoesntExist()
-        {
-            // Arrange
-            MemberContainer container = new MemberContainer(new MemberSTUB());
-            string username = "nep_gebruiker";
-            bool expectedResult = false;
-            bool result;
-
-            // Act
-            result = container.UsernameExists(username);
-
-            // Assert
-            Assert.AreEqual(expectedResult, result, "Expected result to be false, but test didnt return false");
-        }
-
-        [TestMethod]
-        public void EmailExists()
-        {
-            // Arrange
-            MemberContainer container = new MemberContainer(new MemberSTUB());
-            string email = "gebruiker@email.nl";
-            bool expectedResult = true;
-            bool result;
-
-            // Act
-            result = container.EmailExists(email);
-
-            // Assert
-            Assert.AreEqual(expectedResult, result, "Expected result to be true, but test didnt return true");
-        }
-
-        [TestMethod]
-        public void EmailDoesntExist()
-        {
-            // Arrange
-            MemberContainer container = new MemberContainer(new MemberSTUB());
-            string email = "nepgebruiker@email.nl";
-            bool expectedResult = false;
-            bool result;
-
-            // Act
-            result = container.EmailExists(email);
-
-            // Assert
-            Assert.AreEqual(expectedResult, result, "Expected result to be false, but test didnt return false");
         }
     }
 }

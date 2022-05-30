@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Logic;
 using Logic.Containers;
 using Logic.Factories;
 using Logic.Users;
@@ -67,21 +68,27 @@ namespace Presentation_MVC.Controllers
             {
                 if (model.Password == model.PasswordConfirmation)
                 {
-                    MemberContainer container = new MemberContainer(_memberDAL);
-                    if (container.UsernameExists(model.Username))
+                    Member newUser = new Member(_memberDAL, model.Username, model.Emailaddress, model.Password);
+                    Member.CommunicationResult result = newUser.Register();
+
+                    if (result == Member.CommunicationResult.DuplicateUsernameError)
                     {
                         ViewBag.InvalidCredentialsMessage = "Username already taken. Please try another name.";
                         return View(model);
                     }
 
-                    if (container.EmailExists(model.Emailaddress))
+                    if (result == Member.CommunicationResult.DuplicateEmailError)
                     {
                         ViewBag.InvalidCredentialsMessage = "Email address already taken. Please try another one.";
                         return View(model);
                     }
 
-                    Member newUser = new Member(_memberDAL, model.Username, model.Emailaddress, model.Password);
-                    newUser.Register();
+                    if (result == Member.CommunicationResult.UnexpectedError)
+                    {
+                        ViewBag.InvalidCredentialsMessage = "An unexpected error occurred. Please try again.";
+                        return View(model);
+                    }
+
                     return RedirectToAction("Login");
                 }
                 ViewBag.InvalidCredentialsMessage = "Passwords did not match. Please try again.";

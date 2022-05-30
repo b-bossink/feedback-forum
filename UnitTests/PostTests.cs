@@ -7,13 +7,13 @@ using UnitTest.STUBs;
 using Logic.Users;
 using Interfaces.DTOs;
 
-namespace FeedbackForumUnitTests
+namespace UnitTest
 {
     [TestClass]
     public class PostTests
     {
         [TestMethod]
-        public void SavePost()
+        public void SavePostSuccesfully()
         {
             // Arrange
             Category category = new Category(new CategorySTUB(), "Testcategorie", new List<Logic.Attribute>());
@@ -27,14 +27,15 @@ namespace FeedbackForumUnitTests
             PostSTUB stub = new PostSTUB();
             Post post = new Post(stub, "Test Post", DateTime.Now, new List<Comment>(), 0,
                 category, attributes, user);
-            int rowsSaved;
-            int expectedRowsSaved = 1;
+
+            Post.CommunicationResult result;
+            Post.CommunicationResult expectedResult = Post.CommunicationResult.Succes;
 
             // Act
-            rowsSaved = post.Upload();
+            result = post.Upload();
 
             // Assert
-            Assert.AreEqual(expectedRowsSaved, rowsSaved, "Either none or too many rows have been saved.");
+            Assert.AreEqual(expectedResult, result, "Either none or too many rows have been saved.");
             foreach (PostDTO dto in stub.database)
             {
                 if (post.ID == dto.ID && post.Name == dto.Name && post.CreationDate == dto.CreationDate)
@@ -46,7 +47,7 @@ namespace FeedbackForumUnitTests
         }
 
         [TestMethod]
-        public void LoadAllPosts()
+        public void LoadAllPostsSuccesfully()
         {
             // Arrange
             int minimum = 1;
@@ -73,20 +74,20 @@ namespace FeedbackForumUnitTests
         }
 
         [TestMethod]
-        public void DeletePost()
+        public void DeletePostSuccesfully()
         {
             // Arrange
             PostSTUB stub = new PostSTUB();
             PostContainer container = new PostContainer(stub);
             int postId = 123;
-            int rowsDeleted;
-            int expectedRowsDeleted = 1;
+            Post.CommunicationResult result;
+            Post.CommunicationResult expectedResult = Post.CommunicationResult.Succes;
 
             // Act
-            rowsDeleted = container.Delete(postId);
+            result = container.Delete(postId);
 
             // Assert
-            Assert.AreEqual(expectedRowsDeleted, rowsDeleted, "Either none or too many rows have been deleted.");
+            Assert.AreEqual(expectedResult, result, "Either none or too many rows have been deleted.");
             foreach (PostDTO dto in stub.database)
             {
                 if (dto.ID == postId)
@@ -98,24 +99,58 @@ namespace FeedbackForumUnitTests
         }
 
         [TestMethod]
-        public void EditPost()
+        public void DeleteNonExistentPost()
         {
+            // Arrange
+            PostSTUB stub = new PostSTUB();
+            PostContainer container = new PostContainer(stub);
+            int postId = 999;
+            Post.CommunicationResult result;
+            Post.CommunicationResult expectedResult = Post.CommunicationResult.PostNotFoundError;
 
+            // Act
+            result = container.Delete(postId);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result, "Result didn't match expected.");
+
+        }
+
+        [TestMethod]
+        public void EditPostSuccesfully()
+        {
             // Arrange
             PostSTUB stub = new PostSTUB();
             Post oldPost = new Post(stub.database[0]);
             string expectedName = "succesfully edited";
-            int rowsEdited;
-            int expectedRowsEdited = 1;
+            Post.CommunicationResult result;
+            Post.CommunicationResult expectedResult = Post.CommunicationResult.Succes;
             Post newPost = new Post(stub, expectedName, oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, oldPost.ID);
 
             // Act
-            rowsEdited = newPost.Update();
+            result = newPost.Update();
 
             // Assert
-            Assert.AreEqual(expectedRowsEdited, rowsEdited, "Either none or too many rows have been updated.");
+            Assert.AreEqual(expectedResult, result, "Either none or too many rows have been updated.");
             Assert.AreEqual(expectedName, stub.database[0].Name, "Expected post's name does not match.");
         }
 
+        [TestMethod]
+        public void EditNonExistentPost()
+        {
+            // Arrange
+            PostSTUB stub = new PostSTUB();
+            int fakeId = 999;
+            Post oldPost = new Post(stub.database[0]);
+            Post.CommunicationResult result;
+            Post.CommunicationResult expectedResult = Post.CommunicationResult.PostNotFoundError;
+            Post newPost = new Post(stub, "new post", oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, fakeId);
+
+            // Act
+            result = newPost.Update();
+
+            // Assert
+            Assert.AreEqual(expectedResult, result, "Either none or too many rows have been updated.");
+          }
     }
 }
