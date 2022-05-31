@@ -60,7 +60,8 @@ namespace Logic
             {
                return CommunicationResult.Succes;
             }
-            else {
+            else
+            {
                return CommunicationResult.UnexpectedError;
             }
         }

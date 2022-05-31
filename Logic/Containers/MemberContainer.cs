@@ -23,6 +23,7 @@ namespace Logic.Containers
             return new Member((MemberDTO)dto);
         }
 
+        /// <returns>The member with the given ID. Null when ID is not found.</returns>
         public Member Get(int id)
         {
             MemberDTO? dto = _DAL.Get(id);

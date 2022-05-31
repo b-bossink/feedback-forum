@@ -1,11 +1,8 @@
 ﻿using Logic;
-using Logic.Containers;
 using Logic.Factories;
 using Logic.Users;
-using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
 using Presentation_MVC.Models.Users;
-using System;
 using System.Collections.Generic;
 namespace Presentation_MVC.Converters
 {
@@ -76,8 +73,7 @@ namespace Presentation_MVC.Converters
                 Attributes = attributeModels
             };
         }
-
-        private static AttributeViewModel ToViewModel(Logic.Attribute attribute)
+        private static AttributeViewModel ToViewModel(Attribute attribute)
         {
             return new AttributeViewModel()
             {
@@ -85,7 +81,6 @@ namespace Presentation_MVC.Converters
                 Name = attribute.Name
             };
         }
-
         public static MemberViewModel ToViewModel(Member member) {
             return new MemberViewModel
             {
@@ -131,7 +126,6 @@ namespace Presentation_MVC.Converters
                 model.ID
             );
         }
-
         private static Category ToCategory(CategoryViewModel model)
         {
             List<Logic.Attribute> attributes = new List<Logic.Attribute>();
@@ -154,7 +148,6 @@ namespace Presentation_MVC.Converters
                 attributes,
                 model.ID);
         }
-
         private static Member ToMember(MemberViewModel model) {
             DALFactory factory = new DALFactory();
             return new Member
@@ -166,7 +159,6 @@ namespace Presentation_MVC.Converters
                 model.ID
             );
         }
-
         private static Comment ToComment(CommentViewModel model)
         {
             List<Comment> replies = new List<Comment>();
@@ -185,13 +177,11 @@ namespace Presentation_MVC.Converters
                 model.ID
                 );
         }
-
-        private static Logic.Attribute ToAttribute(AttributeViewModel model)
+        private static Attribute ToAttribute(AttributeViewModel model)
         {
             return new Logic.Attribute(model.Name, model.ID);
         }
-
-        private static Logic.Attribute ToAttribute(PostAttributeViewModel model)
+        private static Attribute ToAttribute(PostAttributeViewModel model)
         {
             return new Logic.Attribute(model.Name, model.AttributeID);
         }

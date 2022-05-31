@@ -29,6 +29,7 @@ namespace Logic.Containers
 
         }
 
+        /// <returns>The category with the given ID. Null when ID is not found.</returns>
         public Category Get(int id)
         {
             List<CategoryDTO> dtos = _DAL.LoadAll();

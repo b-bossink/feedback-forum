@@ -28,6 +28,7 @@ namespace Logic.Containers
             return null;
         }
 
+        /// <returns>The post with the given ID. Null when ID is not found.</returns>
         public Post Get(int id)
         {
             List<PostDTO> dtos = _DAL.LoadAll();
@@ -44,7 +45,7 @@ namespace Logic.Containers
             }
             return null;
         }
-        
+
         public Post.CommunicationResult Delete(int id)
         {
             if (!_DAL.Exists(id))

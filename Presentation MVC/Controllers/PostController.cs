@@ -36,18 +36,16 @@ namespace Presentation_MVC.Controllers
         public IActionResult ViewPost(int postId)
         {
             PostContainer container = new PostContainer(_postDAL);
-            PostViewModel postModel;
-            try
-            {
-                postModel = ModelConverter.ToViewModel(container.Get(postId));
-                string user = HttpContext.Session.GetString("Username");
-                return View(postModel);
-            }
-            catch (NullReferenceException)
+            Post post = container.Get(postId);
+            if (post == null)
             {
                 ViewBag.ErrorMessage = "ERROR: Post not found.";
                 return RedirectToAction("Error", "Home");
             }
+
+            PostViewModel postModel;
+            postModel = ModelConverter.ToViewModel(post);
+            return View(postModel);
         }
 
         public IActionResult Create(int categoryId)
