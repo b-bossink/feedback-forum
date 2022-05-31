@@ -106,8 +106,19 @@ namespace Presentation_MVC.Controllers
                 owner
                 );
 
-            comment.Upload(postId);
-            return RedirectToAction("ViewPost", new { postId });
+            Comment.CommunicationResult result = comment.Upload(postId);
+            if (result == Logic.Comment.CommunicationResult.Succes)
+            {
+                return RedirectToAction("ViewPost", new { postId });
+            }
+
+            if (result == Logic.Comment.CommunicationResult.PostNotFoundError ||
+                result == Logic.Comment.CommunicationResult.UnexpectedError)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("Error", "Home");
         }
 
         public IActionResult Delete(int postId)

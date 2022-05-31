@@ -42,7 +42,7 @@ namespace UnitTest.STUBs
                     return after - before;
                 }
             }
-            throw new ArgumentOutOfRangeException("Post not found.");
+            return 404;
         }
 
         public int Upload(CommentDTO comment, int postID, int parentCommentID)

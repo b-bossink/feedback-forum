@@ -20,8 +20,8 @@ namespace UnitTest
             Comment comment = new Comment(stub, "Ik ben een test-comment",
                 DateTime.Now, 56, new List<Comment>(), user);
             int postId = 123;
-            int expectedResult = 1;
-            int result;
+            Comment.CommunicationResult expectedResult = Comment.CommunicationResult.Succes;
+            Comment.CommunicationResult result;
 
             // Act
             result = comment.Upload(postId);
@@ -42,6 +42,25 @@ namespace UnitTest
                 }
             }
             Assert.Fail("Inserted comment's ID, Text and CreationDate could not be found in any comment in post in STUB.");
+        }
+
+        [TestMethod]
+        public void CommentOnNonExistentPost()
+        {
+            // Arrange
+            CommentSTUB stub = new CommentSTUB();
+            Member user = new Member(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
+            Comment comment = new Comment(stub, "Ik ben een test-comment",
+                DateTime.Now, 56, new List<Comment>(), user);
+            int postId = 999;
+            Comment.CommunicationResult expectedResult = Comment.CommunicationResult.PostNotFoundError;
+            Comment.CommunicationResult result;
+
+            // Act
+            result = comment.Upload(postId);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result, "Saving comment was expected to fail, but found result: " + result.ToString());
         }
     }
 }

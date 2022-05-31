@@ -24,8 +24,20 @@ namespace Data_Access
             cmd.Parameters.Add(new SqlParameter("@Text", comment.Text));
             cmd.Parameters.Add(new SqlParameter("@Upvotes", comment.Upvotes));
             cmd.Parameters.Add(new SqlParameter("@CreationDate", comment.CreationDate.ToString("MM/dd/yyyy HH:mm:ss")));
-
-            int savedRows = cmd.ExecuteNonQuery();
+            int savedRows = 0;
+            try
+            {
+                savedRows = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                if (e.Message.Equals("The INSERT statement conflicted with the FOREIGN KEY constraint"))
+                {
+                    CloseConnection();
+                    return 404;
+                }
+            }
+            CloseConnection();
             return savedRows;
         }
 
