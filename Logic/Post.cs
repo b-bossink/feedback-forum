@@ -55,30 +55,41 @@ namespace Logic
 
         public CommunicationResult Upload()
         {
-            int rowsSaved = _DAL.Upload(ToDTO());
-            if (rowsSaved == 1)
+            try
             {
-               return CommunicationResult.Succes;
-            }
-            else
+                int rowsSaved = _DAL.Upload(ToDTO());
+                if (rowsSaved == 1)
+                {
+                    return CommunicationResult.Succes;
+                }
+                else
+                {
+                    return CommunicationResult.UnexpectedError;
+                }
+            } catch (System.Data.SqlClient.SqlException)
             {
-               return CommunicationResult.UnexpectedError;
+                return CommunicationResult.UnexpectedError;
             }
         }
 
         public CommunicationResult Update()
         {
-            if (!_DAL.Exists(ID))
-            {
-                return CommunicationResult.PostNotFoundError;
-            }
+            try {
+                if (!_DAL.Exists(ID))
+                {
+                    return CommunicationResult.PostNotFoundError;
+                }
 
-            int rowsSaved = _DAL.Update(ToDTO());
-            if (rowsSaved == 1)
-            {
-                return CommunicationResult.Succes;
-            }
-            else
+                int rowsSaved = _DAL.Update(ToDTO());
+                if (rowsSaved == 1)
+                {
+                    return CommunicationResult.Succes;
+                }
+                else
+                {
+                    return CommunicationResult.UnexpectedError;
+                }
+            } catch (System.Data.SqlClient.SqlException)
             {
                 return CommunicationResult.UnexpectedError;
             }

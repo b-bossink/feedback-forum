@@ -1,6 +1,7 @@
 ﻿using Logic;
 using Logic.Containers;
 using Logic.Factories;
+using Logic.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
@@ -46,10 +47,52 @@ namespace Presentation_MVC.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        /// <summary>
+        /// Loads the error view based on a CommunicationResult.
+        /// </summary>
+        /// <param name="result">A CommunicationResult</param>
+        /// <exception cref="ArgumentException">Thrown when passed in enum is not of any "CommunicationResult" type.</exception>
+        /// <example>Passing in <see cref="Post.CommunicationResult.PostNotFoundError"/> will show a view with an error message saying the post has not been found.</example>
+        public static ErrorViewModel GenerateError(Enum result)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            string error = "Something unexpected happened.";
+            int code = -1;
+            if (result is Post.CommunicationResult)
+            {
+                Post.CommunicationResult r = (Post.CommunicationResult)result;
+                if (r == Post.CommunicationResult.PostNotFoundError)
+                {
+                    error = "The post you are trying to access doesn't exist.";
+                }
+                code = (int)r;
+            } else
+            if (result is Comment.CommunicationResult)
+            {
+                Comment.CommunicationResult r = (Comment.CommunicationResult)result;
+                if (r == Comment.CommunicationResult.PostNotFoundError)
+                {
+                    error = "The post you are trying to access doesn't exist.";
+                }
+                code = (int)r;
+            } else
+            if (result is Member.CommunicationResult)
+            {
+                Member.CommunicationResult r = (Member.CommunicationResult)result;
+                if (r == Member.CommunicationResult.DuplicateEmailError)
+                {
+                    error = "The emailadress already exists.";
+                } else if (r == Member.CommunicationResult.DuplicateUsernameError)
+                {
+                    error = "The username already exists.";
+                }
+                code = (int)r;
+            } else
+            {
+                throw new ArgumentException("Passed in enum must be of type CommunicationResult");
+            }
+
+
+            return new ErrorViewModel{ ErrorMessage = error, ErrorCode = code };
         }
     }
 }

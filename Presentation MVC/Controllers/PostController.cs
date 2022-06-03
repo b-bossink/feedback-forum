@@ -6,10 +6,12 @@ using Logic.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Presentation_MVC.Converters;
 using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Presentation_MVC.Controllers
 {
@@ -39,8 +41,7 @@ namespace Presentation_MVC.Controllers
             Post post = container.Get(postId);
             if (post == null)
             {
-                ViewBag.ErrorMessage = "ERROR: Post not found.";
-                return RedirectToAction("Error", "Home");
+                return View("Error", HomeController.GenerateError(Post.CommunicationResult.PostNotFoundError));
             }
 
             PostViewModel postModel;
@@ -79,15 +80,17 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Create(PostViewModel post)
         {
+            
             post.Comments = new List<CommentViewModel>();
             post.Upvotes = 0;
             post.CreationDate = DateTime.Now;
             MemberContainer memberContainer = new MemberContainer(_memberDAL);
             post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
             Post postToUpload = ModelConverter.ToPost(post);
-            if (postToUpload.Upload() != Post.CommunicationResult.Succes)
+            Post.CommunicationResult result = postToUpload.Upload();
+            if (result != Post.CommunicationResult.Succes)
             {
-                return RedirectToAction("Error", "Home");
+                return View("Error", HomeController.GenerateError(result));
             }
 
             return RedirectToAction("Index", "Home");
@@ -112,13 +115,8 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("ViewPost", new { postId });
             }
 
-            if (result == Logic.Comment.CommunicationResult.PostNotFoundError ||
-                result == Logic.Comment.CommunicationResult.UnexpectedError)
-            {
-                return RedirectToAction("Index", "Home");
-            }
 
-            return RedirectToAction("Error", "Home");
+            return View("Error", HomeController.GenerateError(result));
         }
 
         public IActionResult Delete(int postId)
@@ -129,9 +127,12 @@ namespace Presentation_MVC.Controllers
             }
 
             PostContainer container = new PostContainer(_postDAL);
-            container.Delete(postId);
-            return RedirectToAction("Index", "Home");
-            
+            Post.CommunicationResult result = container.Delete(postId);
+            if (result == Post.CommunicationResult.Succes)
+            { return RedirectToAction("Index", "Home"); }
+
+
+            return View("Error", HomeController.GenerateError(result));
         }
 
         public IActionResult Edit(int postId) {
@@ -167,7 +168,7 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("ViewPost", new { postId = newModel.ID });
             }
 
-            return RedirectToAction("Error", "Home");
+            return View("Error", HomeController.GenerateError(result));
         }
     }
 }
