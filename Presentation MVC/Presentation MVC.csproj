@@ -15,12 +15,14 @@
     <None Remove="Models\Users\" />
     <None Remove="Models\Posts\" />
     <None Remove="Views\Category\" />
+    <None Remove="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\" />
     <Folder Include="Models\Users\" />
     <Folder Include="Models\Posting\" />
     <Folder Include="Views\Category\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic.csproj">

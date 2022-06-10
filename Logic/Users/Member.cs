@@ -61,13 +61,5 @@ namespace Logic.Users
                 Password = this.Password
             };
         }
-
-        public enum CommunicationResult
-        {
-            Succes,
-            DuplicateUsernameError,
-            DuplicateEmailError,
-            UnexpectedError
-        }
     }
 }

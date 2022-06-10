@@ -90,12 +90,5 @@ namespace Logic
                 Owner = this.Owner.ToDTO()
             };
         }
-
-        public enum CommunicationResult
-        {
-            Succes,
-            PostNotFoundError,
-            UnexpectedError
-        }
     }
 }

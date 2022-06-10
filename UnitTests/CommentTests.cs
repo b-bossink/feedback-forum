@@ -20,8 +20,8 @@ namespace UnitTest
             Comment comment = new Comment(stub, "Ik ben een test-comment",
                 DateTime.Now, 56, new List<Comment>(), user);
             int postId = 123;
-            Comment.CommunicationResult expectedResult = Comment.CommunicationResult.Succes;
-            Comment.CommunicationResult result;
+            CommunicationResult expectedResult = CommunicationResult.Succes;
+            CommunicationResult result;
 
             // Act
             result = comment.Upload(postId);
@@ -53,8 +53,8 @@ namespace UnitTest
             Comment comment = new Comment(stub, "Ik ben een test-comment",
                 DateTime.Now, 56, new List<Comment>(), user);
             int postId = 999;
-            Comment.CommunicationResult expectedResult = Comment.CommunicationResult.PostNotFoundError;
-            Comment.CommunicationResult result;
+            CommunicationResult expectedResult = CommunicationResult.PostNotFoundError;
+            CommunicationResult result;
 
             // Act
             result = comment.Upload(postId);

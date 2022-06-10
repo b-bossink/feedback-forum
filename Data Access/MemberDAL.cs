@@ -86,11 +86,14 @@ namespace Data_Access
             {
                 throw new DuplicateNameException("Email or username already exists");
             }
- 
+
+            if (!OpenConnection())
+                return 0;
+
             string query = "insert into [User] (username, password, email) values " +
                 $"(@Username, @Password, @Email);";
             SqlCommand cmd = new SqlCommand(query, connection);
-
+            ConnectionState state = connection.State;
             cmd.Parameters.Add(new SqlParameter("@Username",member.Username));
             cmd.Parameters.Add(new SqlParameter("@Password", member.Password));
             cmd.Parameters.Add(new SqlParameter("@Email", member.Emailaddress));

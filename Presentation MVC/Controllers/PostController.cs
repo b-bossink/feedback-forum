@@ -6,12 +6,12 @@ using Logic.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Presentation_MVC.Converters;
+using Presentation_MVC.ErrorHandling;
+using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Presentation_MVC.Controllers
 {
@@ -41,7 +41,8 @@ namespace Presentation_MVC.Controllers
             Post post = container.Get(postId);
             if (post == null)
             {
-                return View("Error", HomeController.GenerateError(Post.CommunicationResult.PostNotFoundError));
+                CommunicationResult result = CommunicationResult.PostNotFoundError;
+                return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(result));
             }
 
             PostViewModel postModel;
@@ -87,10 +88,10 @@ namespace Presentation_MVC.Controllers
             MemberContainer memberContainer = new MemberContainer(_memberDAL);
             post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
             Post postToUpload = ModelConverter.ToPost(post);
-            Post.CommunicationResult result = postToUpload.Upload();
-            if (result != Post.CommunicationResult.Succes)
+            CommunicationResult result = postToUpload.Upload();
+            if (result != CommunicationResult.Succes)
             {
-                return View("Error", HomeController.GenerateError(result));
+                return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(result));
             }
 
             return RedirectToAction("Index", "Home");
@@ -109,14 +110,14 @@ namespace Presentation_MVC.Controllers
                 owner
                 );
 
-            Comment.CommunicationResult result = comment.Upload(postId);
-            if (result == Logic.Comment.CommunicationResult.Succes)
+            CommunicationResult result = comment.Upload(postId);
+            if (result == CommunicationResult.Succes)
             {
                 return RedirectToAction("ViewPost", new { postId });
             }
 
 
-            return View("Error", HomeController.GenerateError(result));
+            return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(result));
         }
 
         public IActionResult Delete(int postId)
@@ -127,12 +128,11 @@ namespace Presentation_MVC.Controllers
             }
 
             PostContainer container = new PostContainer(_postDAL);
-            Post.CommunicationResult result = container.Delete(postId);
-            if (result == Post.CommunicationResult.Succes)
+            CommunicationResult result = container.Delete(postId);
+            if (result == CommunicationResult.Succes)
             { return RedirectToAction("Index", "Home"); }
 
-
-            return View("Error", HomeController.GenerateError(result));
+            return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(result));
         }
 
         public IActionResult Edit(int postId) {
@@ -141,6 +141,11 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            PostContainer container = new PostContainer(_postDAL);
+            if (container.Get(postId) == null)
+            {
+                return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(CommunicationResult.PostNotFoundError));
+            }
             PostViewModel model = ModelConverter.ToViewModel(new PostContainer(_postDAL).Get(postId));
             return View(model);
         }
@@ -162,13 +167,13 @@ namespace Presentation_MVC.Controllers
             newModel.Category = oldModel.Category;
 
             Post newPost = ModelConverter.ToPost(newModel);
-            Post.CommunicationResult result = newPost.Update();
-            if (result == Post.CommunicationResult.Succes)
+            CommunicationResult result = newPost.Update();
+            if (result == CommunicationResult.Succes)
             {
                 return RedirectToAction("ViewPost", new { postId = newModel.ID });
             }
 
-            return View("Error", HomeController.GenerateError(result));
+            return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(result));
         }
     }
 }

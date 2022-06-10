@@ -46,21 +46,21 @@ namespace Logic.Containers
             return null;
         }
 
-        public Post.CommunicationResult Delete(int id)
+        public CommunicationResult Delete(int id)
         {
             if (!_DAL.Exists(id))
             {
-                return Post.CommunicationResult.PostNotFoundError;
+                return CommunicationResult.PostNotFoundError;
             }
 
             int rowsSaved = _DAL.Delete(id);
             if (rowsSaved == 1)
             {
-                return Post.CommunicationResult.Succes;
+                return CommunicationResult.Succes;
             }
             else
             {
-                return Post.CommunicationResult.UnexpectedError;
+                return CommunicationResult.UnexpectedError;
             }
         }
     }

@@ -69,21 +69,21 @@ namespace Presentation_MVC.Controllers
                 if (model.Password == model.PasswordConfirmation)
                 {
                     Member newUser = new Member(_memberDAL, model.Username, model.Emailaddress, model.Password);
-                    Member.CommunicationResult result = newUser.Register();
+                    CommunicationResult result = newUser.Register();
 
-                    if (result == Member.CommunicationResult.DuplicateUsernameError)
+                    if (result == CommunicationResult.DuplicateUsernameError)
                     {
                         ViewBag.InvalidCredentialsMessage = "Username already taken. Please try another name.";
                         return View(model);
                     }
 
-                    if (result == Member.CommunicationResult.DuplicateEmailError)
+                    if (result == CommunicationResult.DuplicateEmailError)
                     {
                         ViewBag.InvalidCredentialsMessage = "Email address already taken. Please try another one.";
                         return View(model);
                     }
 
-                    if (result == Member.CommunicationResult.UnexpectedError)
+                    if (result == CommunicationResult.UnexpectedError)
                     {
                         ViewBag.InvalidCredentialsMessage = "An unexpected error occurred. Please try again.";
                         return View(model);

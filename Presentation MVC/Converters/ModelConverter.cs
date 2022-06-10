@@ -1,6 +1,7 @@
 ﻿using Logic;
 using Logic.Factories;
 using Logic.Users;
+using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
 using Presentation_MVC.Models.Users;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Presentation_MVC.Converters
             List<CommentViewModel> commentModels = new List<CommentViewModel>();
             List<PostAttributeViewModel> postAttributes = new List<PostAttributeViewModel>();
 
-            foreach (KeyValuePair<Logic.Attribute, string> kvp in post.ValuesByAttributes)
+            foreach (KeyValuePair<Attribute, string> kvp in post.ValuesByAttributes)
             {
                 postAttributes.Add(new PostAttributeViewModel
                 {
@@ -88,6 +89,13 @@ namespace Presentation_MVC.Converters
                 Username = member.Username,
                 Emailaddress = member.Emailaddress,
                 Password = member.Password
+            };
+        }
+        public static ErrorViewModel ToViewModel(CommunicationResult result) {
+            return new ErrorViewModel()
+            {
+                ErrorMessage = result.message,
+                ErrorCode = result.code
             };
         }
 
