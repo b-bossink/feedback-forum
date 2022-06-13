@@ -1,5 +1,4 @@
-﻿using System;
-namespace Interfaces.DTOs
+﻿namespace Interfaces.DTOs
 {
 	public abstract class DTO
 	{

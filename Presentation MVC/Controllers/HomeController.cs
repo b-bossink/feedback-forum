@@ -2,13 +2,10 @@
 using Logic;
 using Logic.Containers;
 using Logic.Factories;
-using Logic.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
-using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
-using System;
 using System.Collections.Generic;
 
 namespace Presentation_MVC.Controllers

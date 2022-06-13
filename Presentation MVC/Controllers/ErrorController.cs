@@ -1,6 +1,4 @@
-﻿
-using Logic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Presentation_MVC.Models;
 
 namespace Presentation_MVC.ErrorHandling

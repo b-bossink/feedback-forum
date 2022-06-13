@@ -1,5 +1,4 @@
-﻿
-using Interfaces.DTOs;
+﻿using Interfaces.DTOs;
 
 namespace Interfaces
 {

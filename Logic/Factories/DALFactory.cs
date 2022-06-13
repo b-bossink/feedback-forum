@@ -1,5 +1,4 @@
-﻿using Data_Access;
-using Interfaces;
+﻿using Interfaces;
 using Interfaces.DTOs;
 
 namespace Logic.Factories

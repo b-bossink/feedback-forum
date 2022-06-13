@@ -1,10 +1,8 @@
-﻿
-using Interfaces;
+﻿using Interfaces;
 using Interfaces.DTOs;
 using Logic.Users;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Logic
 {

@@ -1,5 +1,4 @@
-﻿
-using Interfaces.DTOs;
+﻿using Interfaces.DTOs;
 using System.Collections.Generic;
 
 namespace Interfaces

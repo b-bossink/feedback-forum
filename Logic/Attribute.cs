@@ -1,8 +1,4 @@
-﻿
-using Interfaces.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Interfaces.DTOs;
 
 namespace Logic
 {

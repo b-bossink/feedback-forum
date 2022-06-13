@@ -1,5 +1,3 @@
-using System;
-
 namespace Presentation_MVC.Models.Posting
 {
     public class AttributeViewModel

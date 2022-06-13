@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Presentation_MVC.Models.Posting;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Presentation_MVC.Models.Users
 {

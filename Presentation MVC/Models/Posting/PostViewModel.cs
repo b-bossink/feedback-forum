@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Presentation_MVC.Models.Users;
 
 namespace Presentation_MVC.Models.Posting
