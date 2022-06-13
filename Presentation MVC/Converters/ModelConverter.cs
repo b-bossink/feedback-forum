@@ -1,4 +1,5 @@
-﻿using Logic;
+﻿using Interfaces;
+using Logic;
 using Logic.Factories;
 using Logic.Users;
 using Presentation_MVC.Models;
@@ -121,9 +122,8 @@ namespace Presentation_MVC.Converters
                 comments.Add(ToComment(commentModel));
             }
 
-            DALFactory factory = new DALFactory();
             return new Post(
-                factory.GetPostDAL(),
+                (IPostDAL)new PostDALCreator().GetDAL(),
                 model.Name,
                 model.CreationDate,
                 comments,
@@ -149,18 +149,16 @@ namespace Presentation_MVC.Converters
                 model.Attributes = new List<AttributeViewModel>();
             }
 
-            DALFactory factory = new DALFactory();
             return new Category(
-                factory.GetCategoryDAL(),
+                (ICategoryDAL)new CategoryDALCreator().GetDAL(),
                 model.Name,
                 attributes,
                 model.ID);
         }
         private static Member ToMember(MemberViewModel model) {
-            DALFactory factory = new DALFactory();
             return new Member
             (
-                factory.GetMemberDAL(),
+                (IMemberDAL)new MemberDALCreator().GetDAL(),
                 model.Username,
                 model.Emailaddress,
                 model.Password,
@@ -174,9 +172,8 @@ namespace Presentation_MVC.Converters
             {
                 replies.Add(ToComment(commentModel));
             }
-            DALFactory factory = new DALFactory();
             return new Comment(
-                factory.GetCommentDAL(),
+                (ICommentDAL)new CommentDALCreator().GetDAL(),
                 model.Text,
                 model.CreationDate,
                 model.Upvotes,

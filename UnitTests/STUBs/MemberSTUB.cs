@@ -45,7 +45,7 @@ namespace UnitTest.STUBs
             return null;
         }
 
-        public int RegisterNew(MemberDTO member)
+        public int Upload(MemberDTO member)
         {
             int before = database.Count;
             database.Add(member);
@@ -53,7 +53,7 @@ namespace UnitTest.STUBs
             return after - before;
         }
 
-        public void Update(MemberDTO member)
+        public int Update(MemberDTO member)
         {
             throw new NotImplementedException();
         }
@@ -80,6 +80,16 @@ namespace UnitTest.STUBs
                 }
             }
             return false;
+        }
+
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<MemberDTO> LoadAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

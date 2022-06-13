@@ -32,7 +32,7 @@ namespace UnitTest
             CommunicationResult expectedResult = CommunicationResult.Succes;
 
             // Act
-            result = post.Upload();
+            result = post.Create();
 
             // Assert
             Assert.AreEqual(expectedResult, result, "Either none or too many rows have been saved.");
@@ -53,15 +53,15 @@ namespace UnitTest
             int minimum = 1;
             PostSTUB stub = new PostSTUB();
             PostContainer container = new PostContainer(stub);
-            List<Post> posts;
+            Post[] posts;
             int expectedPostID = 123;
             
 
             // Act
-            posts = container.GetAll();
+            posts = (Post[])container.GetAll();
 
             // Assert
-            Assert.IsTrue(posts.Count >= minimum, "Too few posts have been retrieved.");
+            Assert.IsTrue(posts.Length >= minimum, "Too few posts have been retrieved.");
             foreach (PostDTO dto in stub.database)
             {
                 if (dto.ID == expectedPostID)

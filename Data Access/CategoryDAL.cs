@@ -35,12 +35,12 @@ namespace Data_Access
             return result; 
         }
 
-        public bool Upload(CategoryDTO category)
+        public int Upload(CategoryDTO category)
         {
             if (!OpenConnection())
-                return false;
+                return 0;
 
-            bool saved;
+            int savedRows = 0;
             string query = "insert into Category (name) values" +
                 $"('{category.Name}') SELECT SCOPE_IDENTITY();";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -52,7 +52,7 @@ namespace Data_Access
                 {
                     thisCategoryID = Convert.ToInt32(reader.GetValue(0));
                 }
-                saved = reader.HasRows;
+                if (reader.HasRows) { savedRows = 1; }
             }
 
 
@@ -64,10 +64,10 @@ namespace Data_Access
             }
 
             CloseConnection();
-            return saved;
+            return savedRows;
         }
 
-        public CategoryDTO? Load(int id)
+        public CategoryDTO? Get(int id)
         {
             if (!OpenConnection())
                 return new CategoryDTO { ID = 0 };
@@ -121,6 +121,16 @@ namespace Data_Access
 
             //CloseConnection();
             return result;
+        }
+
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(CategoryDTO dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

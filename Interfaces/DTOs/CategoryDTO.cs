@@ -2,10 +2,9 @@
 
 namespace Interfaces.DTOs
 {
-    public struct CategoryDTO
+    public class CategoryDTO : DTO
     {
-        public int ID;
-        public string Name;
-        public List<AttributeDTO> Attributes; 
+        public string Name { get; set; }
+        public List<AttributeDTO> Attributes { get; set; }
     }
 }

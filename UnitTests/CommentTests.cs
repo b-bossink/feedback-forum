@@ -24,7 +24,7 @@ namespace UnitTest
             CommunicationResult result;
 
             // Act
-            result = comment.Upload(postId);
+            result = comment.Create(postId);
 
             // Assert
             Assert.AreEqual(expectedResult, result, "Either none or too many rows have been saved.");
@@ -57,7 +57,7 @@ namespace UnitTest
             CommunicationResult result;
 
             // Act
-            result = comment.Upload(postId);
+            result = comment.Create(postId);
 
             // Assert
             Assert.AreEqual(expectedResult, result, "Saving comment was expected to fail, but found result: " + result.ToString());

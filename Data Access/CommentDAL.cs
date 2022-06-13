@@ -135,5 +135,15 @@ namespace Data_Access
         {
             throw new NotImplementedException();
         }
+
+        public int Upload(CommentDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CommentDTO> LoadAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

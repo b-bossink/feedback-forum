@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace Interfaces.DTOs
 {
-    public struct CommentDTO
+    public class CommentDTO : DTO
     {
-        public int ID;
-        public string Text;
-        public DateTime CreationDate;
-        public int Upvotes;
-        public List<CommentDTO> Replies;
-        public MemberDTO Owner;
+        public string Text { get; set; }
+        public DateTime CreationDate { get; set; }
+        public int Upvotes { get; set; }
+        public List<CommentDTO> Replies { get; set; }
+        public MemberDTO Owner { get; set; }
     }
 }

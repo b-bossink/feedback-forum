@@ -19,8 +19,8 @@ namespace UnitTest
                 "nieuwe_gebruiker",
                 "user@email.com",
                 "mijn_wachtwoord");
-            Member.CommunicationResult expectedResult = Member.CommunicationResult.Succes;
-            Member.CommunicationResult result;
+            CommunicationResult expectedResult = CommunicationResult.Succes;
+            CommunicationResult result;
 
             // Act
             result = member.Register();
@@ -49,8 +49,8 @@ namespace UnitTest
                 "test_gebruiker",
                 "user@email.com",
                 "mijn_wachtwoord");
-            Member.CommunicationResult expectedResult = Member.CommunicationResult.DuplicateUsernameError;
-            Member.CommunicationResult result;
+            CommunicationResult expectedResult = CommunicationResult.DuplicateUsernameError;
+            CommunicationResult result;
 
             // Act
             result = member.Register();
@@ -69,8 +69,8 @@ namespace UnitTest
                 "nieuwe_gebruiker",
                 "gebruiker@email.nl",
                 "mijn_wachtwoord");
-            Member.CommunicationResult expectedResult = Member.CommunicationResult.DuplicateEmailError;
-            Member.CommunicationResult result;
+            CommunicationResult expectedResult = CommunicationResult.DuplicateEmailError;
+            CommunicationResult result;
 
             // Act
             result = member.Register();

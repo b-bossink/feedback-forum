@@ -1,10 +1,9 @@
 ﻿namespace Interfaces.DTOs
 {
-    public struct MemberDTO
+    public class MemberDTO : DTO
     {
-        public int ID;
-        public string Username;
-        public string Emailaddress;
-        public string Password;
+        public string Username { get; set; }
+        public string Emailaddress { get; set; }
+        public string Password { get; set; }
     }
 }

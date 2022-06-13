@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Logic.Containers
 {
-    public class PostContainer
+    public class PostContainer : IContainer<PostDTO>
     {
         private readonly IPostDAL _DAL;
 
@@ -13,7 +13,7 @@ namespace Logic.Containers
             _DAL = dal;
         }
 
-        public List<Post> GetAll()
+        public IEntity<PostDTO>[] GetAll()
         {
             List<PostDTO> dtos = _DAL.LoadAll();
             if (dtos != null)
@@ -23,13 +23,12 @@ namespace Logic.Containers
                 {
                     result.Add(new Post(dto));
                 }
-                return result;
+                return result.ToArray();
             }
             return null;
         }
 
-        /// <returns>The post with the given ID. Null when ID is not found.</returns>
-        public Post Get(int id)
+        public IEntity<PostDTO> Get(int id)
         {
             List<PostDTO> dtos = _DAL.LoadAll();
             if (dtos != null)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Interfaces;
@@ -77,7 +78,7 @@ namespace Data_Access
 
         }
 
-        public int RegisterNew(MemberDTO member)
+        public int Upload(MemberDTO member)
         {
             if (!OpenConnection())
                 return 0;
@@ -127,6 +128,21 @@ namespace Data_Access
 
 
         public void Update(MemberDTO member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IDAL<MemberDTO>.Update(MemberDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<MemberDTO> LoadAll()
         {
             throw new NotImplementedException();
         }

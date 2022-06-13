@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Logic
 {
-    public class Category
+    public class Category : IEntity<CategoryDTO>
     {
         public int ID { get; private set; }
         public string Name { get; private set; }
@@ -33,9 +33,20 @@ namespace Logic
             }
         }
 
-        public bool Upload()
+        public CommunicationResult Create()
         {
-            return _DAL.Upload(ToDTO());
+            int saved = _DAL.Upload(ToDTO());
+            if (saved != 1)
+            {
+                return CommunicationResult.UnexpectedError;
+            }
+
+            return CommunicationResult.Succes;
+        }
+
+        public CommunicationResult Update()
+        {
+            throw new NotImplementedException();
         }
 
         public CategoryDTO ToDTO()
@@ -53,6 +64,5 @@ namespace Logic
                 Attributes = attributes
             };
         }
-
     }
 }

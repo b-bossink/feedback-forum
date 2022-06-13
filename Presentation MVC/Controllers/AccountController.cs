@@ -14,7 +14,7 @@ namespace Presentation_MVC.Controllers
         private readonly IMemberDAL _memberDAL;
         public AccountController()
         {
-            _memberDAL = new DALFactory().GetMemberDAL();
+            _memberDAL = (IMemberDAL)new MemberDALCreator().GetDAL();
         }
 
         public IActionResult Index()

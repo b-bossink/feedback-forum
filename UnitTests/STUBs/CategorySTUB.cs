@@ -7,7 +7,12 @@ namespace UnitTest.STUBs
 {
     public class CategorySTUB : ICategoryDAL
     {
-        public CategoryDTO? Load(int id)
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CategoryDTO? Get(int id)
         {
             throw new NotImplementedException();
         }
@@ -17,7 +22,12 @@ namespace UnitTest.STUBs
             throw new NotImplementedException();
         }
 
-        public bool Upload(CategoryDTO category)
+        public int Update(CategoryDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Upload(CategoryDTO category)
         {
             throw new NotImplementedException();
         }

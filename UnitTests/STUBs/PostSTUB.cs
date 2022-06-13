@@ -31,6 +31,14 @@ namespace UnitTest.STUBs
                 { attributes[1], "Another value!!" }
             };
 
+            MemberDTO member = new MemberDTO
+            {
+                ID = 11,
+                Username = "gebruiker",
+                Emailaddress = "gebruiker@email.nl",
+                Password = "password"
+            };
+
             List<PostDTO> result = new List<PostDTO>()
             {
                 new PostDTO
@@ -45,7 +53,8 @@ namespace UnitTest.STUBs
                             CreationDate = Convert.ToDateTime("3-12-2022"),
                             Replies = new List<CommentDTO>(),
                             Text = "This is a test comment.",
-                            Upvotes = 12
+                            Upvotes = 12,
+                            Owner = member
                         }
                     },
                     Category = new CategoryDTO()
@@ -56,7 +65,8 @@ namespace UnitTest.STUBs
                     },
                     CreationDate = Convert.ToDateTime("2-11-2022"),
                     Upvotes = 52,
-                    ValuesByAttributes = attributeDict
+                    ValuesByAttributes = attributeDict,
+                    Owner = member
                 }
             };
 

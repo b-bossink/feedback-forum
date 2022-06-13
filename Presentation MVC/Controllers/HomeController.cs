@@ -1,4 +1,5 @@
-﻿using Logic;
+﻿using Interfaces;
+using Logic;
 using Logic.Containers;
 using Logic.Factories;
 using Logic.Users;
@@ -23,9 +24,9 @@ namespace Presentation_MVC.Controllers
 
         public IActionResult Index()
         {
-            PostContainer container = new PostContainer(new DALFactory().GetPostDAL());
+            PostContainer container = new PostContainer((IPostDAL)new PostDALCreator().GetDAL());
             List<PostViewModel> postModels = new List<PostViewModel>();
-            List<Post> posts = container.GetAll();
+            Post[] posts = (Post[])container.GetAll();
             if (posts != null)
             {
                 foreach (Post post in posts)

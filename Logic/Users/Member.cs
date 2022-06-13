@@ -42,7 +42,7 @@ namespace Logic.Users
                 return CommunicationResult.DuplicateEmailError;
             }
 
-            int rowsSaved = _DAL.RegisterNew(ToDTO());
+            int rowsSaved = _DAL.Upload(ToDTO());
             if (rowsSaved != 1)
             {
                 return CommunicationResult.UnexpectedError;

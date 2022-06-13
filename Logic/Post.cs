@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Logic
 {
-    public class Post
+    public class Post : IEntity<PostDTO>
     {   
         public int ID { get; private set; }
         public string Name { get; private set; }
@@ -53,7 +53,7 @@ namespace Logic
             Owner = new Member(dto.Owner);
         }
 
-        public CommunicationResult Upload()
+        public CommunicationResult Create()
         {
             try
             {

@@ -20,8 +20,7 @@ namespace Presentation_MVC.Controllers
         public CategoryController(ILogger<CategoryController> logger)
         {
             _logger = logger;
-            DALFactory factory = new DALFactory();
-            _categoryDAL = factory.GetCategoryDAL();
+            _categoryDAL = (ICategoryDAL)new CategoryDALCreator().GetDAL();
         }
 
         public IActionResult Select() {

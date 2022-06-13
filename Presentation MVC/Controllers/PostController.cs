@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
-using Presentation_MVC.ErrorHandling;
-using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
 using System;
 using System.Collections.Generic;
@@ -28,17 +26,16 @@ namespace Presentation_MVC.Controllers
         {
             _logger = logger;
 
-            DALFactory factory = new DALFactory();
-            _postDAL = factory.GetPostDAL();
-            _categoryDAL = factory.GetCategoryDAL();
-            _memberDAL = factory.GetMemberDAL();
-            _commentDAL = factory.GetCommentDAL();
+            _postDAL = (IPostDAL)new PostDALCreator().GetDAL();
+            _categoryDAL = (ICategoryDAL)new CategoryDALCreator().GetDAL();
+            _memberDAL = (IMemberDAL)new MemberDALCreator().GetDAL();
+            _commentDAL = (ICommentDAL)new CommentDALCreator().GetDAL();
         }
 
         public IActionResult ViewPost(int postId)
         {
             PostContainer container = new PostContainer(_postDAL);
-            Post post = container.Get(postId);
+            Post post = (Post)container.Get(postId);
             if (post == null)
             {
                 CommunicationResult result = CommunicationResult.PostNotFoundError;
@@ -88,7 +85,7 @@ namespace Presentation_MVC.Controllers
             MemberContainer memberContainer = new MemberContainer(_memberDAL);
             post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
             Post postToUpload = ModelConverter.ToPost(post);
-            CommunicationResult result = postToUpload.Upload();
+            CommunicationResult result = postToUpload.Create();
             if (result != CommunicationResult.Succes)
             {
                 return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(result));
@@ -110,7 +107,7 @@ namespace Presentation_MVC.Controllers
                 owner
                 );
 
-            CommunicationResult result = comment.Upload(postId);
+            CommunicationResult result = comment.Create(postId);
             if (result == CommunicationResult.Succes)
             {
                 return RedirectToAction("ViewPost", new { postId });
@@ -146,7 +143,7 @@ namespace Presentation_MVC.Controllers
             {
                 return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(CommunicationResult.PostNotFoundError));
             }
-            PostViewModel model = ModelConverter.ToViewModel(new PostContainer(_postDAL).Get(postId));
+            PostViewModel model = ModelConverter.ToViewModel((Post)new PostContainer(_postDAL).Get(postId));
             return View(model);
         }
 
@@ -157,7 +154,7 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            Post oldPost = new PostContainer(_postDAL).Get(newModel.ID);
+            Post oldPost = (Post)new PostContainer(_postDAL).Get(newModel.ID);
             PostViewModel oldModel = ModelConverter.ToViewModel(oldPost);
 
             newModel.Owner = oldModel.Owner;

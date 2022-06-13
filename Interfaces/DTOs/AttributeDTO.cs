@@ -1,8 +1,7 @@
 ﻿namespace Interfaces.DTOs
 {
-    public struct AttributeDTO
+    public class AttributeDTO : DTO
     {
-        public int ID;
-        public string Name;
+        public string Name { get; set; }
     }
 }

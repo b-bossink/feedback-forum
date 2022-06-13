@@ -6,8 +6,10 @@
 
   <ItemGroup>
     <None Remove="DTOs\" />
+    <None Remove="DAL\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs\" />
+    <Folder Include="DAL\" />
   </ItemGroup>
 </Project>

@@ -9,26 +9,6 @@ namespace UnitTest.STUBs
 	{
         public PostSTUB postStub = new PostSTUB();
 
-        public int Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<CommentDTO> GetFromComment(int parentCommentID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<CommentDTO> GetFromPost(int postID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Update(CommentDTO comment)
-        {
-            throw new NotImplementedException();
-        }
-
         public int Upload(CommentDTO comment, int postID)
         {
             List<PostDTO> database = postStub.LoadAll();
@@ -68,6 +48,37 @@ namespace UnitTest.STUBs
             }
             throw new ArgumentOutOfRangeException("Post not found.");
         }
+
+        public int Upload(CommentDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CommentDTO> GetFromComment(int parentCommentID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CommentDTO> GetFromPost(int postID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CommentDTO> LoadAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(CommentDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
 

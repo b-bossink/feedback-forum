@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Logic
 {
-    public class Comment
+    public class Comment : IEntity<CommentDTO>
     {
         public int ID { get; private set; }
         public string Text { get; private set; }
@@ -43,7 +43,7 @@ namespace Logic
             Owner = new Member(dto.Owner);
         }
 
-        public CommunicationResult Upload(int postID)
+        public CommunicationResult Create(int postID)
         {
 
             int savedRows = _DAL.Upload(ToDTO(), postID);
@@ -61,7 +61,7 @@ namespace Logic
             return CommunicationResult.UnexpectedError;
         }
 
-        public CommunicationResult Upload(int postID, int parentCommentID)
+        public CommunicationResult Create(int postID, int parentCommentID)
         {
             int savedRows = _DAL.Upload(ToDTO(), postID, parentCommentID);
             if (savedRows == 1)
@@ -89,6 +89,16 @@ namespace Logic
                 Replies = replies,
                 Owner = this.Owner.ToDTO()
             };
+        }
+
+        public CommunicationResult Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public CommunicationResult Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }
