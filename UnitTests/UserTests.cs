@@ -23,7 +23,7 @@ namespace UnitTest
             CommunicationResult result;
 
             // Act
-            result = member.Register();
+            result = member.Create();
 
             // Assert
             Assert.AreEqual(expectedResult, result, "Either none or too many rows have been saved.");
@@ -53,7 +53,7 @@ namespace UnitTest
             CommunicationResult result;
 
             // Act
-            result = member.Register();
+            result = member.Create();
 
             // Assert
             Assert.AreEqual(expectedResult, result, "Expected result to be 'username taken' error, but test returned " + result.ToString());
@@ -73,7 +73,7 @@ namespace UnitTest
             CommunicationResult result;
 
             // Act
-            result = member.Register();
+            result = member.Create();
 
             // Assert
             Assert.AreEqual(expectedResult, result, "Expected result to be 'email taken' error, but test returned " + result.ToString());
