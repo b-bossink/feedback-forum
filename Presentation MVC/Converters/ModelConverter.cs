@@ -103,7 +103,7 @@ namespace Presentation_MVC.Converters
 
         public static Post ToPost(PostViewModel model)
         {
-            Dictionary<Logic.Attribute, string> attributeWithValues = new Dictionary<Logic.Attribute, string>();
+            Dictionary<Attribute, string> attributeWithValues = new Dictionary<Attribute, string>();
 
             if (model.AttributesWithValue != null)
             {

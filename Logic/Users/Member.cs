@@ -5,7 +5,7 @@ using Interfaces.DTOs;
 
 namespace Logic.Users
 {
-    public class Member
+    public class Member : IEntity<MemberDTO>
     {
         public int ID { get; private set; }
         public string Username { get; private set; }
@@ -30,7 +30,7 @@ namespace Logic.Users
             Password = dto.Password;
         }
 
-        public CommunicationResult Register()
+        public CommunicationResult Create()
         {
             if (_DAL.UsernameExists(Username))
             {
@@ -60,6 +60,11 @@ namespace Logic.Users
                 Emailaddress = this.Emailaddress,
                 Password = this.Password
             };
+        }
+
+        public CommunicationResult Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }

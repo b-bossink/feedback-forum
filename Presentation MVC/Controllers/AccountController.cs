@@ -69,7 +69,7 @@ namespace Presentation_MVC.Controllers
                 if (model.Password == model.PasswordConfirmation)
                 {
                     Member newUser = new Member(_memberDAL, model.Username, model.Emailaddress, model.Password);
-                    CommunicationResult result = newUser.Register();
+                    CommunicationResult result = newUser.Create();
 
                     if (result == CommunicationResult.DuplicateUsernameError)
                     {
