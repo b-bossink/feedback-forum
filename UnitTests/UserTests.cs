@@ -1,5 +1,5 @@
 ﻿using Interfaces.DTOs;
-using Logic;
+using Interfaces.Logic;
 using Logic.Containers;
 using Logic.Users;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

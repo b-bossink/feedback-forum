@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Logic;
 using Logic;
 using Logic.Factories;
 using Logic.Users;
@@ -65,7 +66,7 @@ namespace Presentation_MVC.Converters
         public static CategoryViewModel ToViewModel(Category category)
         {
             List<AttributeViewModel> attributeModels = new List<AttributeViewModel>();
-            foreach (Logic.Attribute attribute in category.Attributes)
+            foreach (Attribute attribute in category.Attributes)
             {
                 attributeModels.Add(ToViewModel(attribute));
             }
@@ -96,7 +97,7 @@ namespace Presentation_MVC.Converters
         public static ErrorViewModel ToViewModel(CommunicationResult result) {
             return new ErrorViewModel()
             {
-                ErrorMessage = result.message,
+                ErrorMessage = result.description,
                 ErrorCode = result.code
             };
         }
@@ -137,7 +138,7 @@ namespace Presentation_MVC.Converters
         }
         private static Category ToCategory(CategoryViewModel model)
         {
-            List<Logic.Attribute> attributes = new List<Logic.Attribute>();
+            List<Attribute> attributes = new List<Attribute>();
             if (model.Attributes != null)
             {
                 foreach (AttributeViewModel attributeModel in model.Attributes)
@@ -185,11 +186,11 @@ namespace Presentation_MVC.Converters
         }
         private static Attribute ToAttribute(AttributeViewModel model)
         {
-            return new Logic.Attribute(model.Name, model.ID);
+            return new Attribute(model.Name, model.ID);
         }
         private static Attribute ToAttribute(PostAttributeViewModel model)
         {
-            return new Logic.Attribute(model.Name, model.AttributeID);
+            return new Attribute(model.Name, model.AttributeID);
         }
 
 

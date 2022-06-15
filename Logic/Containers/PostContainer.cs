@@ -1,6 +1,7 @@
-﻿using Interfaces;
+﻿using Interfaces.Logic;
 using Interfaces.DTOs;
 using System.Collections.Generic;
+using Interfaces;
 
 namespace Logic.Containers
 {

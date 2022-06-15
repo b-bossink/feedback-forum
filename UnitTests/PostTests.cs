@@ -1,11 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Logic;
-using System;
-using Logic.Containers;
+using Interfaces.Logic;
 using UnitTest.STUBs;
-using Logic.Users;
 using Interfaces.DTOs;
+using Interfaces;
+using Logic;
+using Logic.Users;
+using Logic.Containers;
 
 namespace UnitTest
 {
@@ -16,16 +17,16 @@ namespace UnitTest
         public void SavePostSuccesfully()
         {
             // Arrange
-            Category category = new Category(new CategorySTUB(), "Testcategorie", new List<Logic.Attribute>());
-            Dictionary<Logic.Attribute, string> attributes = new Dictionary<Logic.Attribute, string>();
-            foreach (Logic.Attribute attribute in category.Attributes)
+            Category category = new Category(new CategorySTUB(), "Testcategorie", new List<Attribute>());
+            Dictionary<Attribute, string> attributes = new Dictionary<Attribute, string>();
+            foreach (Attribute attribute in category.Attributes)
             {
                 attributes.Add(attribute, "Testwaarde");
             }
             Member user = new Member(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
             
             PostSTUB stub = new PostSTUB();
-            Post post = new Post(stub, "Test Post", DateTime.Now, new List<Comment>(), 0,
+            Post post = new Post(stub, "Test Post", System.DateTime.Now, new List<Comment>(), 0,
                 category, attributes, user);
 
             CommunicationResult result;

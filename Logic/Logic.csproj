@@ -11,10 +11,8 @@
 
   <ItemGroup>
     <None Remove="Users\" />
-    <None Remove="Interface\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Users\" />
-    <Folder Include="Interface\" />
   </ItemGroup>
 </Project>

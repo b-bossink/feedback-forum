@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Interfaces.DTOs;
-using Logic;
-using Logic.Users;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest.STUBs;
+using Interfaces.Logic;
+using Logic;
+using Logic.Users;
 
 namespace UnitTest
 {

@@ -1,13 +1,13 @@
 ﻿using System;
-namespace Logic
+namespace Interfaces.Logic
 {
 	public class CommunicationResult
 	{
-		public readonly string message;
+		public readonly string description;
 		public readonly int code;
-		public CommunicationResult(string _message, int _code)
+		public CommunicationResult(string _description, int _code)
 		{
-			message = _message;
+			description = _description;
 			code = _code;
 		}
 

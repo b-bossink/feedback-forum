@@ -1,6 +1,6 @@
 ﻿using Interfaces.DTOs;
 
-namespace Logic
+namespace Interfaces.Logic
 {
     public interface IContainer<T> where T : DTO
 	{

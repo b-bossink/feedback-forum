@@ -1,5 +1,5 @@
 ﻿using Interfaces;
-using Logic;
+using Interfaces.Logic;
 using Logic.Containers;
 using Logic.Factories;
 using Logic.Users;

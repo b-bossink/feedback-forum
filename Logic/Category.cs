@@ -1,5 +1,6 @@
 ﻿using Interfaces;
 using Interfaces.DTOs;
+using Interfaces.Logic;
 using System;
 using System.Collections.Generic;
 
