@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using Interfaces.Logic;
 using UnitTest.STUBs;
 using Interfaces.DTOs;
-using Interfaces;
-using Logic;
-using Logic.Users;
 using Logic.Containers;
 using UnitTest.TestEntities;
 using Logic.Entities;
@@ -53,8 +50,7 @@ namespace UnitTest
         {
             // Arrange
             int minimum = 1;
-            PostSTUB stub = new PostSTUB();
-            PostContainer container = new PostContainer(stub);
+            PostContainer container = new PostContainer();
             Post[] posts;
             int expectedPostID = 123;
             
@@ -79,8 +75,7 @@ namespace UnitTest
         public void DeletePostSuccesfully()
         {
             // Arrange
-            PostSTUB stub = new PostSTUB();
-            PostContainer container = new PostContainer(stub);
+            PostContainer container = new PostContainer();
             int postId = 123;
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.Succes;
@@ -104,8 +99,7 @@ namespace UnitTest
         public void DeleteNonExistentPost()
         {
             // Arrange
-            PostSTUB stub = new PostSTUB();
-            PostContainer container = new PostContainer(stub);
+            PostContainer container = new PostContainer();
             int postId = 999;
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.PostNotFoundError;
@@ -127,7 +121,7 @@ namespace UnitTest
             string expectedName = "succesfully edited";
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.Succes;
-            Post newPost = new Post(stub, expectedName, oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, oldPost.ID);
+            Post newPost = new Post(expectedName, oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, oldPost.ID);
 
             // Act
             result = newPost.Update();
@@ -146,7 +140,7 @@ namespace UnitTest
             Post oldPost = new Post(stub.database[0]);
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.PostNotFoundError;
-            Post newPost = new Post(stub, "new post", oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, fakeId);
+            Post newPost = new Post("new post", oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, fakeId);
 
             // Act
             result = newPost.Update();

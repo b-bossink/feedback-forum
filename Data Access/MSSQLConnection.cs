@@ -14,9 +14,8 @@ namespace Data_Access
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
                     connection.Open();
-                    return true;
                 }
-                return false;
+                return true;
             } catch (SqlException)
             {
                 return false;

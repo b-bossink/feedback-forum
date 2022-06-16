@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Interfaces;
 using Logic.Containers;
 using Logic.Entities;
@@ -25,7 +26,7 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("Login", "Account");
 
             CategoryContainer container = new CategoryContainer();
-            Category[] categories = (Category[])container.GetAll();
+            Category[] categories = Array.ConvertAll(container.GetAll(), category => (Category)category);
 
             if (categories != null)
             {

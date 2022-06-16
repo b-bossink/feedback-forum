@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation_MVC.Converters;
 using Presentation_MVC.Models.Posting;
+using System;
 using System.Collections.Generic;
 
 namespace Presentation_MVC.Controllers
@@ -22,7 +23,7 @@ namespace Presentation_MVC.Controllers
         {
             PostContainer container = new PostContainer();
             List<PostViewModel> postModels = new List<PostViewModel>();
-            Post[] posts = (Post[])container.GetAll();
+            Post[] posts = Array.ConvertAll(container.GetAll(), post => (Post)post);
             if (posts != null)
             {
                 foreach (Post post in posts)
