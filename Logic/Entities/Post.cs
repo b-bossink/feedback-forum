@@ -35,7 +35,7 @@ namespace Logic.Entities
 
             foreach (CommentDTO commentDTO in dtos)
             {
-                Comments.Add(new Comment(commentDTO));
+                result.Add(new Comment(commentDTO));
             }
             return result;
         }

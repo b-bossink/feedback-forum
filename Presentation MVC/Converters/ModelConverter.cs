@@ -58,7 +58,7 @@ namespace Presentation_MVC.Converters
                 CreationDate = comment.CreationDate,
                 Upvotes = comment.Upvotes,
                 Replies = replies,
-                Owner = ToViewModel(comment.Owner)
+                Owner = ToViewModel((Member)comment.Owner)
             };
         }
         public static CategoryViewModel ToViewModel(Category category)

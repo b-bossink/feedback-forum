@@ -16,11 +16,11 @@ namespace Logic.Containers
                 List<CategoryFactory> result = new List<CategoryFactory>();
                 foreach (CategoryDTO dto in dtos)
                 {
-                    result.Add(new Category(dto));
+                    result.Add(CreateCategory(dto));
                 }
                 return result.ToArray();
             }
-            return null;
+            return new CategoryFactory[0];
 
         }
 
@@ -34,7 +34,7 @@ namespace Logic.Containers
                 {
                     if (id == dto.ID)
                     {
-                        return new Category(dto);
+                        return CreateCategory(dto);
                     }
                 }
             }

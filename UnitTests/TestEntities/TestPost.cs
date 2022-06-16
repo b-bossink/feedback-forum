@@ -9,8 +9,12 @@ namespace UnitTest.TestEntities
 {
 	public class TestPost : PostFactory
 	{
-        public TestPost(string name, DateTime creationDate, List<CommentFactory> comments, int upvotes, CategoryFactory category, Dictionary<Logic.Entities.Attribute, string> valuesByAttribute, MemberFactory owner, int id = -1)
-            : base(name, creationDate, comments, upvotes, category, valuesByAttribute, owner, id) { }
+        public PostSTUB STUB { get; private set; }
+        public TestPost(PostSTUB stub, string name, DateTime creationDate, List<CommentFactory> comments, int upvotes, CategoryFactory category, Dictionary<Logic.Entities.Attribute, string> valuesByAttribute, MemberFactory owner, int id = -1)
+            : base(name, creationDate, comments, upvotes, category, valuesByAttribute, owner, id)
+        {
+            STUB = stub;
+        }
 
         public TestPost(PostDTO dto) : base(dto) { }
 
@@ -36,7 +40,7 @@ namespace UnitTest.TestEntities
 
         protected override IPostDAL GetDAL()
         {
-            return new PostSTUB();
+            return STUB;
         }
     }
 }

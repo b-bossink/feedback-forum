@@ -13,9 +13,9 @@ namespace Logic.Entities
         public DateTime CreationDate { get; private set; }
         public int Upvotes { get; private set; }
         public List<CommentFactory> Replies { get; private set; }
-        public Member Owner { get; private set; }
+        public MemberFactory Owner { get; private set; }
 
-        public CommentFactory(string text, DateTime creationDate, int upvotes, List<CommentFactory> replies, Member owner, int id = -1)
+        public CommentFactory(string text, DateTime creationDate, int upvotes, List<CommentFactory> replies, MemberFactory owner, int id = -1)
         {
             ID = id;
             Text = text;
@@ -32,7 +32,7 @@ namespace Logic.Entities
             CreationDate = dto.CreationDate;
             Upvotes = dto.Upvotes;
             Replies = CreateComments(dto.Replies);
-            Owner = new Member(dto.Owner);
+            Owner = CreateMember(dto.Owner);
         }
 
         public CommunicationResult Create(int postID)
@@ -95,5 +95,6 @@ namespace Logic.Entities
 
         protected abstract ICommentDAL GetDAL();
         protected abstract List<CommentFactory> CreateComments(List<CommentDTO> dtos);
+        protected abstract MemberFactory CreateMember(MemberDTO dto);
     }
 }

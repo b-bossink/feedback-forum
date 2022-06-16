@@ -20,7 +20,7 @@ namespace Logic.Containers
                 }
                 return result.ToArray();
             }
-            return null;
+            return new PostFactory[0];
         }
 
         public IEntity<PostDTO> Get(int id)
@@ -30,7 +30,7 @@ namespace Logic.Containers
             {
                 foreach (PostDTO dto in dtos)
                 {
-                    Post post = new Post(dto);
+                    PostFactory post = CreatePost(dto);
                     if (post.ID == id)
                     {
                         return post;

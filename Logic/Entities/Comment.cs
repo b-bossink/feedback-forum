@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data_Access;
 using Interfaces;
 using Interfaces.DTOs;
 
@@ -14,7 +15,7 @@ namespace Logic.Entities
 
         protected override ICommentDAL GetDAL()
         {
-            throw new NotImplementedException();
+            return new CommentDAL();
         }
 
         protected override List<CommentFactory> CreateComments(List<CommentDTO> dtos)
@@ -26,6 +27,11 @@ namespace Logic.Entities
                 result.Add(new Comment(commentDTO));
             }
             return result;
+        }
+
+        protected override MemberFactory CreateMember(MemberDTO dto)
+        {
+            return new Member(dto);
         }
     }
 }

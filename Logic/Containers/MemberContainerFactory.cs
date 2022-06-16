@@ -14,7 +14,7 @@ namespace Logic.Containers
             if (dto == null)
                 return null;
 
-            return new Member((MemberDTO)dto);
+            return CreateMember(dto);
         }
 
         /// <returns>The member with the given ID. Null when ID is not found.</returns>
@@ -24,7 +24,7 @@ namespace Logic.Containers
             if (dto == null)
                 return null;
 
-            return new Member((MemberDTO)dto);
+            return CreateMember(dto);
         }
 
         public IEntity<MemberDTO>[] GetAll()

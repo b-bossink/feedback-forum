@@ -9,11 +9,15 @@ namespace UnitTest.TestEntities
 {
 	public class TestComment : CommentFactory
 	{
+        public CommentSTUB STUB { get; private set; }
+
         public TestComment(CommentDTO dto) : base(dto) { }
         
 
-        public TestComment(string text, DateTime creationDate, int upvotes, List<CommentFactory> replies, Member owner, int id = -1)
-            : base(text, creationDate, upvotes, replies, owner, id) { }
+        public TestComment(CommentSTUB stub, string text, DateTime creationDate, int upvotes, List<CommentFactory> replies, MemberFactory owner, int id = -1)
+            : base(text, creationDate, upvotes, replies, owner, id) {
+            STUB = stub;
+        }
 
         protected override List<CommentFactory> CreateComments(List<CommentDTO> dtos)
         {
@@ -27,7 +31,12 @@ namespace UnitTest.TestEntities
 
         protected override ICommentDAL GetDAL()
         {
-            return new CommentSTUB();
+            return STUB;
+        }
+
+        protected override MemberFactory CreateMember(MemberDTO dto)
+        {
+            return new TestMember(dto);
         }
     }
 }

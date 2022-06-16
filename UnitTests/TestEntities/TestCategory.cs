@@ -9,13 +9,17 @@ namespace UnitTest.TestEntities
 {
     public class TestCategory : CategoryFactory
     {
+        public CategorySTUB STUB { get; private set; }
         public TestCategory(CategoryDTO dto) : base(dto) { }
 
-        public TestCategory(string name, List<Logic.Entities.Attribute> attributes, int id = -1) : base(name, attributes, id) { }
+        public TestCategory(CategorySTUB stub, string name, List<Logic.Entities.Attribute> attributes, int id = -1) : base(name, attributes, id)
+        {
+            STUB = stub;
+        }
        
         protected override ICategoryDAL GetDAL()
         {
-            return new CategorySTUB();
+            return STUB;
         }
     }
 }

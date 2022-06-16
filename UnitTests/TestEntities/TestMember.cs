@@ -8,14 +8,17 @@ namespace UnitTest.TestEntities
 {
 	public class TestMember : MemberFactory
 	{
+        public MemberSTUB STUB { get; private set; }
         public TestMember(MemberDTO dto) : base(dto) { }
 
-        public TestMember(string username, string email, string password, int id = -1)
-            : base(username, email, password, id) { }
+        public TestMember(MemberSTUB stub, string username, string email, string password, int id = -1)
+            : base(username, email, password, id) {
+            STUB = stub;
+        }
 
         protected override IMemberDAL GetDAL()
         {
-            return new MemberSTUB();
+            return STUB;
         }
     }
 }

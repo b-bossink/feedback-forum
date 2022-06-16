@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using Interfaces.Logic;
 using UnitTest.STUBs;
 using Interfaces.DTOs;
-using Logic.Containers;
 using UnitTest.TestEntities;
 using Logic.Entities;
+using UnitTest.TestContainers;
+using System;
+using Attribute = Logic.Entities.Attribute;
 
 namespace UnitTest
 {
@@ -16,15 +18,16 @@ namespace UnitTest
         public void SavePostSuccesfully()
         {
             // Arrange
-            TestCategory category = new TestCategory("Testcategorie", new List<Attribute>());
+            TestCategory category = new TestCategory(new CategorySTUB(), "Testcategorie", new List<Attribute>());
             Dictionary<Attribute, string> attributes = new Dictionary<Attribute, string>();
             foreach (Attribute attribute in category.Attributes)
             {
                 attributes.Add(attribute, "Testwaarde");
             }
-            TestMember user = new TestMember("test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
-            
-            TestPost post = new TestPost("Test Post", System.DateTime.Now, new List<CommentFactory>(), 0,
+            TestMember user = new TestMember(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
+
+            PostSTUB stub = new PostSTUB();
+            TestPost post = new TestPost(stub, "Test Post", System.DateTime.Now, new List<CommentFactory>(), 0,
                 category, attributes, user);
 
             CommunicationResult result;
@@ -50,13 +53,14 @@ namespace UnitTest
         {
             // Arrange
             int minimum = 1;
-            PostContainer container = new PostContainer();
-            Post[] posts;
+            PostSTUB stub = new PostSTUB();
+            TestPostContainer container = new TestPostContainer(stub);
+            TestPost[] posts;
             int expectedPostID = 123;
             
 
             // Act
-            posts = (Post[])container.GetAll();
+            posts = Array.ConvertAll(container.GetAll(), post => (TestPost)post);
 
             // Assert
             Assert.IsTrue(posts.Length >= minimum, "Too few posts have been retrieved.");
@@ -75,7 +79,8 @@ namespace UnitTest
         public void DeletePostSuccesfully()
         {
             // Arrange
-            PostContainer container = new PostContainer();
+            PostSTUB stub = new PostSTUB();
+            TestPostContainer container = new TestPostContainer(stub);
             int postId = 123;
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.Succes;
@@ -99,7 +104,8 @@ namespace UnitTest
         public void DeleteNonExistentPost()
         {
             // Arrange
-            PostContainer container = new PostContainer();
+            PostSTUB stub = new PostSTUB();
+            TestPostContainer container = new TestPostContainer(stub);
             int postId = 999;
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.PostNotFoundError;
@@ -117,11 +123,11 @@ namespace UnitTest
         {
             // Arrange
             PostSTUB stub = new PostSTUB();
-            Post oldPost = new Post(stub.database[0]);
+            TestPost oldPost = new TestPost(stub.database[0]);
             string expectedName = "succesfully edited";
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.Succes;
-            Post newPost = new Post(expectedName, oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, oldPost.ID);
+            TestPost newPost = new TestPost(stub, expectedName, oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, oldPost.ID);
 
             // Act
             result = newPost.Update();
@@ -137,10 +143,10 @@ namespace UnitTest
             // Arrange
             PostSTUB stub = new PostSTUB();
             int fakeId = 999;
-            Post oldPost = new Post(stub.database[0]);
+            TestPost oldPost = new TestPost(stub.database[0]);
             CommunicationResult result;
             CommunicationResult expectedResult = CommunicationResult.PostNotFoundError;
-            Post newPost = new Post("new post", oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, fakeId);
+            TestPost newPost = new TestPost(stub, "new post", oldPost.CreationDate, oldPost.Comments, oldPost.Upvotes, oldPost.Category, oldPost.ValuesByAttributes, oldPost.Owner, fakeId);
 
             // Act
             result = newPost.Update();

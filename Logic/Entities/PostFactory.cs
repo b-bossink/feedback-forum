@@ -94,7 +94,7 @@ namespace Logic.Entities
         public PostDTO ToDTO()
         {
             List<CommentDTO> comments = new List<CommentDTO>();
-            foreach (Comment comment in Comments)
+            foreach (CommentFactory comment in Comments)
             {
                 comments.Add(comment.ToDTO());
             }

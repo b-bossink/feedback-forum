@@ -10,6 +10,11 @@ namespace UnitTest.TestContainers
 {
     public class TestPostContainer : PostContainerFactory
     {
+        public PostSTUB STUB { get; private set; }
+        public TestPostContainer(PostSTUB stub)
+        {
+            STUB = stub;
+        }
         protected override PostFactory CreatePost(PostDTO dto)
         {
             return new TestPost(dto);
@@ -17,7 +22,7 @@ namespace UnitTest.TestContainers
 
         protected override IPostDAL GetDAL()
         {
-            return new PostSTUB();
+            return STUB;
         }
     }
 }
