@@ -1,28 +1,27 @@
 ﻿using System;
 using Interfaces.Logic;
 using Interfaces.DTOs;
+using Data_Access;
 using Interfaces;
 
-namespace Logic.Users
+namespace Logic.Entities
 {
-    public class Member : IEntity<MemberDTO>
+    public abstract class MemberFactory : IEntity<MemberDTO>
     {
         public int ID { get; private set; }
         public string Username { get; private set; }
         public string Emailaddress { get; private set; }
         public string Password { get; private set; }
-        private readonly IMemberDAL _DAL;
 
-        public Member(IMemberDAL dal, string username, string email, string password, int id = -1)
+        public MemberFactory(string username, string email, string password, int id = -1)
         {
-            _DAL = dal;
             ID = id;
             Username = username;
             Emailaddress = email;
             Password = password;
         }
 
-        public Member(MemberDTO dto)
+        public MemberFactory(MemberDTO dto)
         {
             ID = dto.ID;
             Username = dto.Username;
@@ -32,17 +31,17 @@ namespace Logic.Users
 
         public CommunicationResult Create()
         {
-            if (_DAL.UsernameExists(Username))
+            if (GetDAL().UsernameExists(Username))
             {
                 return CommunicationResult.DuplicateUsernameError;
             }
 
-            if (_DAL.EmailExists(Emailaddress))
+            if (GetDAL().EmailExists(Emailaddress))
             {
                 return CommunicationResult.DuplicateEmailError;
             }
 
-            int rowsSaved = _DAL.Upload(ToDTO());
+            int rowsSaved = GetDAL().Upload(ToDTO());
             if (rowsSaved != 1)
             {
                 return CommunicationResult.UnexpectedError;
@@ -66,5 +65,7 @@ namespace Logic.Users
         {
             throw new NotImplementedException();
         }
+
+        protected abstract IMemberDAL GetDAL();
     }
 }

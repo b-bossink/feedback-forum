@@ -5,7 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest.STUBs;
 using Interfaces.Logic;
 using Logic;
-using Logic.Users;
+using UnitTest.TestEntities;
+using Logic.Entities;
 
 namespace UnitTest
 {
@@ -17,9 +18,9 @@ namespace UnitTest
         {
             // Arrange
             CommentSTUB stub = new CommentSTUB();
-            Member user = new Member(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
-            Comment comment = new Comment(stub, "Ik ben een test-comment",
-                DateTime.Now, 56, new List<Comment>(), user);
+            TestMember user = new TestMember(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
+            TestComment comment = new TestComment(stub, "Ik ben een test-comment",
+                DateTime.Now, 56, new List<CommentFactory>(), user);
             int postId = 123;
             CommunicationResult expectedResult = CommunicationResult.Succes;
             CommunicationResult result;
@@ -50,9 +51,9 @@ namespace UnitTest
         {
             // Arrange
             CommentSTUB stub = new CommentSTUB();
-            Member user = new Member(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
-            Comment comment = new Comment(stub, "Ik ben een test-comment",
-                DateTime.Now, 56, new List<Comment>(), user);
+            TestMember user = new TestMember(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
+            TestComment comment = new TestComment(stub, "Ik ben een test-comment",
+                DateTime.Now, 56, new List<CommentFactory>(), user);
             int postId = 999;
             CommunicationResult expectedResult = CommunicationResult.PostNotFoundError;
             CommunicationResult result;

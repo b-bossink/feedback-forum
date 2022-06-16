@@ -1,35 +1,22 @@
-﻿using Interfaces;
+﻿using System;
+using Data_Access;
+using Interfaces;
 using Interfaces.DTOs;
-using Logic.Users;
+using Logic.Entities;
 
 namespace Logic.Containers
 {
-    public class MemberContainer
+    public class MemberContainer : MemberContainerFactory
     {
-        private readonly IMemberDAL _DAL;
-        public MemberContainer(IMemberDAL dal)
+        protected override MemberFactory CreateMember(MemberDTO dto)
         {
-            _DAL = dal;
+            return new Member(dto);
         }
 
-        /// <returns>The member based on the given credentials. Null when credentials are invalid.</returns>
-        public Member Get(string username, string password)
+        protected override IMemberDAL GetDAL()
         {
-            MemberDTO? dto = _DAL.Get(username, password);
-            if (dto == null)
-                return null;
-
-            return new Member((MemberDTO)dto);
-        }
-
-        /// <returns>The member with the given ID. Null when ID is not found.</returns>
-        public Member Get(int id)
-        {
-            MemberDTO? dto = _DAL.Get(id);
-            if (dto == null)
-                return null;
-
-            return new Member((MemberDTO)dto);
+            return new MemberDAL();
         }
     }
 }
+

@@ -1,9 +1,11 @@
 ﻿using Interfaces.DTOs;
 using Interfaces.Logic;
 using Logic.Containers;
-using Logic.Users;
+using Logic.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest.STUBs;
+using UnitTest.TestContainers;
+using UnitTest.TestEntities;
 
 namespace UnitTest
 {
@@ -15,7 +17,7 @@ namespace UnitTest
         {
             // Arrange
             MemberSTUB stub = new MemberSTUB();
-            Member member = new Member(stub,
+            TestMember member = new TestMember(stub,
                 "nieuwe_gebruiker",
                 "user@email.com",
                 "mijn_wachtwoord");
@@ -45,7 +47,7 @@ namespace UnitTest
         {
             // Arrange
             MemberSTUB stub = new MemberSTUB();
-            Member member = new Member(stub,
+            TestMember member = new TestMember(stub,
                 "test_gebruiker",
                 "user@email.com",
                 "mijn_wachtwoord");
@@ -65,7 +67,7 @@ namespace UnitTest
         {
             // Arrange
             MemberSTUB stub = new MemberSTUB();
-            Member member = new Member(stub,
+            TestMember member = new TestMember(stub,
                 "nieuwe_gebruiker",
                 "gebruiker@email.nl",
                 "mijn_wachtwoord");
@@ -83,14 +85,14 @@ namespace UnitTest
         public void GetUserByCredentials()
         {
             // Arrange
-            MemberContainer container = new MemberContainer(new MemberSTUB());
+            TestMemberContainer container = new TestMemberContainer(new MemberSTUB());
             int id = 1;
             string username = "test_gebruiker";
             string password = "wachtwoord123";
             string email = "gebruiker@email.nl";
 
             // Act
-            Member member = container.Get(username, password);
+            TestMember member = (TestMember)container.Get(username, password);
 
             // Assert
             Assert.AreEqual(member.ID, id, "Retrieved member's ID did not match.");
@@ -103,13 +105,13 @@ namespace UnitTest
         public void GetUserWithIncorrectCredentials()
         {
             // Arrange
-            MemberContainer container = new MemberContainer(new MemberSTUB());
+            TestMemberContainer container = new TestMemberContainer(new MemberSTUB());
             string username = "nep_gebruiker";
             string password = "onjuist_wachtwoord";
-            Member expectedMember = null;
+            TestMember expectedMember = null;
 
             // Act
-            Member member = container.Get(username, password);
+            TestMember member = (TestMember)container.Get(username, password);
 
             // Assert
             Assert.AreEqual(member, expectedMember, "Due to invalid credentials, the returned member should be null.");
@@ -119,14 +121,14 @@ namespace UnitTest
         public void GetUserByID()
         {
             // Arrange
-            MemberContainer container = new MemberContainer(new MemberSTUB());
+            TestMemberContainer container = new TestMemberContainer(new MemberSTUB());
             int id = 1;
             string username = "test_gebruiker";
             string password = "wachtwoord123";
             string email = "gebruiker@email.nl";
 
             // Act
-            Member member = container.Get(id);
+            TestMember member = (TestMember)container.Get(id);
 
             // Assert
             Assert.AreEqual(member.Username, username, "Retrieved member's username did not match.");

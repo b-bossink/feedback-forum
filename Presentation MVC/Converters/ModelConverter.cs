@@ -1,8 +1,6 @@
 ﻿using Interfaces;
 using Interfaces.Logic;
-using Logic;
-using Logic.Factories;
-using Logic.Users;
+using Logic.Entities;
 using Presentation_MVC.Models;
 using Presentation_MVC.Models.Posting;
 using Presentation_MVC.Models.Users;
@@ -39,10 +37,10 @@ namespace Presentation_MVC.Converters
                 Name = post.Name,
                 CreationDate = post.CreationDate,
                 Upvotes = post.Upvotes,
-                Category = ToViewModel(post.Category),
+                Category = ToViewModel((Category)post.Category),
                 Comments = commentModels,
                 AttributesWithValue = postAttributes,
-                Owner = ToViewModel(post.Owner)
+                Owner = ToViewModel((Member)post.Owner)
             };
         }
         private static CommentViewModel ToViewModel(Comment comment)
@@ -60,7 +58,7 @@ namespace Presentation_MVC.Converters
                 CreationDate = comment.CreationDate,
                 Upvotes = comment.Upvotes,
                 Replies = replies,
-                Owner = ToViewModel(comment.Owner)
+                Owner = ToViewModel((Member)comment.Owner)
             };
         }
         public static CategoryViewModel ToViewModel(Category category)
@@ -118,14 +116,13 @@ namespace Presentation_MVC.Converters
                 model.AttributesWithValue = new List<PostAttributeViewModel>();
             }
 
-            List<Comment> comments = new List<Comment>();
+            List<CommentFactory> comments = new List<CommentFactory>();
             foreach (CommentViewModel commentModel in model.Comments)
             {
                 comments.Add(ToComment(commentModel));
             }
 
             return new Post(
-                (IPostDAL)new PostDALCreator().GetDAL(),
                 model.Name,
                 model.CreationDate,
                 comments,
@@ -152,7 +149,6 @@ namespace Presentation_MVC.Converters
             }
 
             return new Category(
-                (ICategoryDAL)new CategoryDALCreator().GetDAL(),
                 model.Name,
                 attributes,
                 model.ID);
@@ -160,7 +156,6 @@ namespace Presentation_MVC.Converters
         private static Member ToMember(MemberViewModel model) {
             return new Member
             (
-                (IMemberDAL)new MemberDALCreator().GetDAL(),
                 model.Username,
                 model.Emailaddress,
                 model.Password,
@@ -169,13 +164,12 @@ namespace Presentation_MVC.Converters
         }
         private static Comment ToComment(CommentViewModel model)
         {
-            List<Comment> replies = new List<Comment>();
+            List<CommentFactory> replies = new List<CommentFactory>();
             foreach (CommentViewModel commentModel in model.Replies)
             {
                 replies.Add(ToComment(commentModel));
             }
             return new Comment(
-                (ICommentDAL)new CommentDALCreator().GetDAL(),
                 model.Text,
                 model.CreationDate,
                 model.Upvotes,
