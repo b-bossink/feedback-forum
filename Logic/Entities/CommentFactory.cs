@@ -2,24 +2,21 @@
 using Interfaces.DTOs;
 using System;
 using System.Collections.Generic;
-using Logic.Users;
 using Interfaces;
 
-namespace Logic
+namespace Logic.Entities
 {
-    public class Comment : IEntity<CommentDTO>
+    public abstract class CommentFactory : IEntity<CommentDTO>
     {
         public int ID { get; private set; }
         public string Text { get; private set; }
         public DateTime CreationDate { get; private set; }
         public int Upvotes { get; private set; }
-        public List<Comment> Replies { get; private set; }
+        public List<CommentFactory> Replies { get; private set; }
         public Member Owner { get; private set; }
-        private readonly ICommentDAL _DAL;
 
-        public Comment(ICommentDAL dal, string text, DateTime creationDate, int upvotes, List<Comment> replies, Member owner, int id = -1)
+        public CommentFactory(string text, DateTime creationDate, int upvotes, List<CommentFactory> replies, Member owner, int id = -1)
         {
-            _DAL = dal;
             ID = id;
             Text = text;
             CreationDate = creationDate;
@@ -28,24 +25,20 @@ namespace Logic
             Owner = owner;
         }
 
-        public Comment(CommentDTO dto)
+        public CommentFactory(CommentDTO dto)
         {
             ID = dto.ID;
             Text = dto.Text;
             CreationDate = dto.CreationDate;
             Upvotes = dto.Upvotes;
-            Replies = new List<Comment>();
-            foreach (CommentDTO replyDTO in dto.Replies)
-            {
-                Replies.Add(new Comment(replyDTO));
-            }
+            Replies = CreateComments(dto.Replies);
             Owner = new Member(dto.Owner);
         }
 
         public CommunicationResult Create(int postID)
         {
 
-            int savedRows = _DAL.Upload(ToDTO(), postID);
+            int savedRows = GetDAL().Upload(ToDTO(), postID);
 
             if (savedRows == 1)
             { 
@@ -62,7 +55,7 @@ namespace Logic
 
         public CommunicationResult Create(int postID, int parentCommentID)
         {
-            int savedRows = _DAL.Upload(ToDTO(), postID, parentCommentID);
+            int savedRows = GetDAL().Upload(ToDTO(), postID, parentCommentID);
             if (savedRows == 1)
             {
                 return CommunicationResult.Succes;
@@ -74,7 +67,7 @@ namespace Logic
         public CommentDTO ToDTO()
         {
             List<CommentDTO> replies = new List<CommentDTO>();
-            foreach (Comment comment in Replies)
+            foreach (CommentFactory comment in Replies)
             {
                 replies.Add(comment.ToDTO());
             }
@@ -99,5 +92,8 @@ namespace Logic
         {
             throw new NotImplementedException();
         }
+
+        protected abstract ICommentDAL GetDAL();
+        protected abstract List<CommentFactory> CreateComments(List<CommentDTO> dtos);
     }
 }

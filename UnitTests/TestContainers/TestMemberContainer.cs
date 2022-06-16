@@ -1,21 +1,23 @@
 ﻿using System;
-using Data_Access;
 using Interfaces;
 using Interfaces.DTOs;
+using Logic.Containers;
 using Logic.Entities;
+using UnitTest.STUBs;
+using UnitTest.TestEntities;
 
-namespace Logic.Containers
+namespace UnitTest.TestContainers
 {
-    public class MemberContainer : MemberContainerFactory
-    {
+	public class TestMemberContainer : MemberContainerFactory
+	{
         protected override MemberFactory CreateMember(MemberDTO dto)
         {
-            return new Member(dto);
+            return new TestMember(dto);
         }
 
         protected override IMemberDAL GetDAL()
         {
-            return new MemberDAL();
+            return new MemberSTUB();
         }
     }
 }

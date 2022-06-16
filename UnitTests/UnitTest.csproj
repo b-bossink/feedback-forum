@@ -19,4 +19,12 @@
     <ProjectReference Include="..\Presentation MVC\Presentation MVC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="TestContainers\" />
+    <None Remove="TestEntities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestContainers\" />
+    <Folder Include="TestEntities\" />
+  </ItemGroup>
 </Project>

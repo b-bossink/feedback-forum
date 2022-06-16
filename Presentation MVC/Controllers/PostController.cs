@@ -1,9 +1,6 @@
-﻿using Interfaces;
-using Interfaces.Logic;
-using Logic;
+﻿using Interfaces.Logic;
 using Logic.Containers;
-using Logic.Factories;
-using Logic.Users;
+using Logic.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,25 +14,16 @@ namespace Presentation_MVC.Controllers
     public class PostController : Controller
     {
         private readonly ILogger<PostController> _logger;
-        private readonly IPostDAL _postDAL;
-        private readonly ICategoryDAL _categoryDAL;
-        private readonly IMemberDAL _memberDAL;
-        private readonly ICommentDAL _commentDAL;
 
 
         public PostController(ILogger<PostController> logger)
         {
             _logger = logger;
-
-            _postDAL = (IPostDAL)new PostDALCreator().GetDAL();
-            _categoryDAL = (ICategoryDAL)new CategoryDALCreator().GetDAL();
-            _memberDAL = (IMemberDAL)new MemberDALCreator().GetDAL();
-            _commentDAL = (ICommentDAL)new CommentDALCreator().GetDAL();
         }
 
         public IActionResult ViewPost(int postId)
         {
-            PostContainer container = new PostContainer(_postDAL);
+            PostContainer container = new PostContainer();
             Post post = (Post)container.Get(postId);
             if (post == null)
             {
@@ -55,10 +43,10 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            CategoryContainer container = new CategoryContainer(_categoryDAL);
-            Category category = container.Get(categoryId);
+            CategoryContainer container = new CategoryContainer();
+            Category category = (Category)container.Get(categoryId);
             List<PostAttributeViewModel> attributes = new List<PostAttributeViewModel>();
-            foreach (Logic.Attribute attribute in category.Attributes)
+            foreach (Logic.Entities.Attribute attribute in category.Attributes)
             {
                 attributes.Add(new PostAttributeViewModel()
                 {
@@ -83,8 +71,8 @@ namespace Presentation_MVC.Controllers
             post.Comments = new List<CommentViewModel>();
             post.Upvotes = 0;
             post.CreationDate = DateTime.Now;
-            MemberContainer memberContainer = new MemberContainer(_memberDAL);
-            post.Owner = ModelConverter.ToViewModel(memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
+            MemberContainer memberContainer = new MemberContainer();
+            post.Owner = ModelConverter.ToViewModel((Member)memberContainer.Get((int)SessionExtensions.GetInt32(HttpContext.Session, "ID")));
             Post postToUpload = ModelConverter.ToPost(post);
             CommunicationResult result = postToUpload.Create();
             if (result != CommunicationResult.Succes)
@@ -98,13 +86,12 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Comment(int postId, string text)
         {
-            Member owner = new MemberContainer(_memberDAL).Get((int)HttpContext.Session.GetInt32("ID"));
+            Member owner = (Member)new MemberContainer().Get((int)HttpContext.Session.GetInt32("ID"));
             Comment comment = new Comment(
-                _commentDAL,
                 text,
                 DateTime.Now,
                 0,
-                new List<Comment>(),
+                new List<CommentFactory>(),
                 owner
                 );
 
@@ -125,7 +112,7 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("ViewPost", new { postId });
             }
 
-            PostContainer container = new PostContainer(_postDAL);
+            PostContainer container = new PostContainer();
             CommunicationResult result = container.Delete(postId);
             if (result == CommunicationResult.Succes)
             { return RedirectToAction("Index", "Home"); }
@@ -139,12 +126,12 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            PostContainer container = new PostContainer(_postDAL);
+            PostContainer container = new PostContainer();
             if (container.Get(postId) == null)
             {
                 return RedirectToAction("Index", "Error", ModelConverter.ToViewModel(CommunicationResult.PostNotFoundError));
             }
-            PostViewModel model = ModelConverter.ToViewModel((Post)new PostContainer(_postDAL).Get(postId));
+            PostViewModel model = ModelConverter.ToViewModel((Post)new PostContainer().Get(postId));
             return View(model);
         }
 
@@ -155,7 +142,7 @@ namespace Presentation_MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            Post oldPost = (Post)new PostContainer(_postDAL).Get(newModel.ID);
+            Post oldPost = (Post)new PostContainer().Get(newModel.ID);
             PostViewModel oldModel = ModelConverter.ToViewModel(oldPost);
 
             newModel.Owner = oldModel.Owner;

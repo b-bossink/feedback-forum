@@ -1,21 +1,23 @@
 ﻿using System;
-using Data_Access;
 using Interfaces;
 using Interfaces.DTOs;
+using Logic.Containers;
 using Logic.Entities;
+using UnitTest.STUBs;
+using UnitTest.TestEntities;
 
-namespace Logic.Containers
+namespace UnitTest.TestContainers
 {
-    public class CategoryContainer : CategoryContainerFactory
+    public class TestCategoryContainer : CategoryContainerFactory
     {
         protected override CategoryFactory CreateCategory(CategoryDTO dto)
         {
-            return new Category(dto);
+            return new TestCategory(dto);
         }
 
         protected override ICategoryDAL GetDAL()
         {
-            return new CategoryDAL();
+            return new CategorySTUB();
         }
     }
 }

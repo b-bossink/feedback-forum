@@ -1,8 +1,7 @@
 ﻿using Interfaces;
 using Interfaces.Logic;
 using Logic.Containers;
-using Logic.Factories;
-using Logic.Users;
+using Logic.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation_MVC.Models.Users;
@@ -11,11 +10,6 @@ namespace Presentation_MVC.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IMemberDAL _memberDAL;
-        public AccountController()
-        {
-            _memberDAL = (IMemberDAL)new MemberDALCreator().GetDAL();
-        }
 
         public IActionResult Index()
         {
@@ -34,10 +28,10 @@ namespace Presentation_MVC.Controllers
         [HttpPost]
         public IActionResult Login(MemberViewModel model)
         {
-            MemberContainer container = new MemberContainer(_memberDAL);
+            MemberContainer container = new MemberContainer();
 
             if (ModelState.IsValid) {
-                Member member = container.Get(model.Username, model.Password);
+                Member member = (Member)container.Get(model.Username, model.Password);
                 if (member != null)
                 {
                     HttpContext.Session.SetInt32("ID", member.ID);
@@ -68,7 +62,7 @@ namespace Presentation_MVC.Controllers
             {
                 if (model.Password == model.PasswordConfirmation)
                 {
-                    Member newUser = new Member(_memberDAL, model.Username, model.Emailaddress, model.Password);
+                    Member newUser = new Member(model.Username, model.Emailaddress, model.Password);
                     CommunicationResult result = newUser.Create();
 
                     if (result == CommunicationResult.DuplicateUsernameError)

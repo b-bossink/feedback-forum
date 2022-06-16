@@ -1,6 +1,6 @@
 ﻿using Interfaces.DTOs;
 
-namespace Logic
+namespace Logic.Entities
 {
     public class Attribute
     {

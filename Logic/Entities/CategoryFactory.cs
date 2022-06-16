@@ -4,24 +4,22 @@ using Interfaces.Logic;
 using System;
 using System.Collections.Generic;
 
-namespace Logic
+namespace Logic.Entities
 {
-    public class Category : IEntity<CategoryDTO>
+    public abstract class CategoryFactory : IEntity<CategoryDTO>
     {
         public int ID { get; private set; }
         public string Name { get; private set; }
         public List<Attribute> Attributes { get; private set; }
-        private readonly ICategoryDAL _DAL;
 
-        public Category(ICategoryDAL dal, string name, List<Attribute> attributes, int id = -1)
+        public CategoryFactory(string name, List<Attribute> attributes, int id = -1)
         {
-            _DAL = dal;
             ID = id;
             Name = name;
             Attributes = attributes;
         }
 
-        public Category(CategoryDTO dto)
+        public CategoryFactory(CategoryDTO dto)
         {
             ID = dto.ID;
             Name = dto.Name;
@@ -34,7 +32,7 @@ namespace Logic
 
         public CommunicationResult Create()
         {
-            int saved = _DAL.Upload(ToDTO());
+            int saved = GetDAL().Upload(ToDTO());
             if (saved != 1)
             {
                 return CommunicationResult.UnexpectedError;
@@ -63,5 +61,7 @@ namespace Logic
                 Attributes = attributes
             };
         }
+
+        protected abstract ICategoryDAL GetDAL();
     }
 }

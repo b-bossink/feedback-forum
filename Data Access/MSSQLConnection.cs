@@ -6,7 +6,6 @@ namespace Data_Access
     {
         protected private SqlConnection connection =
             new SqlConnection("Server=mssqlstud.fhict.local;Database=dbi426602;User Id=dbi426602;Password=db80551Nk!;MultipleActiveResultSets=True");
-
     
         protected private bool OpenConnection()
         {
@@ -29,5 +28,6 @@ namespace Data_Access
             if (connection.State == System.Data.ConnectionState.Open)
                 connection.Close();
         }
+
     }
 }

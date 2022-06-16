@@ -7,6 +7,8 @@ using Interfaces;
 using Logic;
 using Logic.Users;
 using Logic.Containers;
+using UnitTest.TestEntities;
+using Logic.Entities;
 
 namespace UnitTest
 {
@@ -17,16 +19,15 @@ namespace UnitTest
         public void SavePostSuccesfully()
         {
             // Arrange
-            Category category = new Category(new CategorySTUB(), "Testcategorie", new List<Attribute>());
+            TestCategory category = new TestCategory("Testcategorie", new List<Attribute>());
             Dictionary<Attribute, string> attributes = new Dictionary<Attribute, string>();
             foreach (Attribute attribute in category.Attributes)
             {
                 attributes.Add(attribute, "Testwaarde");
             }
-            Member user = new Member(new MemberSTUB(), "test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
+            TestMember user = new TestMember("test_gebruiker", "gebruiker@email.nl", "wachtwoord123", 12);
             
-            PostSTUB stub = new PostSTUB();
-            Post post = new Post(stub, "Test Post", System.DateTime.Now, new List<Comment>(), 0,
+            TestPost post = new TestPost("Test Post", System.DateTime.Now, new List<CommentFactory>(), 0,
                 category, attributes, user);
 
             CommunicationResult result;

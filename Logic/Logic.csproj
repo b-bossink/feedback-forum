@@ -10,9 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Users\" />
+    <None Remove="Entities\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Users\" />
+    <Folder Include="Entities\" />
   </ItemGroup>
 </Project>

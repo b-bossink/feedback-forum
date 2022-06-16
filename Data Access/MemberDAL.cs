@@ -126,18 +126,12 @@ namespace Data_Access
             return result > 0;
         }
 
-
-        public void Update(MemberDTO member)
+        public int Update(MemberDTO member)
         {
             throw new NotImplementedException();
         }
 
         public int Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IDAL<MemberDTO>.Update(MemberDTO dto)
         {
             throw new NotImplementedException();
         }
